@@ -5,11 +5,15 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button } from "@mui/material";  
+import { adminMode } from './redux/adminToken';
+import { useSelector } from 'react-redux'
 
-const admin = false ;
+
 
 export default function Carta( props ){
-    if( admin )
+
+    const mode = useSelector( ( state ) => state.adminMode.value ) ;
+    if( mode  )
     return(
         <Box>
             <Card sx={{  }}>
@@ -18,18 +22,14 @@ export default function Carta( props ){
                     alt="green iguana"
                     height="200"
                     width="200"
-                    image= { props.onImage }
+                    image= { props.img }
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                    { props.onTitle }
+                        { props.title }
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid consequatur amet, 
-                    maiores pariatur minima, ducimus, distinctio dolore voluptatem velit dolores 
-                    laudantium rerum sit animi nulla nobis porro quo commodi at?
+                        { props.content }
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -56,17 +56,12 @@ export default function Carta( props ){
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                    { props.onTitle }
+                        { props.title }
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid consequatur amet, 
-                    maiores pariatur minima, ducimus, distinctio dolore voluptatem velit dolores 
-                    laudantium rerum sit animi nulla nobis porro quo commodi at?
+                        { props.content }
                     </Typography>
                 </CardContent>
-              
              </Card>
         </Box>
 

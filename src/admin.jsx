@@ -3,19 +3,23 @@ import * as React from 'react';
 
 import { useState } from 'react';
 import { Form } from 'react-router-dom';
-
-import { login } from './main';
-
-
-
+import { login } from './axiosMain';
+import { adminMode } from './components/redux/adminToken';
+import { useSelector, useDispatch } from 'react-redux' ; 
 
 
-export default function Admin(  { setToken } ) {    
+
+
+
+
+export default function Admin( ) {    
+
+    const mode = useSelector( ( state ) => state.adminMode.value ) ;
+ 
+    const dispatch = useDispatch() ;
 
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
-   
-   
     const handleUsernameChange = ( e ) => setUsername( e.target.value.toLowerCase() ) ; 
     const handlePasswordChange = ( e ) => setPassword( e.target.value ) ; 
     
@@ -24,9 +28,16 @@ export default function Admin(  { setToken } ) {
         e.preventDefault() ;
         const func = login ; 
         const result = await func( username, password ) ; 
-        
-        console.log( result ) ;
-        setToken( result ) ;
+        if( !result ){
+            console.log( mode  ) ;
+
+        }
+        else {
+            alert( 'Se han activado los derechos de Administrador' ) ;
+            dispatch( adminMode( mode ) ) ;
+            console.log( mode  ) ;
+
+        }
     }
 
     

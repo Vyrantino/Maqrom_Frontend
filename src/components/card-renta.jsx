@@ -5,12 +5,17 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button } from "@mui/material";  
+import { adminMode } from './redux/adminToken';
+import { useSelector, useDispatch } from 'react-redux'
 
-const admin = true ;
+
+
 
 export default function CartaRenta( props ){
     
-    if(admin)
+    const mode = useSelector( ( state ) => state.adminMode.value ) ;
+    console.log( mode , ' carta Renta' ) ;
+    if( mode )
      return(
         <Box>
             <Card sx={{   }}>
