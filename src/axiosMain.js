@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-
+const apiURL = "http://localhost:3000/"
 
 
 // export const me = async () => {
@@ -13,7 +13,7 @@ import axios from "axios";
   export const login = async (username, password) => {
 
     const result = (
-      await axios.post( "http://localhost:3000/auth/login" , { username, password }).catch(
+      await axios.post( ""+apiURL+""+"auth/login" , { username, password }).catch(
         () => null
       )
     )?.data;
@@ -21,7 +21,7 @@ import axios from "axios";
     if (!result) {
       return alert("Could not login");
     }
-
+    console.log( result ) ;
     return result;
   };
 
@@ -29,7 +29,8 @@ import axios from "axios";
 export async function getAdmin(){
     axios({
         method: 'get',
-        url: 'http://localhost:3000/admin'
+        url: 'http://localhost:3000/admin',
+        
         
     })
         .then( res =>
@@ -40,23 +41,11 @@ export async function getAdmin(){
 }
 
 
- export const getAllCards = ( { getCards } ) =>{
-  axios.get( "http://localhost:3000/cards" ) 
+ export const getAllCards = ( { getCards } , param ) =>{
+  axios.get( apiURL+"cards/"+param ) 
       .then( ( response ) => {
           const allCards = response.data ; 
           getCards( allCards ) ;
-          
-      } )
-      .catch( error => console.error( "Error: "+error+" " ) )
-     
-}
-
-export const getWithParam = ( { getCards } , param ) =>{
-  axios.get( "http://localhost:3000/cards" , { params: { route: param } }) 
-      .then( ( response ) => {
-           const allCards = response.data ; 
-           getCards( allCards ) ;
-           console.log( response ) ; 
           
       } )
       .catch( error => console.error( "Error: "+error+" " ) )

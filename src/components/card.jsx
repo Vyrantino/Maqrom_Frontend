@@ -58,6 +58,11 @@ export default function Carta( props ){
                     <Typography gutterBottom variant="h5" component="div">
                         { props.title }
                     </Typography>
+                    <Typography>
+                        { props.route } 
+                        { props.idCard  }
+                    
+                    </Typography>
                     <Typography variant="body2" color="text.secondary">
                         { props.content }
                     </Typography>

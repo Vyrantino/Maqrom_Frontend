@@ -1,4 +1,5 @@
 import * as React from 'react' ; 
+import { useState, useEffect } from 'react';
 import { 
     Box ,
     CardContent,
@@ -8,8 +9,17 @@ import {
     Button,
 } from '@mui/material';
 import Raccoon from "/Users/Vyrant PC/Documents/VsCode Web Pages/MAQROM/maqrom-constructora/src/assets/raccoon.jpg" ;
+import { getAllCards } from '../../axiosMain';
 
 export default function CalidadProductos() {
+
+    const [ cards, getCards ] = useState([]); 
+    const url = "CalidadProductos" ;
+    useEffect(() => {
+        
+        getAllCards( { getCards } , url ) ; 
+    }, []);
+
     return(
         <Box className = "UnaBox" >
             <CardContent>
