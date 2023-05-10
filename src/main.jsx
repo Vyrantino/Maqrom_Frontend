@@ -23,6 +23,7 @@ import ErrorPage from './routes/error-page';
 import Admin from './admin';
 import store from './components/redux/store';
 import { Provider as ProviderRedux } from 'react-redux';
+import EditCard from './routes/edit/editCard';
 
 
 
@@ -78,7 +79,7 @@ const theme = createTheme(
       
         {
           path : "contacto/" , 
-          element : <Contacto />,
+          element : <EditCard /> //<Contacto />,
           
         } ,   
         {
@@ -113,12 +114,15 @@ const theme = createTheme(
         } ,
         {
           path: "calidad/productos/" , 
-          element : <CalidadProductos />
+          element :  <CalidadProductos />
         } ,
         {
           path: "admin/", 
           element: <Admin />
-
+        },
+        {
+          path: "/editCard/",
+          element: <EditCard />
         }
       ]
 

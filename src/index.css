@@ -8,7 +8,9 @@
 }
 
 .Outlet{
+  display: flex;
   flex-direction: column;
+  align-items: center;
   padding-top: 20px ;
   
 }
@@ -164,6 +166,15 @@ div.MultilineTextField{
   display: flex;
   flex-direction: column;
   
+}
+
+/* Formulario editor cartas */
+.editCardForm{
+  display: flex ; 
+  flex-direction: column;
+  
+  align-content: center;
+  width: 90%;
 }
 
 

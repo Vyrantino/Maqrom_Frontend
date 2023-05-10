@@ -5,14 +5,28 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button } from "@mui/material";  
-import { adminMode } from './redux/adminToken';
-import { useSelector } from 'react-redux'
+import { useSelector , useDispatch } from 'react-redux'
+import { deleteCard, getCard, getIdCard, newCard } from "../axiosMain";
+import { loadIdCard, loadImg } from "./redux/editCardForm";
+import { Link } from "react-router-dom";
 
 
+
+const card = {
+    title: "titulo",
+    img: "img",
+    content: "Carta creada desde front",
+    isLocked: true 
+} ; 
 
 export default function Carta( props ){
 
+
+
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
+    const card = useSelector( ( state ) => state.editCardForm.idCard ) ;
+    const loadedImage = useSelector( ( state ) => state.editCardForm.img ) ;
+    const dispatch = useDispatch() ;
     if( mode  )
     return(
         <Box>
@@ -22,7 +36,8 @@ export default function Carta( props ){
                     alt="green iguana"
                     height="200"
                     width="200"
-                    image= { props.img }
+                    image = { props.img }
+                    
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -33,12 +48,14 @@ export default function Carta( props ){
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button> Editar </Button>
-                    <Button> Borrar </Button>
-                    <Button> Conservar </Button>
+                    <Button LinkComponent={ Link } to = "/editCard/"  onClick = { () =>{  dispatch( loadIdCard( props.idCard ) , dispatch( loadImg( props.img ) ) )   } } > Editar </Button>
+                    <Button onClick = {  () => { deleteCard( props.idCard ) } } > Borrar </Button>
+                    <Button onClick = { () => { newCard( card , props.route ) } } > Conservar </Button>
                 </CardActions>
              </Card>
+
         </Box>
+            
 
     )
         

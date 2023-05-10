@@ -15,7 +15,7 @@ export default function ListaPlanos(){
     const url = "Planos" ;
     useEffect(() => {
         
-        getAllCards( { getCards } , url ) ; 
+        getAllCards(  getCards  , url ) ; 
     }, []);
 
     return(

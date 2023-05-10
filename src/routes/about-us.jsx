@@ -1,16 +1,20 @@
 import * as React from 'react';
 import { useState , useEffect } from 'react';
 import Raccoon from "/Users/Vyrant PC/Documents/VsCode Web Pages/MAQROM/maqrom-constructora/src/assets/raccoon.jpg" ;
+import imagen from "C:/Users/Vyrant PC/Documents/VsCode Web Pages/vaquero backend/maqrom-constructora-backend/uploadedImages/1683620899188.jpg" ; 
 import Carta from '../components/card';
 import { getAllCards } from '../axiosMain';
+import { Button } from '@mui/material';
 
 
 
 
 const List = ( props ) =>(
+    
     <ul >
         { props.list.map( ( item ) => (
-            <Item  key = { item.objectID }  item = { item } />
+            <Item key = { item.idCard } item = { item } />
+           
         ) ) }
     </ul>
 
@@ -19,9 +23,9 @@ const List = ( props ) =>(
 const Item = ( props ) =>(
     
         <div>
-            <li className = "card" > 
+            <li  className = "card" > 
                 <Carta 
-                     img = { Raccoon } 
+                     img = { props.item.img }
                      title = { props.item.title }
                      content = { props.item.content }
                      route = { props.item.route }
@@ -37,10 +41,10 @@ const Item = ( props ) =>(
 
 export default function AboutUs(  ) {
 
-    const [ cards, getCards ] = useState([]); 
+    const [ cards, setCards ] = useState([]); 
     const url = "Nosotros" ;
     useEffect(() => {
-        getAllCards( { getCards } , url ) ; 
+       const allCards =  getAllCards(  setCards  , url ) ; 
     }, []);
 
    
@@ -48,7 +52,7 @@ export default function AboutUs(  ) {
 
        
         <div className = "AboutUs">  
-     
+             
              <List  list = { cards } /> 
   
         </div>

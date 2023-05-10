@@ -17,7 +17,7 @@ import { Box } from "@mui/material";
                 <h1> MAQROM Constructora </h1>   
                     <ButtonAppBar  /> 
                 <Box className = "Outlet" >
-                    <Outlet />   
+                    <Outlet className = 'outlet' />   
                 </Box>   
                
                 <Footer />

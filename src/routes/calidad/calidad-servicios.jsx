@@ -17,7 +17,7 @@ export default function CalidadServicios() {
     const url = "CalidadServicios" ;
     useEffect(() => {
         
-        getAllCards( { getCards } , url ) ; 
+        getAllCards(  getCards , url ) ; 
     }, []);
 
     return(

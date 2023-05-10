@@ -18,7 +18,7 @@ export default function Certificados() {
     const url = "Certificados" ;
     useEffect(() => {
         
-        getAllCards( { getCards } , url ) ; 
+        getAllCards( getCards , url ) ; 
     }, []);
 
     return(

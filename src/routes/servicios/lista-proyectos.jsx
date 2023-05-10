@@ -16,7 +16,7 @@ export default function ListaProyectos(){
     const url = "Proyectos" ;
     useEffect(() => {
         
-        getAllCards( { getCards } , url ) ; 
+        getAllCards( getCards  , url ) ; 
     }, []);
 
     return(

@@ -8,7 +8,7 @@ export const saveToken = createSlice( {
     },
     reducers: {
         adminMode: ( state  ) =>{
-
+            
                 state.value = true 
         }
 

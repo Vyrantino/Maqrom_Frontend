@@ -15,7 +15,7 @@ export default function ListaServicios(){
     const url = "Servicios" ;
     useEffect(() => {
         
-        getAllCards( { getCards } , url ) ; 
+        getAllCards( getCards , url ) ; 
     }, []);
 
     return(

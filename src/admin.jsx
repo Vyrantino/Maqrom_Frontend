@@ -1,11 +1,11 @@
 import { Box, Button, TextField } from '@mui/material';
 import * as React from 'react'; 
-
+import { useSelector, useDispatch } from 'react-redux' ; 
 import { useState } from 'react';
 import { Form } from 'react-router-dom';
 import { login } from './axiosMain';
 import { adminMode } from './components/redux/adminToken';
-import { useSelector, useDispatch } from 'react-redux' ; 
+
 
 
 
@@ -29,13 +29,13 @@ export default function Admin( ) {
         const func = login ; 
         const result = await func( username, password ) ; 
         if( !result ){
-            console.log( mode  ) ;
+            alert( 'Contraseña no reconocida' ) ;
 
         }
         else {
             alert( 'Se han activado los derechos de Administrador' ) ;
             dispatch( adminMode( mode ) ) ;
-            console.log( mode  ) ;
+           
 
         }
     }
