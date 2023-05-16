@@ -4,24 +4,64 @@ import {
     Box ,
 
 } from "@mui/material";
-import Carta from "../../components/card";
-import CartaRenta from "../../components/card-renta";
-import { getAllCards } from '../../axiosMain';
+
+import { getAllCards, newCard } from '../../axiosMain';
+import { useSelector } from 'react-redux';
+import NewCardDto from '../edit/models/newCardDto';
+import { Button } from '@mui/material';
+import Carta from '../../components/card';
+
+
+const List = ( props ) =>(
+    <ul >
+        { props.list.map( ( item ) => (
+            <Item 
+                key = { item.idCard } 
+                item = { item }  
+                setCards= { props.setCards } 
+                param = { props.param }
+            />
+        ) ) }
+    </ul>
+);
+
+const Item = ( props ) =>(
+        <div>
+            <li  className = "card" > 
+                <Carta 
+                     img = { props.item.img }
+                     title = { props.item.title }
+                     content = { props.item.content }
+                     route = { props.item.route }
+                     idCard = { props.item.idCard }
+                     isLocked = { props.isLocked }
+                     setCards = { props.setCards }
+                     param = { props.param }
+                />
+            </li>
+        </div>
+);
 
 
 export default function ListaServicios(){
 
-    const [ cards, getCards ] = useState([]); 
+    const [ cards, setCards ] = React.useState([]); 
     const url = "Servicios" ;
-    useEffect(() => {
-        
-        getAllCards( getCards , url ) ; 
+    React.useEffect(() => {
+       const allCards =  getAllCards(  setCards  , url ) ; 
     }, []);
 
+    const mode = useSelector( ( state ) => state.adminMode.value ) ;
+
+    const handleNewCard = async (  ) =>{
+        const card = new NewCardDto( url) ; 
+        await newCard( card , url ) ;
+        const updatedCards = await getAllCards( setCards , url ) ; 
+    }
     return(
         <Box className = "BoxListaProyectos" >
-           <Carta />
-           <CartaRenta />
+            { mode ? <Button aria-label='Crear Nueva Carta' onClick={ handleNewCard }> Crear Nueva Carta </ Button> : null }
+            <List  list = { cards } setCards = { setCards } param = { url } /> 
         </Box>
     );
 

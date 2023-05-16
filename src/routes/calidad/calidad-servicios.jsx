@@ -1,53 +1,65 @@
 import * as React from 'react' ; 
-import { useState, useEffect } from 'react';
 import { 
     Box ,
-    CardContent,
-    Typography,
-    CardMedia,
-    CardActions,
     Button,
 } from '@mui/material';
-import Raccoon from "/Users/Vyrant PC/Documents/VsCode Web Pages/MAQROM/maqrom-constructora/src/assets/raccoon.jpg" ;
-import { getAllCards } from '../../axiosMain';
+
+import { getAllCards, newCard } from '../../axiosMain';
+import { useSelector } from 'react-redux';
+import NewCardDto from '../edit/models/newCardDto';
+import Carta from '../../components/card';
+
+const List = ( props ) =>(
+    <ul >
+        { props.list.map( ( item ) => (
+            <Item 
+                key = { item.idCard } 
+                item = { item }  
+                setCards= { props.setCards } 
+                param = { props.param }
+            />
+        ) ) }
+    </ul>
+);
+
+const Item = ( props ) =>(
+        <div>
+            <li  className = "card" > 
+                <Carta 
+                     img = { props.item.img }
+                     title = { props.item.title }
+                     content = { props.item.content }
+                     route = { props.item.route }
+                     idCard = { props.item.idCard }
+                     isLocked = { props.isLocked }
+                     setCards = { props.setCards }
+                     param = { props.param }
+                />
+            </li>
+        </div>
+);
 
 export default function CalidadServicios() {
 
-    const [ cards, getCards ] = useState([]); 
+    const [ cards, setCards ] = React.useState([]); 
     const url = "CalidadServicios" ;
-    useEffect(() => {
-        
-        getAllCards(  getCards , url ) ; 
+    React.useEffect(() => {
+       const allCards =  getAllCards(  setCards  , url ) ; 
     }, []);
 
-    return(
-        <div className = "UnaBox" >
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="span">
-                Titulo
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid consequatur amet, 
-                    maiores pariatur minima, ducimus, distinctio dolore voluptatem velit dolores 
-                    laudantium rerum sit animi nulla nobis porro quo commodi at?
-                </Typography>
-            </CardContent>
-            <CardMedia
-                component= "img"
-                alt="green iguana"
-                height="200"
-                width="200"
-                image= { Raccoon }
-            />
-            <CardActions>
-                <Button> Editar </Button>
-                <Button> Borrar </Button>
-                <Button> Conservar </Button>
-            </CardActions>
-        </div>
+    const mode = useSelector( ( state ) => state.adminMode.value ) ;
 
+    const handleNewCard = async (  ) =>{
+        const card = new NewCardDto( url) ; 
+        await newCard( card , url ) ;
+        const updatedCards = await getAllCards( setCards , url ) ; 
+    }
+
+    return(
+        <Box className = "UnaBox" >
+            { mode ? <Button aria-label='Crear Nueva Carta' onClick = { handleNewCard }> Crear Nueva Carta </ Button> : null }
+            <List  list = { cards } setCards = { setCards } param = { url } /> 
+        </Box>
     );
 
 }

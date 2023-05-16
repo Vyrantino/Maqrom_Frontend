@@ -56,7 +56,8 @@ export default function Admin( ) {
             onSubmit = { handleSubmit }
           > 
             <TextField
-                id="filled-basic" 
+                key={ `txtFieldUsername` }
+                //id="filled-basic" 
                 label="Usuario" 
                 variant="filled" 
                 type = "text"
@@ -64,7 +65,8 @@ export default function Admin( ) {
                 onChange = { handleUsernameChange }
              />
              <TextField 
-                id = "filled-basic" 
+                key={ `txtPassword` }
+                // id = "filled-basic" 
                 label = "contraseña" 
                 variant = "filled" 
                 type = "password"

@@ -10,9 +10,15 @@
 .Outlet{
   display: flex;
   flex-direction: column;
+  width: 100%;
   align-items: center;
   padding-top: 20px ;
   
+}
+
+.ButtonAppBar{
+  padding-top: 2%;
+
 }
 
 /* Top Navigator */
@@ -27,29 +33,13 @@ a.MuiButtonBase-root{
 }
 
 /* Homepage */
-.DivHomepage{
-  display: flex;
-  
-}
-
-.DivHomepageCards{
-  display: flex;
-  flex-wrap: wrap;
-}
-.DivHomepageCards > *{
-  width: 250px;
-}
-
-#root > div > div.Outlet > div > div{
-  background-color: white;
-
+.HomepageCards{
+  list-style-type: none;
+  height: 50%;
 }
 
 
-#root > div > div.Outlet > div > div > div{
-  width: 100%;
 
-}
 
 #root > div > div.AboutUs > div{
   flex: .3;
@@ -63,17 +53,6 @@ a.MuiButtonBase-root{
     padding-bottom: 1vh;
     list-style-type: none ;
     display: flex;
-}
-
-#root > div > div.Outlet > div > ul > * > li > div > div{
-  min-width: 100%;
-  /*Este selector es de los elementos de la izquierda*/
-}
-#root > div > div.Outlet > div > ul > * > li > div > div > div.MuiCardActions-root.MuiCardActions-spacing.css-1t6e9jv-MuiCardActions-root{
-  /*Este selector es de la parte de abajo de los elementos de la izquierda*/
-  flex-direction: row;
-  
-  
 }
 
 .UnaBox {
@@ -174,15 +153,29 @@ div.MultilineTextField{
   flex-direction: column;
   
   align-content: center;
-  width: 90%;
+
 }
 
 
+/* editCardButton */
 
-/* Cosas que ni se que pedo jaja
-#root > div > div.Outlet > div > div > div.MuiBox-root.css-1gsv261 {
-  position: fixed;
-  background-color: black;
+.editCardButton{
+  color: rgb(48, 34, 4);
+  
 }
 
+.CarouselItemSelected {
+  color: #ffa726;
+  display: block;
+  width: 100%;
+  opacity: .75 ;
+}
 
+/* CreateArticle */
+.CreateArticleBox{
+ 
+  background-color: rgb(196, 252, 252);
+  display: 'flex';
+  flex-direction: 'column';
+  
+}

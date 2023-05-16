@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit' ; 
 import { counterSlice } from './counterSlice' ;
 import { saveToken } from './adminToken';
-import { editCardForm } from './editCardForm';
+import { editForm } from './editForm';
 
 
 const store  = configureStore( {
     reducer: { 
         counter: counterSlice.reducer,
         adminMode: saveToken.reducer , 
-        editCardForm: editCardForm.reducer, 
+        editForm: editForm.reducer, 
      } , 
     
 } )
