@@ -7,7 +7,7 @@ import {
 import { FloatingWhatsApp } from 'react-floating-whatsapp';
 import ButtonAppBar from "../components/navigation/appbar";
 import Footer from "../components/navigation/footer";
-import { Box } from "@mui/material";
+import { Box, SwipeableDrawer, Button } from "@mui/material";
 
  export default function Root() {
 
@@ -25,7 +25,7 @@ import { Box } from "@mui/material";
                 <FloatingWhatsApp 
                         phoneNumber="+526183613796"
                         accountName="Maqrom Construcciones"   
-                /> 
+                />
             </Box >
 
     );

@@ -1,3 +1,4 @@
+import * as React from 'react' ;
 import { Box } from "@mui/material";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -15,21 +16,27 @@ export default function Carta( props ){
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
     const card = useSelector( ( state ) => state.editForm.idCard ) ;
-    const loadedImage = useSelector( ( state ) => state.editForm.img ) ;
     const dispatch = useDispatch() ;
     return(
         <Box>
-            <Card sx={{  }}>
+            <Card 
+                raised
+            >
                 <CardMedia
                     component= "img"
                     alt="green iguana"
-                    height="200"
-                    width="200"
-                    image = { props.img }   
+                    height= { !props.CardHeight ? '200' : props.CardHeight  } 
+                    
+                    image = { props.img }  
+                    sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }} 
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        { props.title  }
+                        { props.title   } 
+                        <br />
+                        { props.route }
+                        <br />
+                        { props.article }
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         { props.content }
@@ -43,8 +50,10 @@ export default function Carta( props ){
                                 LinkComponent={ Link } 
                                 to = "/editCard/"  
                                 onClick = { () =>{
+                                   
                                     dispatch( loadIdCard( props.idCard ) , 
                                     dispatch( loadImg( props.img ) ) )   
+                              
                                 } } 
                             > 
                                 <span className = 'editCardButton'  > Editar </span> 
@@ -52,7 +61,7 @@ export default function Carta( props ){
 
                             <Button 
                                 onClick = {  () => { 
-                                    deleteCard( props.idCard , props.setCards , props.param ) 
+                                    props.handleDelete( props.idCard )
                                 } } 
                                 variant="contained"
                             > 
@@ -62,7 +71,7 @@ export default function Carta( props ){
                             <Button 
                                 variant = 'contained'
                                 LinkComponent={ Link } 
-                                to = "/createArticle/"  
+                                to = "/article/"  
                             > 
                                 Conservar 
                             </Button>

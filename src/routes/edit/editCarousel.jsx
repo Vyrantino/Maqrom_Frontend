@@ -145,6 +145,15 @@ export default function EditCarousel(){
                     <MenuItem value={ 'Nosotros' }>Nosotros</MenuItem>
                 </Select>
             </FormControl>
+            
+
+            <Carousel 
+                    route = { route } 
+                    updateCarouselItems = { setCarouselItems } 
+                    setCarouselItem = { setCarouselItem } 
+                    updatedList = { carouselItems }
+                    currentImage = { setCurrentImage }
+            />
             <Button variant='contained' endIcon = { <AddAPhotoIcon  /> }  onClick = { handleCreateNewCarouselItem } >
                 Agregar una foto predeterminada al carousel
             </Button>
@@ -157,15 +166,6 @@ export default function EditCarousel(){
             >
                 Borrar el elemento seleccionado
             </Button>
-
-            <Carousel 
-                    route = { route } 
-                    updateCarouselItems = { setCarouselItems } 
-                    setCarouselItem = { setCarouselItem } 
-                    updatedList = { carouselItems }
-                    currentImage = { setCurrentImage }
-            />
-            
             <Box sx = { { display: 'flex' , flexDirection: 'row' } } >   
                 <ListaImagenes imageList = { imageList } setImage = { setImage } height= { 450 } width = { 500 } />
                 <img width={ '500' }  height={ '450' } src={ image } />

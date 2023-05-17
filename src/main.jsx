@@ -26,6 +26,7 @@ import { Provider as ProviderRedux } from 'react-redux';
 import EditCard from './routes/edit/editCard';
 import EditCarousel from './routes/edit/editCarousel';
 import CreateArticle from './routes/edit/createArticle';
+import Article from './routes/article';
 
 
 
@@ -81,7 +82,7 @@ const theme = createTheme(
       
         {
           path : "contacto/" , 
-          element :  <EditCarousel /> //<EditCard /> //<Contacto />,
+          element :  <Article />//<EditCard /> //<Contacto />,
           
         } ,   
         {
@@ -130,6 +131,14 @@ const theme = createTheme(
           path: "/createArticle/",
           element: <CreateArticle />
         },
+        {
+          path: "/editCarousel/",
+          element: <EditCarousel /> 
+        },
+        {
+          path: "/article/",
+          element: <Article />
+        },
       ]
 
     } , 
@@ -140,7 +149,7 @@ const theme = createTheme(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-   <ThemeProvider theme={ theme }>
+      <ThemeProvider theme={ theme }>
           <ProviderRedux store = { store } >
               <RouterProvider router = { router } />
           </ProviderRedux>

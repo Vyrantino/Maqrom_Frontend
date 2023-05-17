@@ -1,12 +1,12 @@
 import * as React from 'react' ; 
 import { useSelector, useDispatch } from 'react-redux' ; 
 import { useState } from 'react';
-import {  Box, Icon, IconButton, Input, TextField, Typography } from '@mui/material';
+import {  Box, FormControl, Icon, IconButton, Input, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useEffect } from 'react';
-import { deleteImage, getAllImages, getCard, uploadPhoto } from '../../axiosMain';
+import { deleteImage, getAllImages, getArticles, getCard, uploadPhoto } from '../../axiosMain';
 import { patchCard } from '../../axiosMain';
 import { useNavigate } from 'react-router-dom';
 import { loadImg } from '../../components/redux/editForm';
@@ -25,6 +25,8 @@ export default function EditCard(){
     const [ contenido, setContenido ] = useState() ; 
     const [ imageList, setImageList ] = useState([]) ; 
     const [ alt , setAlt ] = useState() ;
+    const [ article , setArticle ] = useState() ;
+    const [ articles , setArticles ] = useState([]) ;
     
    
     const navigate = useNavigate() ;
@@ -68,10 +70,18 @@ export default function EditCard(){
         getAllImages( setImageList ) ;
         
     }
+
+    const handleChangeArticle = ( e ) =>{
+        e.preventDefault() ;
+        setArticle( article ) ;
+
+    }
     
     useEffect(() => {
         getCard( setCard , loadedCard ) ; 
         getAllImages( setImageList ) ;
+        getArticles( setArticles ) ;
+       
     }, []);
    
     if( !mode ){
@@ -83,12 +93,31 @@ export default function EditCard(){
 
             <Box component='form' className= 'editCardForm' onSubmit={ handleSubmit } >
                 <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } > { card.idCard } </Typography>
+                <FormControl  variant="filled" sx={{ m: 1, minWidth: '60%' }} >
+                    <InputLabel id="demo-simple-select-filled-label"> Articulos dados de alta </InputLabel>
+                    <Select
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                        value={ article }
+                        onChange={ handleChangeArticle  }
+                        defaultValue=''
+                    >   
+                       
+                        {
+                            articles.map( ( item ) => (
+                                <MenuItem key = { item.idArticle }  value = { item.articleName }  > { item.articleName } </MenuItem> 
+                             ) )
+                        }
+                    </Select>
+                </FormControl>
                 <TextField 
+                    autoFocus
                     className='editCardFormTextField' 
                     id="filled-basic"
                     defaultValue = { card.title }
                     label = 'Titulo'
                     multiline
+                     inputProps={ { maxLength: 50 } }
                     onChange={ handleTitulo }
                     InputLabelProps={{ shrink: true }} 
                 />

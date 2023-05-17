@@ -36,6 +36,9 @@ a.MuiButtonBase-root{
 .HomepageCards{
   list-style-type: none;
   height: 50%;
+  padding: 10;
+  margin: 10;
+  
 }
 
 

@@ -37,7 +37,7 @@ export default function ListaImagenes( props ){
           {
             imageList.map((item) => {
             return (
-              <ImageListItem key={item.idImg}  >
+              <ImageListItem key={item.idImage}  >
                 <img
                   src={ apiUrl+item.name+`?w=64&h=64&fit=crop&auto=format` }
                   srcSet={ apiUrl+item.name+`?w=64&h=64&fit=crop&auto=format&dpr=2 2x`}

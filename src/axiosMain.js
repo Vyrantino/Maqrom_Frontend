@@ -18,16 +18,15 @@ const apiURL = "http://localhost:3000/" ;
 
 
 
- export const getAllCards = async (  setCards  , route ) =>{
- await axios.get( apiURL+"cards/route/"+route ) 
-      .then( ( response ) => {
-          const allCards = response.data ; 
-          setCards( allCards ) ;
-          
-      } )
-      .catch( error => console.error( "Error: "+error+" " ) ) ;
-     
+  export const getCards = async (  setCards , route   ) =>{
+    await axios.get( apiURL+"cards/route/"+route  ) 
+         .then( ( response ) => {
+             const allCards = response.data ; 
+             setCards( allCards ) ;
+         } )
+         .catch( error => console.error( "Error: "+error+" " ) ) ;
   }
+  
 
 export const getCard = async ( setCard  , idCard ) =>{
 
@@ -52,7 +51,8 @@ export const deleteCard = async ( idCard , setCards , param ) =>{
       if( confirm("Esta seguro que quiere borrar esto?") ){
       
        await axios.delete( apiURL+"cards/id/"+idCard )
-       await getAllCards( setCards , param ) ;
+        .then( getCards( setCards , param ) ) ;
+       
       }
       else{
         console.log( "no se borro el componente" ) ;
@@ -101,6 +101,8 @@ export const getAllImages = async ( setImages ) =>{
   } )
   .catch( error => console.error( "Error: "+error+" " ) )
 }
+
+
 
 export const getImageList = async (  ) =>{
   try{
@@ -175,9 +177,9 @@ export const getCarouselItems = async ( route ) =>{
   }
   catch{
     console.error( error ) ; 
-
   }
 }
+
 
 
 export const createNewCarouselItem = async ( carouselItem , route ) =>{
@@ -190,8 +192,9 @@ export const createNewCarouselItem = async ( carouselItem , route ) =>{
     article: carouselItem.article
   })
     .then( ( response ) => console.log( response.status ) )
-
 }
+
+
 
 /* Peticiones Article  */
 export const getArticles = async (  setArticles   ) =>{
@@ -236,3 +239,46 @@ export const createArticle = async ( articleName ) =>{
   })
     .then( ( response ) => console.log( response.status ) )
 }
+
+export const createNewArticleCarouselItem = async ( carouselItem , article ) =>{
+
+  await axios.post( apiURL+"carouselItems" , {
+    route: carouselItem.route,
+    title: carouselItem.title,
+    content: carouselItem.content,
+    img: carouselItem.img,
+    article: article
+  })
+    .then( ( response ) => console.log( response.status ) )
+}
+
+export const getArticleCarouselItems = async ( setArticleCarouselItems , article ) =>{
+  const getUrl = apiURL+'carouselItems/article/'+article ;
+  await axios.get( getUrl )
+    .then( ( response ) =>{
+        const allArticleCarouselItems = response.data ;
+        setArticleCarouselItems( allArticleCarouselItems ) ;
+    } ) ; 
+}
+
+export const newArticleCard = async ( card , article ) =>{
+  await axios.post( apiURL+"cards" , {
+    route: card.route ,
+    title: card.title,
+    content: card.content,
+    img: card.img,
+    isLocked: card.isLocked ,
+    article: article 
+  })
+
+}
+
+export const getArticleCards = async (  setArticleCards , article   ) =>{
+  await axios.get( apiURL+"cards/article/"+article  ) 
+       .then( ( response ) => {
+           const allCards = response.data ; 
+           setArticleCards( allCards ) ;
+       } )
+       .catch( error => console.error( "Error: "+error+" " ) ) ;
+}
+

@@ -10,9 +10,13 @@ import {
 } from '@mui/material';
 import * as React from 'react'; 
 import { createArticle, deleteArticle, getArticles, patchArticle } from '../../axiosMain';
+import { useDispatch } from 'react-redux';
+import { loadArticle } from '../../components/redux/editForm';
 
 
-export default function CreateArticle() {
+export default function CreateArticle( props ) {
+    const dispatch = useDispatch() ;
+
     const [ article , setArticle ] = React.useState('') ;
     const [ articleName , setArticleName ] = React.useState('') ;
     const [ articles , setArticles ] = React.useState([]) ;
@@ -28,20 +32,21 @@ export default function CreateArticle() {
 
     const handleCreateArticle = async () => {
       
-        createArticle( articleName ) ;
+        createArticle( props.articleName ) ;
         getArticles( setArticles ) ;
     }
 
     const handleEditArticle = async () =>{
         
-        patchArticle( article, articleName ) ;
-        setArticle( articleName ) ;
+        patchArticle( props.article, props.articleName ) ;
+        setArticle( props.articleName ) ;
         getArticles( setArticles ) ;
     }
 
     const handleDeleteArticle = () =>{
        
-        deleteArticle( article ) ;
+        deleteArticle( props.article ) ;
+        dispatch( loadArticle('') ) ;
         setArticle( '' ) ;
         getArticles( setArticles ) ;
     }
@@ -55,8 +60,8 @@ export default function CreateArticle() {
                     <Select
                         labelId="demo-simple-select-filled-label"
                         id="demo-simple-select-filled"
-                        value={ article }
-                        onChange={ handleChangeArticle  }
+                        value={ props.article }
+                        onChange={ props.handleChangeArticle  }
                         defaultValue=''
                     >   
                        
@@ -71,7 +76,7 @@ export default function CreateArticle() {
                         sx = { { margin: '2%' } }
                         label = 'Nombre del nuevo Articulo'
                         variant='filled'
-                        onChange={ handleArticleName }
+                        onChange={ props.handleArticleName }
                     >
                     </TextField>
 

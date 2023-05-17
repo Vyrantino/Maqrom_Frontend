@@ -20,7 +20,7 @@ export default function ButtonAppBar() {
   return (
 
     <Box sx={{ flexGrow: 1  }}>
-    <AppBar position="fixed">
+    <AppBar position="fixed" sx={{ alignItems: 'center' }} >
       <Toolbar>
             <IconButton 
                     component = { Link } to = "/" 
@@ -76,15 +76,16 @@ export default function ButtonAppBar() {
 
             <IconButton 
                 
-                component = { Link } to = {{pathname: "https://www.facebook.com/oscar.valleshdez"}} 
+                component = { Link } to = "https://www.facebook.com/oscar.valleshdez" 
                 target="_blank"
+                
+
             > 
                 <img 
                     src={ fbLogo } 
                     width={30} 
                     height={30} 
                     alt = "facebookLogo" 
-
                 /> 
             </IconButton>
       </Toolbar>

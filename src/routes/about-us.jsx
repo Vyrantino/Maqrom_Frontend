@@ -1,65 +1,64 @@
 import * as React from 'react';
 import { useState , useEffect } from 'react';
 import Carta from '../components/card';
-import { getAllCards, newCard } from '../axiosMain';
+import { getCards, newCard } from '../axiosMain';
 import { useSelector } from 'react-redux';
-import { Button } from '@mui/material';
+import { Button, Container } from '@mui/material';
 import NewCardDto from './edit/models/newCardDto';
-
-
-const List = ( props ) =>(
-    
-    <ul >
-        { props.list.map( ( item ) => (
-            <Item key = { item.idCard } item = { item }  setCards= { props.setCards } param = { props.param }/>
-           
-        ) ) }
-    </ul>
-
-);
-
-const Item = ( props ) =>(
-    
-        <div>
-            <li  className = "card" > 
-                <Carta 
-                     img = { props.item.img }
-                     title = { props.item.title }
-                     content = { props.item.content }
-                     route = { props.item.route }
-                     idCard = { props.item.idCard }
-                     isLocked = { props.isLocked }
-                     setCards = { props.setCards }
-                     param = { props.param }
-                />
-            </li>
-        </div>
-      
-    
-);
 
 
 export default function AboutUs(  ) {
    
     const [ cards, setCards ] = useState([]); 
+    const [ effect, setEffect ] = React.useState(true); 
     const url = "Nosotros" ;
     useEffect(() => {
-       const allCards =  getAllCards(  setCards  , url ) ; 
-    }, []);
+        getCards(  setCards  , url ) ; 
+    }, [ effect ]);
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
 
     const handleNewCard = async (  ) =>{
         const card = new NewCardDto( url) ; 
-        await newCard( card , url ) ;
-        const updatedCards = await getAllCards( setCards , url ) ; 
+        newCard( card , url ) ;
+        getCards( setCards , url ) ; 
+        setEffect( !effect ) ;
     }
+
+    const handleDelete = async ( idCard ) =>{
+       
+        deleteCard( idCard  , setCards,  url ) ;
+        setEffect( !effect ) ;
+    }
+
     return(
 
        
         <div className = "AboutUs">  
-             { mode ? <Button aria-label='Crear Nueva Carta' onClick={ handleNewCard }> Crear Nueva Carta </ Button> : null }
-             <List  list = { cards } setCards = { setCards } param = { url } /> 
+            
+            <Container>
+            { mode ? <Button aria-label='Crear Nueva Carta' onClick={ handleNewCard }> Crear Nueva Carta </ Button> : null }
+
+                {
+                    cards.map( ( item ) =>(
+                        
+                            <Carta 
+                                key = { item.idCard }
+                                img = { item.img }
+                                title = { item.title }
+                                content = { item.content }
+                                route = { item.route }
+                                idCard = { item.idCard }
+                                isLocked = { item.isLocked }
+                                CardWidth = '100'
+                                CardHeight = '300'
+                                handleDelete = { handleDelete }
+                            />
+                    
+                    ))
+                }
+                        
+            </Container>
   
         </div>
         

@@ -2,7 +2,7 @@ import { Box, Button, TextField } from '@mui/material';
 import * as React from 'react'; 
 import { useSelector, useDispatch } from 'react-redux' ; 
 import { useState } from 'react';
-import { Form } from 'react-router-dom';
+import { Form, useNavigate , Link } from 'react-router-dom';
 import { login } from './axiosMain';
 import { adminMode } from './components/redux/adminToken';
 
@@ -13,7 +13,8 @@ import { adminMode } from './components/redux/adminToken';
 
 
 export default function Admin( ) {    
-
+    const navigate = useNavigate() ;
+    
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
  
     const dispatch = useDispatch() ;
@@ -35,8 +36,6 @@ export default function Admin( ) {
         else {
             alert( 'Se han activado los derechos de Administrador' ) ;
             dispatch( adminMode( mode ) ) ;
-           
-
         }
     }
 
@@ -75,17 +74,10 @@ export default function Admin( ) {
              />
              <Button 
                 type = 'submit'
-            
-             >
+                variant = 'contained' 
+             >  
 
                 Entrar como Administrador 
-             </Button> 
-             <Button 
-                type = 'submit'
-            
-             >
-
-                Esto genera una accion 
              </Button> 
             
           </Form> 

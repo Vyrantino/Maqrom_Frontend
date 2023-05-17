@@ -1,14 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
-
 export const editForm = createSlice(
     {
     name: 'editForm' , 
     initialState: {
         idCard: 0,
         img: '' ,
-        idCarousel : 0 , 
+        loadedArticle : '' , 
 
     },
     reducers: {
@@ -20,8 +18,8 @@ export const editForm = createSlice(
             state.img = action.payload ; 
 
         },
-        loadIdCarousel: ( state, action ) =>{
-            state.idCarousel = action.payload ; 
+        loadArticle: ( state, action ) =>{
+            state.loadedArticle = action.payload ; 
 
         }
 
@@ -29,6 +27,6 @@ export const editForm = createSlice(
 
 }); 
 
-export const { loadIdCard, deleteCard , loadImg , loadIdCarousel } = editForm.actions ;
+export const { loadIdCard , loadImg , loadArticle } = editForm.actions ;
 
 export default editForm.reducer ; 
