@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState , useEffect } from 'react';
 import Carta from '../components/card';
-import { getCards, newCard } from '../axiosMain';
+import { deleteCard, getArticles, getCards, newCard } from '../axiosMain';
 import { useSelector } from 'react-redux';
 import { Button, Container } from '@mui/material';
 import NewCardDto from './edit/models/newCardDto';
@@ -11,9 +11,11 @@ export default function AboutUs(  ) {
    
     const [ cards, setCards ] = useState([]); 
     const [ effect, setEffect ] = React.useState(true); 
+    const [ articles, setArticles ] = React.useState([]) ;
     const url = "Nosotros" ;
     useEffect(() => {
         getCards(  setCards  , url ) ; 
+        getArticles( setArticles );
     }, [ effect ]);
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
@@ -29,6 +31,12 @@ export default function AboutUs(  ) {
        
         deleteCard( idCard  , setCards,  url ) ;
         setEffect( !effect ) ;
+    }
+
+    
+    const isArticle = ( article ) =>{
+        const articleList = articles.map( ( item ) => item.articleName ) ;
+        return articleList.includes( article ) ;
     }
 
     return(
@@ -53,6 +61,8 @@ export default function AboutUs(  ) {
                                 CardWidth = '100'
                                 CardHeight = '300'
                                 handleDelete = { handleDelete }
+                                article = { item.article }
+                                hasArticle = { isArticle( item.article ) }
                             />
                     
                     ))

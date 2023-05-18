@@ -14,17 +14,13 @@ import { useDispatch } from 'react-redux';
 import { loadArticle } from '../../components/redux/editForm';
 
 
-export default function CreateArticle( props ) {
+export default function ArticlePicker( props ) {
     const dispatch = useDispatch() ;
 
     const [ article , setArticle ] = React.useState('') ;
     const [ articleName , setArticleName ] = React.useState('') ;
     const [ articles , setArticles ] = React.useState([]) ;
-    const handleArticleName = ( e ) => setArticleName( e.target.value ) ; 
-    const handleChangeArticle = ( e ) => {
-        e.preventDefault() ;
-        setArticle( e.target.value ) ;
-    }
+
     React.useEffect(() =>{
         getArticles( setArticles ) ;
 
@@ -33,6 +29,7 @@ export default function CreateArticle( props ) {
     const handleCreateArticle = async () => {
       
         createArticle( props.articleName ) ;
+        dispatch( loadArticle( props.articleName ) ) ;
         getArticles( setArticles ) ;
     }
 
@@ -40,6 +37,8 @@ export default function CreateArticle( props ) {
         
         patchArticle( props.article, props.articleName ) ;
         setArticle( props.articleName ) ;
+        setArticleName( props.articleName ) ;
+        dispatch( loadArticle( props.articleName ) ) ;
         getArticles( setArticles ) ;
     }
 
@@ -47,10 +46,14 @@ export default function CreateArticle( props ) {
        
         deleteArticle( props.article ) ;
         dispatch( loadArticle('') ) ;
-        setArticle( '' ) ;
         getArticles( setArticles ) ;
     }
 
+    const handleArticleName = ( e ) => setArticleName( e.target.value ) ; 
+    const handleChangeArticle = ( e ) => {
+        e.preventDefault() ;
+        setArticle( e.target.value ) ;
+    }
    
     return(
         <Container maxWidth = 'sm'   >

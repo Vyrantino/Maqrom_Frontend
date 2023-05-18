@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiURL = "http://localhost:3000/" ; 
-
+/* Login  */
   export const login = async (username, password) => {
 
     const result = (
@@ -17,7 +17,7 @@ const apiURL = "http://localhost:3000/" ;
   };
 
 
-
+/* Cards */
   export const getCards = async (  setCards , route   ) =>{
     await axios.get( apiURL+"cards/route/"+route  ) 
          .then( ( response ) => {
@@ -60,14 +60,16 @@ export const deleteCard = async ( idCard , setCards , param ) =>{
 }
 
 
-export const patchCard = async ( idCard , titulo, contenido, imagen ) => {
+export const patchCard = async ( idCard , titulo, contenido, imagen , article ) => {
     const patchUrl = `${apiURL}cards/patch/${idCard}`
     console.log( patchUrl );
+    const givenArticle = article ? article : 'pagina' ;  
     await axios.patch( patchUrl , 
       { 
         title:titulo,
         content: contenido,
-        img: imagen
+        img: imagen , 
+        article: givenArticle
       })
 };
 
@@ -83,18 +85,21 @@ export const newCard = async ( card , route ) =>{
 
 }
 
-
-export const uploadPhoto = async ( selectedFile , alt  ) =>{
+/* Photos */
+export const uploadPhoto = async ( selectedFile , alt , gallery ) =>{
     const fd = new FormData() ; 
     fd.append( 'image', selectedFile.fileRaw, selectedFile.fileName  ) ; 
-    fd.append( 'alt' , alt )
-    const result = await axios.post( apiURL, fd )
+    fd.append( 'alt' , alt  ) ;
+    fd.append( 'gallery' , gallery  ) ;
+    await axios.post( apiURL, fd )
       .then( ( response ) => console.log( response ) )
 
 }
 
-export const getAllImages = async ( setImages ) =>{
-  await axios.get( apiURL+'images' )
+export const getAllImages = async ( setImages , gallery ) =>{
+  const getUrl = gallery ? 
+    `${apiURL}images/gallery/${gallery}` : `${apiURL}images/` ;
+  await axios.get( getUrl )
     .then( ( response ) => {
       const allImages = response.data ; 
       setImages( allImages ) ;
@@ -125,6 +130,8 @@ export const deleteImage = async ( image  ) =>{
   }
 }
 
+
+/*Carousels */
 
 export const patchCarousel = async ( idCarouselItem , titulo, contenido , img ) => {
   await axios.patch( apiURL+"carouselItems/id/"+idCarouselItem , 
@@ -196,7 +203,8 @@ export const createNewCarouselItem = async ( carouselItem , route ) =>{
 
 
 
-/* Peticiones Article  */
+/* Articles  */
+
 export const getArticles = async (  setArticles   ) =>{
   await axios.get( apiURL+"articles" ) 
        .then( ( response ) => {
@@ -215,11 +223,13 @@ export const patchArticle = async ( article, articleName ) => {
 };
 
 export const deleteArticle = async ( articleName  ) =>{
+  const encodedArticleName = encodeURIComponent(articleName);
   if( confirm("Esta seguro que quiere borrar el Articulo?") ){
   
     if( confirm("Esta REALMENTE SEGURO que quiere borrar el Articulo?") ){
-  
-      await axios.delete( apiURL+"articles/"+articleName ); 
+      
+      await axios.delete( apiURL+"articles/"+encodedArticleName )
+        .then( ( response ) => console.log( response ) ) ;  
   
     }
     else{
@@ -280,5 +290,51 @@ export const getArticleCards = async (  setArticleCards , article   ) =>{
            setArticleCards( allCards ) ;
        } )
        .catch( error => console.error( "Error: "+error+" " ) ) ;
+}
+
+/*Galleries */
+
+export const getGalleries = async (  setGalleries   ) =>{
+  await axios.get( apiURL+"galleries" ) 
+       .then( ( response ) => {
+           const allGalleries = response.data ; 
+           setGalleries( allGalleries ) ;
+       } )
+       .catch( error => console.error( "Error: "+error+" " ) ) ;
+}
+
+export const patchGallery = async ( gallery, galleryName ) => {
+  
+  await axios.patch( apiURL+"galleries/patch/"+gallery , 
+    { 
+      galleryName: galleryName
+    })
+};
+
+export const deleteGallery = async ( galleryName  ) =>{
+  const encodedGalleryName = encodeURIComponent( galleryName );
+  if( confirm("Esta seguro que quiere borrar el Articulo?") ){
+  
+    if( confirm("Esta REALMENTE SEGURO que quiere borrar el Articulo?") ){
+  
+      await axios.delete( apiURL+"galleries/"+encodedGalleryName ); 
+  
+    }
+    else{
+      console.log( "no se borro el componente" ) ;
+    }
+
+  }
+  else{
+    console.log( "no se borro el componente" ) ;
+  }
+}
+
+export const createGallery = async ( galleryName ) =>{
+
+  await axios.post( apiURL+"galleries" , {
+    galleryName: galleryName 
+  })
+    .then( ( response ) => console.log( response.status ) )
 }
 

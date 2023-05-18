@@ -6,7 +6,7 @@ import {
 
 } from "@mui/material";
 
-import { deleteCard, getCards, newCard } from '../../axiosMain';
+import { deleteCard, getArticles, getCards, newCard } from '../../axiosMain';
 import { useSelector } from 'react-redux';
 import NewCardDto from '../edit/models/newCardDto';
 import { Button } from '@mui/material';
@@ -16,9 +16,11 @@ import Carta from '../../components/card';
 export default function ListaProyectos(){
     const [ cards, setCards ] = React.useState([]);
     const [ effect, setEffect ] = React.useState(true);  
+    const [ articles, setArticles ] = React.useState([]) ;
     const url = "Proyectos" ;
     React.useEffect(() => {
-       const allCards =  getCards(  setCards  , url ) ; 
+       getCards(  setCards  , url ) ; 
+       getArticles( setArticles );
     }, [ effect ]);
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
@@ -34,6 +36,12 @@ export default function ListaProyectos(){
         deleteCard( idCard  , setCards,  url ) ;
         setEffect( !effect ) ;
     }
+
+    const isArticle = ( article ) =>{
+        const articleList = articles.map( ( item ) => item.articleName ) ;
+        return articleList.includes( article ) ;
+    }
+
     return(
         <Box className = "BoxListaProyectos" >
             <Container>
@@ -52,6 +60,8 @@ export default function ListaProyectos(){
                                 CardWidth = '100'
                                 CardHeight = '300'
                                 handleDelete = { handleDelete }
+                                article = { item.article }
+                                hasArticle = { isArticle( item.article ) }
                             />
                     
                     ))

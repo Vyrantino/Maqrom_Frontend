@@ -9,12 +9,13 @@ import { useEffect } from 'react';
 import { deleteImage, getAllImages, getArticles, getCard, uploadPhoto } from '../../axiosMain';
 import { patchCard } from '../../axiosMain';
 import { useNavigate } from 'react-router-dom';
-import { loadImg } from '../../components/redux/editForm';
+import { loadArticle, loadImg } from '../../components/redux/editForm';
 import Admin from '../../admin' ; 
 import ListaImagenes from './listaImagenes';
 import Carousel from '../../components/carousel';
 
 export default function EditCard(){
+    const [ gallery , setGallery ] = React.useState( '' ) ;
     const mode = useSelector( ( state ) => state.adminMode.value ) ; 
     const dispatch = useDispatch() ;
     const [ card , setCard ] = useState([]) ; 
@@ -25,12 +26,12 @@ export default function EditCard(){
     const [ contenido, setContenido ] = useState() ; 
     const [ imageList, setImageList ] = useState([]) ; 
     const [ alt , setAlt ] = useState() ;
-    const [ article , setArticle ] = useState() ;
+    const [ article , setArticle ] = useState('') ;
+    const [ articleName , setArticleName ] = useState() ;
     const [ articles , setArticles ] = useState([]) ;
     
    
     const navigate = useNavigate() ;
-
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
     const handleAlt = ( e ) => setAlt( e.target.value ) ; 
@@ -46,7 +47,7 @@ export default function EditCard(){
             fileName: imageName ,
         }
 
-        const uploadImage = await uploadPhoto( fileTemp , alt ) ;
+        uploadPhoto( fileTemp , alt , gallery ) ;
         dispatch( ( loadImg( imageUrl ) ) ) ;
         getAllImages( setImageList ) ;
        
@@ -54,9 +55,14 @@ export default function EditCard(){
     }; 
 
     const handleSubmit = async ( e ) =>{
-       
+       console.log( article ) ;
         e.preventDefault() ;
-        patchCard( card.idCard , titulo, contenido , !image ? card.img : image ) ; 
+        patchCard( 
+            card.idCard , 
+            titulo, contenido , 
+            !image ? card.img : image ,
+            article ? article :  'pagina'
+        ) ; 
         
     }
 
@@ -73,8 +79,8 @@ export default function EditCard(){
 
     const handleChangeArticle = ( e ) =>{
         e.preventDefault() ;
-        setArticle( article ) ;
-
+        setArticle( e.target.value ) ;
+        //dispatch( loadArticle( e.target.value ) ) ;
     }
     
     useEffect(() => {
@@ -92,6 +98,10 @@ export default function EditCard(){
     return(
 
             <Box component='form' className= 'editCardForm' onSubmit={ handleSubmit } >
+                
+                <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } >
+                     { `Esta carta actualmente redirige a ${card.article} ${ card.route }` } 
+                </Typography>
                 <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } > { card.idCard } </Typography>
                 <FormControl  variant="filled" sx={{ m: 1, minWidth: '60%' }} >
                     <InputLabel id="demo-simple-select-filled-label"> Articulos dados de alta </InputLabel>
@@ -134,7 +144,7 @@ export default function EditCard(){
                     InputLabelProps={{ shrink: true }} 
                 />  
                 <Box sx = { { display: 'flex' , flexDirection: 'row' } } > 
-                    <ListaImagenes imageList = { imageList } setImage = { setImage } height= { 450 } width = { 500 } />
+                    <ListaImagenes imageList = { imageList } setImage = { setImage } height= { 450 } width = { 500 } passGallery = { setGallery } />
                     <img width={ '500' }  height={ '450' } src={ image } />
                 </Box>
 

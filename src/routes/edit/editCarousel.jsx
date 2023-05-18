@@ -25,6 +25,7 @@ import {
     getAllCarouselItems, 
     getAllImages, 
     getCarouselItems, 
+    getGalleries, 
     getImageList, 
     uploadPhoto 
 } from '../../axiosMain';
@@ -37,6 +38,7 @@ import ListaImagenes from './listaImagenes';
 import NewCarouselItemDto from './models/newCarouselItem';
 
 export default function EditCarousel(){
+    const [ gallery , setGallery ] = React.useState( '' ) ;
     const [ route , setRoute ] = useState('') ;
     const dispatch = useDispatch() ;
     const navigate = useNavigate() ;
@@ -51,6 +53,7 @@ export default function EditCarousel(){
     const [ alt , setAlt ] = useState() ;
     const [ currentImage , setCurrentImage ] = useState() ;
     const [ imageList, setImageList ] = useState([]) ; 
+    const [ galleries , setGalleries ] = React.useState( [] ) ;
 
     // Handlers
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
@@ -61,6 +64,7 @@ export default function EditCarousel(){
         setRoute( e.target.value ) ;
         getAllCarouselItems( setCarouselItems , route ) ;
     } 
+
     const handleImagen = async ( e ) => {  
         const file  = e.target.files[0] ;
         const ext = file.name.split('.').pop();
@@ -72,7 +76,7 @@ export default function EditCarousel(){
             fileName: imageName ,
         }
 
-        await uploadPhoto( fileTemp ) ;
+        uploadPhoto( fileTemp , alt , gallery ) ;
         dispatch( ( loadImg( imageUrl ) ) ) ;
         setImage( imageUrl ) ;
         getAllImages( setImageList );
@@ -117,6 +121,7 @@ export default function EditCarousel(){
     useEffect(() => {
         getAllCarouselItems( setCarouselItems , route );
         getAllImages( setImageList  ) ;
+        getGalleries( setGalleries ) ;
     }, []);
    
     if( !mode ){
@@ -167,7 +172,7 @@ export default function EditCarousel(){
                 Borrar el elemento seleccionado
             </Button>
             <Box sx = { { display: 'flex' , flexDirection: 'row' } } >   
-                <ListaImagenes imageList = { imageList } setImage = { setImage } height= { 450 } width = { 500 } />
+                <ListaImagenes imageList = { imageList } setImage = { setImage } height= { 450 } width = { 500 } passGallery = { setGallery }  />
                 <img width={ '500' }  height={ '450' } src={ image } />
                 <img width={ '500' }  height={ '450' } src={ currentImage } />
             </Box>

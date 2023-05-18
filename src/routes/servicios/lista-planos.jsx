@@ -3,7 +3,7 @@ import {
     Box, Container ,
 
 } from "@mui/material";
-import { deleteCard, getCards, newCard } from '../../axiosMain';
+import { deleteCard, getArticles, getCards, newCard } from '../../axiosMain';
 import { useSelector } from 'react-redux';
 import NewCardDto from '../edit/models/newCardDto';
 import { Button } from '@mui/material';
@@ -11,44 +11,14 @@ import Carta from '../../components/card';
 
 
 
-const List = ( props ) =>(
-    <ul >
-        { props.list.map( ( item ) => (
-            <Item 
-                key = { item.idCard } 
-                item = { item }  
-                setCards= { props.setCards } 
-                param = { props.param }
-            />
-        ) ) }
-    </ul>
-);
-
-const Item = ( props ) =>(
-        <div>
-            <li  className = "card" > 
-                <Carta 
-                     img = { props.item.img }
-                     title = { props.item.title }
-                     content = { props.item.content }
-                     route = { props.item.route }
-                     idCard = { props.item.idCard }
-                     isLocked = { props.isLocked }
-                     setCards = { props.setCards }
-                     param = { props.param }
-                />
-            </li>
-        </div>
-);
-
-
-
 export default function ListaPlanos(){
     const [ cards, setCards ] = React.useState([]); 
     const [ effect, setEffect ] = React.useState(true); 
+    const [ articles, setArticles ] = React.useState([]) ;
     const url = "Planos" ;
     React.useEffect(() => {
-       const allCards =  getCards(  setCards  , url ) ; 
+       getCards(  setCards  , url ) ; 
+       getArticles( setArticles );
     }, [ effect ]);
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
@@ -64,6 +34,11 @@ export default function ListaPlanos(){
        
         deleteCard( idCard  , setCards,  url ) ;
         setEffect( !effect ) ;
+    }
+
+    const isArticle = ( article ) =>{
+        const articleList = articles.map( ( item ) => item.articleName ) ;
+        return articleList.includes( article ) ;
     }
 
     return(
@@ -84,6 +59,8 @@ export default function ListaPlanos(){
                                 CardWidth = '100'
                                 CardHeight = '300'
                                 handleDelete = { handleDelete }
+                                article = { item.article }
+                                hasArticle = { isArticle( item.article ) }
                             />
                     
                     ))

@@ -50,8 +50,8 @@ export default function Servicios() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+      <Box sx={{ borderBottom: 1, borderColor: 'divider'  }}>
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered >
           <Tab label="Servicios" {...a11yProps(0)} />
           <Tab label="Proyectos" {...a11yProps(1)} />
           <Tab label="Planos" {...a11yProps(2)} />

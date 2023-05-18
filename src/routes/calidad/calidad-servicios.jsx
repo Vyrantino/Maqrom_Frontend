@@ -5,7 +5,7 @@ import {
     Container,
 } from '@mui/material';
 
-import { deleteCard, getCards, newCard } from '../../axiosMain';
+import { deleteCard, getArticles, getCards, newCard } from '../../axiosMain';
 import { useSelector } from 'react-redux';
 import NewCardDto from '../edit/models/newCardDto';
 import Carta from '../../components/card';
@@ -15,9 +15,11 @@ import Carta from '../../components/card';
 export default function CalidadServicios() {
     const [ cards, setCards ] = React.useState([]); 
     const [ effect, setEffect ] = React.useState(true); 
+    const [ articles, setArticles ] = React.useState([]) ;
     const url = "CalidadServicios" ;
     React.useEffect(() => {
         getCards(  setCards  , url ) ; 
+        getArticles( setArticles );
     }, [ effect ]);
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
@@ -33,6 +35,11 @@ export default function CalidadServicios() {
        
         deleteCard( idCard  , setCards,  url ) ;
         setEffect( !effect ) ;
+    }
+
+    const isArticle = ( article ) =>{
+        const articleList = articles.map( ( item ) => item.articleName ) ;
+        return articleList.includes( article ) ;
     }
 
     return(
@@ -52,6 +59,8 @@ export default function CalidadServicios() {
                             CardWidth = '100'
                             CardHeight = '300'
                             handleDelete = { handleDelete }
+                            article = { item.article }
+                            hasArticle = { isArticle( item.article ) }
                         />
                 
                 ))

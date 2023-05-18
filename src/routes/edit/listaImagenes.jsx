@@ -1,8 +1,7 @@
 import * as React from 'react' ;
-import { getAllImages, getImageList } from '../../axiosMain';
-import { IconButton, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadImg } from '../../components/redux/editForm';
+import { getAllImages, getGalleries } from '../../axiosMain';
+import { Container, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import GalleryPicker from './galleryPicker';
 
 function srcset(image, width, height, rows = 1, cols = 1) {
     return {
@@ -17,74 +16,70 @@ export default function ListaImagenes( props ){
     
 
     const [ imageList, setAllImages ] = React.useState([]) ;
+    const [ gallery, setGallery ] = React.useState('') ;
+    const [ galleryName , setGalleryName ] = React.useState('') ; 
+    const [ galleries, setGalleries ] = React.useState('') ;
     const apiUrl = 'http://localhost:3000/images/' ;
-    React.useEffect(() => {
-        getAllImages( setAllImages ) ; 
 
-     }, [ props.imageList ]);
+    const handleGalleryName = ( e ) => setGalleryName( e.target.value ) ; 
+    const handleChangeGallery = ( e ) => {
+        e.preventDefault() ;
+        setGallery( e.target.value ) ;
+    }
+    React.useEffect(() => {
+
+        getAllImages( setAllImages , gallery === 'Todas las imagenes' ? '' : gallery ) ; 
+        getGalleries( setGalleries ) ;
+     }, [ props.imageList , gallery ]);
+
+    props.passGallery( gallery ) ;
 
     return (
-        <ImageList
-          sx={{
-            width: props.width,
-            height: props.height,
-            
-          }}
-          cols={4}
-          
-          gap={1}
-        >
-          {
-            imageList.map((item) => {
-            return (
-              <ImageListItem key={item.idImage}  >
-                <img
-                  src={ apiUrl+item.name+`?w=64&h=64&fit=crop&auto=format` }
-                  srcSet={ apiUrl+item.name+`?w=64&h=64&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.alt}
-                  loading="lazy"
-                  onClick={  () =>{ 
-                    props.setImage( apiUrl+item.name ) ;
-                  } }
-                  
-                />
-                <ImageListItemBar
+        <Container>
+            <GalleryPicker 
+              handleChangeGallery = { handleChangeGallery } 
+              handleGalleryName = { handleGalleryName } 
+              gallery = { gallery }
+              galleryName = { galleryName }
+              resetGallery = { setGallery }
+            />
+            <ImageList
                   sx={{
-                    background:
-                      'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                    width: props.width,
+                    height: props.height,
                   }}
-                  title={item.alt}
-                  position="top"
-                  actionPosition="left"
-                />
-              </ImageListItem>
-            );
-          })}
-        </ImageList>
-      );
+                  cols={4}
+                  
+                  gap={1}
+            >
+                {
+                  imageList.map((item) => (
+                    <ImageListItem key={item.idImage}  >
+                        <img
+                          src={ apiUrl+item.name+`?w=64&h=64&fit=crop&auto=format` }
+                          srcSet={ apiUrl+item.name+`?w=64&h=64&fit=crop&auto=format&dpr=2 2x`}
+                          alt={item.alt}
+                          loading="lazy"
+                          onClick={  () =>{ 
+                            props.setImage( apiUrl+item.name ) ;
+                          } }
+                          
+                        />
+                        <ImageListItemBar
+                          sx={{
+                            background:
+                              'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                              'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                          }}
+                          title={item.alt}
+                          position="top"
+                          actionPosition="left"
+                        />
+                    </ImageListItem>
+                  ))
+                }
+              </ImageList>
+
+        </Container>
+    );
 }
-
-            
-
-    // return(
-    //     <ImageList sx={{ width: props.width, height: props.height }} cols={3} rowHeight={164}>
-    //         {
-    //             !props.updatedAllImages ? allImages : props.updatedAllImages.map( (item) => (
-    //             <ImageListItem  key={item.idImage}>
-    //             <img
-                    // src={`${apiUrl}/${item.name}`}
-                    // srcSet={`${apiUrl}/${item.name}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-    //                 alt={item.alt}
-    //                 loading="lazy"
-    //                 onClick={  () =>{ 
-    //                     dispatch( loadImg( `${apiUrl}/${item.name}` ) ) ;
-    //                     props.setImage( `${apiUrl}/${item.name}` ) ;
-    //                 } }
-    //             />
-               
-    //             </ImageListItem>
-    //         ))}
-    //     </ImageList>
-    // );   
-    // 

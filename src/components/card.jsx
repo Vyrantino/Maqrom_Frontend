@@ -7,8 +7,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button } from "@mui/material";  
 import { useSelector , useDispatch } from 'react-redux'
-import { deleteCard, getCard, getIdCard, newCard } from "../axiosMain";
-import { loadIdCard, loadImg } from "./redux/editForm";
+import { deleteCard, getArticles, getCard, getIdCard, newCard } from "../axiosMain";
+import { loadArticle, loadIdCard, loadImg } from "./redux/editForm";
 import { Link } from "react-router-dom";
 
 
@@ -17,6 +17,7 @@ export default function Carta( props ){
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
     const card = useSelector( ( state ) => state.editForm.idCard ) ;
     const dispatch = useDispatch() ;
+
     return(
         <Box>
             <Card 
@@ -26,7 +27,6 @@ export default function Carta( props ){
                     component= "img"
                     alt="green iguana"
                     height= { !props.CardHeight ? '200' : props.CardHeight  } 
-                    
                     image = { props.img }  
                     sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }} 
                 />
@@ -41,6 +41,27 @@ export default function Carta( props ){
                     <Typography variant="body2" color="text.secondary">
                         { props.content }
                     </Typography>
+                    <CardActions>
+                        {
+                            props.hasArticle ? 
+                                <Button 
+                                variant = 'text'
+                                LinkComponent={ Link } 
+                                to = "/article/"  
+                                onClick = {  () => { 
+                                    dispatch( loadArticle( props.article ) )
+                                } } 
+                                sx={{
+                                    color: 'red', // Cambia el color del texto aquí
+                                }}
+                                > 
+                                    <Typography color={`primary`}  > Ver Articulo </Typography> 
+                                </Button>
+                                :
+                                <span />
+                        }                            
+                        
+                    </CardActions>
                 </CardContent>
                 {
                     mode ?
@@ -56,7 +77,7 @@ export default function Carta( props ){
                               
                                 } } 
                             > 
-                                <span className = 'editCardButton'  > Editar </span> 
+                                <Typography color={`#350404`}  > Editar </Typography> 
                             </Button>
 
                             <Button 
@@ -65,15 +86,7 @@ export default function Carta( props ){
                                 } } 
                                 variant="contained"
                             > 
-                                Borrar 
-                            </Button>
-                            
-                            <Button 
-                                variant = 'contained'
-                                LinkComponent={ Link } 
-                                to = "/article/"  
-                            > 
-                                Conservar 
+                               <Typography color={`#350404`}  > Borrar </Typography> 
                             </Button>
 
                          </CardActions>

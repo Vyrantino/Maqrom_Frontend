@@ -25,7 +25,7 @@ import store from './components/redux/store';
 import { Provider as ProviderRedux } from 'react-redux';
 import EditCard from './routes/edit/editCard';
 import EditCarousel from './routes/edit/editCarousel';
-import CreateArticle from './routes/edit/createArticle';
+import ArticlePicker from "./routes/edit/articlePicker";
 import Article from './routes/article';
 
 
@@ -82,7 +82,7 @@ const theme = createTheme(
       
         {
           path : "contacto/" , 
-          element :  <Article />//<EditCard /> //<Contacto />,
+          element :  <Contacto />//<Article />//<EditCard /> //<Contacto />,
           
         } ,   
         {
@@ -126,10 +126,6 @@ const theme = createTheme(
         {
           path: "/editCard/",
           element: <EditCard />
-        },
-        {
-          path: "/createArticle/",
-          element: <CreateArticle />
         },
         {
           path: "/editCarousel/",

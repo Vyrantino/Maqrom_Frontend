@@ -182,3 +182,14 @@ div.MultilineTextField{
   flex-direction: 'column';
   
 }
+
+.ArticleButton{
+  text-shadow: #ffa826e0;
+  color: #0af593;
+
+}
+
+.MuiBox-root.css-1raypxk{
+  background-color: #c46565e0;
+
+}

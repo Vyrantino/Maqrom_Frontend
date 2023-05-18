@@ -8,6 +8,7 @@ import { FloatingWhatsApp } from 'react-floating-whatsapp';
 import ButtonAppBar from "../components/navigation/appbar";
 import Footer from "../components/navigation/footer";
 import { Box, SwipeableDrawer, Button } from "@mui/material";
+import MaqromLogo from '../assets/Maqrom.svg' ;
 
  export default function Root() {
 
@@ -23,6 +24,12 @@ import { Box, SwipeableDrawer, Button } from "@mui/material";
                 <Footer />
                 
                 <FloatingWhatsApp 
+                        notificationSound
+                        allowEsc
+                        allowClickAway
+                        avatar= { MaqromLogo }
+                        chatMessage="Bienvenido a nuestra pagina! Escribanos un mensaje aqui para contactarnos por whatsapp"
+                        statusMessage="Recibirá una respuesta a lo largo de 72hrs!"
                         phoneNumber="+526183613796"
                         accountName="Maqrom Construcciones"   
                 />
