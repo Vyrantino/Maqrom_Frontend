@@ -1,5 +1,5 @@
 import * as React from 'react' ; 
-import { useSelector, useDispatch } from 'react-redux' ; 
+import { useSelector } from 'react-redux' ; 
 import { useState } from 'react';
 import {  
     Box, 
@@ -14,15 +14,23 @@ import {
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PublishIcon from '@mui/icons-material/Publish';
-import { useEffect } from 'react';
-import { deleteImage, getAllImages, getArticles, getCard, getGalleries, uploadPhoto } from '../../axiosMain';
-import { patchCard } from '../../axiosMain';
-import { useNavigate } from 'react-router-dom';
+import { 
+    deleteImage, 
+    getAllImages, 
+    getArticles, 
+    getPaper, 
+    getGalleries, 
+    uploadPhoto , 
+    patchPaper 
+} from '../../axiosMain';
+
+import { useNavigate , useParams } from 'react-router-dom';
 import Admin from '../../admin' ; 
 import ListaImagenes from './listaImagenes';
 import MaqromLogo from "../../assets/MaqromLogoPlantilla.png" ;
 
-export default function EditCard(){
+export default function EditPaper(  ){
+    const paperId = useParams() ;
    /* Lista Imagenes */
         const [ imageList , setImageList ] = React.useState( [] ) ;
         const [ galleries , setGalleries ] = React.useState( [] ) ;
@@ -31,8 +39,7 @@ export default function EditCard(){
         
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ; 
-    const [ card , setCard ] = useState([]) ; 
-    const loadedCard = useSelector( ( state ) => state.editForm.idCard ) ;
+    const [ paper , setPaper ] = useState([]) ; 
     const [ titulo, setTitulo ] = useState() ; 
     const [ contenido, setContenido ] = useState() ; 
     const [ alt , setAlt ] = useState() ;
@@ -64,12 +71,11 @@ export default function EditCard(){
     }; 
 
     const handleSubmit = async ( e ) =>{
-       console.log( article ) ;
         e.preventDefault() ;
-        patchCard( 
-            card.idCard , 
+        patchPaper( 
+            paper.idCard , 
             titulo, contenido , 
-            !image ? card.img : image ,
+            !image ? paper.img : image ,
             article ? article :  'pagina'
         ) ; 
         
@@ -94,7 +100,7 @@ export default function EditCard(){
     }
     
     React.useEffect(() => {
-        getCard( setCard , loadedCard ) ; 
+        getPaper( setPaper , paperId ) ; 
         getAllImages( setImageList ) ;
         getArticles( setArticles ) ;
        
@@ -119,9 +125,9 @@ export default function EditCard(){
             <Box component='form' className= 'editCardForm' onSubmit={ handleSubmit } >
                 
                 <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } >
-                     { `Esta carta actualmente redirige a ${card.article} ${ card.route }` } 
+                     { `Esta carta actualmente redirige a ${paper.article} ${ paper.route }` } 
                 </Typography>
-                <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } > { card.idCard } </Typography>
+                <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } > { paper.idpaper } </Typography>
                 <FormControl  variant="filled" sx={{ m: 1, minWidth: '60%' }} >
                     <InputLabel id="demo-simple-select-filled-label"> Articulos dados de alta </InputLabel>
                     <Select
@@ -143,7 +149,7 @@ export default function EditCard(){
                     autoFocus
                     className='editCardFormTextField' 
                     id="filled-basic"
-                    defaultValue = { card.title }
+                    defaultValue = { paper.title }
                     label = 'Titulo'
                     multiline
                      inputProps={ { maxLength: 50 } }
@@ -159,7 +165,7 @@ export default function EditCard(){
                     
                     variant="filled"
                     onChange={ handleContenido }
-                    defaultValue = { card.content }
+                    defaultValue = { paper.content }
                     InputLabelProps={{ shrink: true }} 
                 />  
                 <Box sx = { { display: 'flex' , flexDirection: 'row' } } > 
@@ -174,7 +180,7 @@ export default function EditCard(){
                             imageList = { imageList }
                     />
                     <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
-                    <img width={ '500' }  height={ '450' } src={ !card.img ? MaqromLogo : card.img } />
+                    <img width={ '500' }  height={ '450' } src={ !paper.img ? MaqromLogo : paper.img } />
                 </Box>
 
                <IconButton color="primary" aria-label="upload picture" component="label">

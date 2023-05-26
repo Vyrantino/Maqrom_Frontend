@@ -14,34 +14,15 @@ function srcset(image, width, height, rows = 1, cols = 1) {
 
 export default function ListaImagenes( props ){
     
-
-    const [ imageList, setAllImages ] = React.useState([]) ;
-    const [ gallery, setGallery ] = React.useState('') ;
-    const [ galleryName , setGalleryName ] = React.useState('') ; 
-    const [ galleries, setGalleries ] = React.useState('') ;
     const apiUrl = 'http://localhost:3000/images/' ;
 
-    const handleGalleryName = ( e ) => setGalleryName( e.target.value ) ; 
-    const handleChangeGallery = ( e ) => {
-        e.preventDefault() ;
-        setGallery( e.target.value ) ;
-    }
-    React.useEffect(() => {
-
-        getAllImages( setAllImages , gallery === 'Todas las imagenes' ? '' : gallery ) ; 
-        getGalleries( setGalleries ) ;
-     }, [ props.imageList , gallery ]);
-
-    props.passGallery( gallery ) ;
 
     return (
         <Container>
             <GalleryPicker 
-              handleChangeGallery = { handleChangeGallery } 
-              handleGalleryName = { handleGalleryName } 
-              gallery = { gallery }
-              galleryName = { galleryName }
-              resetGallery = { setGallery }
+              galleries = { props.galleries }
+              setGallery = { props.setGallery }
+              gallery = { props.gallery }
             />
             <ImageList
                   sx={{
@@ -53,7 +34,7 @@ export default function ListaImagenes( props ){
                   gap={1}
             >
                 {
-                  imageList.map((item) => (
+                  props.imageList.map((item) => (
                     <ImageListItem key={item.idImage}  >
                         <img
                           src={ apiUrl+item.name+`?w=64&h=64&fit=crop&auto=format` }

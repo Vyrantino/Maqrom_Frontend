@@ -1,71 +1,74 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+
+
+import { Box, Button, ButtonGroup, Container } from '@mui/material';
+import * as React from 'react' ; 
 import CalidadProductos from './calidad/calidad-productos';
 import CalidadServicios from './calidad/calidad-servicios';
 import Certificados from './calidad/certificados';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+export default function Calidad() {
+
+  const [ calidad , setCalidad ] = React.useState( null ) ;
+  const [ index0 , setIndex0 ] = React.useState( 'primary' ) ;   
+  const [ index1 , setIndex1 ] = React.useState( 'primary' ) ;   
+  const [ index2 , setIndex2 ] = React.useState( 'primary' ) ;   
+  const listaCalidad = [
+    <CalidadProductos />,
+    <CalidadServicios />,
+    <Certificados />
+  ] ;
+
+  React.useEffect( () =>{
+    setCalidad( listaCalidad[0] ) ;
+    setIndex0( 'error' );
+  },[] );
+
+  const handleClick0 = () =>{
+    setIndex0( 'error' )  ;
+    setIndex1( 'primary' ) ;
+    setIndex2( 'primary' ) ;
+    setCalidad( listaCalidad[0] );
+  }
+
+  const handleClick1 = () =>{
+    setIndex0( 'primary' ) ;
+    setIndex1( 'error' ) ;
+    setIndex2( 'primary' )  ;
+    setCalidad( listaCalidad[1] );
+  }
+
+  const handleClick2 = () =>{
+    setIndex0( 'primary' ) ;
+    setIndex1( 'primary' ) ;
+    setIndex2( 'error' )  ;
+    setCalidad( listaCalidad[2] );
+  }
+
+
+  return(
+
+        <Box>
+            <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  '& > *': {
+                    m: 1,
+                  },
+                }}              
+            >
+              <ButtonGroup>
+                  <Button variant='contained' color={ index0 } onClick = { handleClick0 } > Calidad de Productos </Button>
+                  <Button variant='contained' color={ index1 } onClick = { handleClick1 } > Calidad de Servicios </Button>
+                  <Button variant='contained' color={ index2 } onClick = { handleClick2 } > Certificados </Button>
+              </ButtonGroup>         
+            </Box>
+            {
+              calidad
+            }                          
         </Box>
-      )}
-    </div>
-  );
-}
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered >
-          <Tab label="Calidad de Productos" {...a11yProps(0)} />
-          <Tab label="Calidad de Servicios" {...a11yProps(1)} />
-          <Tab label="Certificados" {...a11yProps(2)} />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        <CalidadProductos />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <CalidadServicios />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Certificados /> 
-      </TabPanel>
-    </Box>
-  );
+  ) ;
 }

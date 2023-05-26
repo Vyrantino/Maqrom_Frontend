@@ -2,39 +2,84 @@ import * as React from 'react';
 import '@coreui/coreui/dist/css/coreui.min.css' ; 
 import Carousel from '../components/carousel';
 import Papers from '../components/papers';
-import Grid from '@mui/material/Unstable_Grid2';
 import Carta from '../components/card';
-import { deleteCard, getArticles, getCards, newCard } from '../axiosMain';
+import { 
+    createNewPaper, 
+    deleteCard, 
+    deletePaper, 
+    getArticles, 
+    getCards, 
+    getCarouselItems, 
+    getPapers, 
+    newCard 
+} from '../axiosMain';
 import { useSelector } from 'react-redux';
 import NewCardDto from './edit/models/newCardDto';
-import { Button, Container, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { 
+    Box, 
+    Button, 
+    Container
+} from '@mui/material';
+import { Link , useOutletContext } from 'react-router-dom';
+import NewPaperDto from './edit/models/newPaperDto';
+import Sidebar from './edit/sidebar';
 
 
 export default function Homepage (  ){
     const [ cards, setCards ] = React.useState([]); 
-    const [ effect, setEffect ] = React.useState(true); 
+    const [ papers, setPapers ] = React.useState([]); 
     const [ articles, setArticles ] = React.useState([]) ;
-    const [ card, setCard ] = React.useState(); 
-    const [ image, setImage ] = React.useState(); 
-    const url = "Homepage" ;
-    React.useEffect(() => { 
-       getCards(  setCards  , url ) ; 
-       getArticles( setArticles ) ;
-    }, [ effect ]);
+    const [ carouselItems, setCarouselItems ] = React.useState([]) ;
+    const [ sidebar, setSidebar ] = useOutletContext() ;
+    
+    const route = "Homepage" ;
+
+    React.useEffect( () =>{
+        getArticles( setArticles ) ;
+        getCarouselItems( setCarouselItems , route ) ;
+        getCards(  setCards  , route ) ; 
+        getPapers( setPapers, route , '' ) ;
+        setSidebar( false ) ;
+    },[] );
+
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
 
-    const handleNewCard = async (  ) =>{
-        const card = new NewCardDto( url ) ; 
-        newCard( card , url ) ;
-        setEffect( !effect ) ;
+    const handleNewCard =  async (  ) =>{
+        const card = new NewCardDto( route ) ; 
+        await newCard( card , route ) 
+            .then( () =>{
+                getCards( setCards , route ) ;
+            } )
+    }
+
+    const handleNewPaper = async (  ) =>{
+        const paper = new NewPaperDto( route , '' ) ; 
+      await createNewPaper( paper , route , '' ) 
+            .then( () =>{
+                getPapers( setPapers, route , '' ) ;
+            } )
+    }
+
+    const handleDelete = async ( idCard ) =>{
+        deleteCard( idCard  , setCards,  route ) 
+            .then( () =>{
+                getCards( setCards , route ) ;
+            } )
        
     }
-    const handleDelete = async ( idCard ) =>{
-        deleteCard( idCard  , setCards,  url ) ;
-        setEffect( !effect ) ;
+
+    const handleDeletePaper = async ( idPaper ) =>{
+        
+        await deletePaper( idPaper ) 
+            .then( () =>{
+                getPapers( setPapers, route , '' ) ;
+            } )
     }
+
+    const toogle = ( open ) =>  {
+        setSidebar( open );
+    };
 
     const isArticle = ( article ) =>{
         const articleList = articles.map( ( item ) => item.articleName ) ;
@@ -42,42 +87,65 @@ export default function Homepage (  ){
     }
 
     return(
-            <div>
-                        <Carousel route = { url } />
-                        { mode ? <Button variant='contained' LinkComponent={ Link } to = { '/editCarousel' } > Editar </Button> : null }
+          
+                    <Box > 
+                        <Carousel 
+                            route = { route } 
+                            carouselItems = { carouselItems }
+                        />
                         <hr />  
                       
-                        <Container>
-                        { mode ? <Button aria-label='Crear Nueva Carta' onClick={ handleNewCard }> Crear Nueva Carta </ Button> : null }
+                        <Container  className='HomepageCardContainer'>
 
-                                        {
-                                            cards.map( ( item ) =>(
-                                                
-                                                    <Carta 
-                                                        key = { item.idCard }
-                                                        img = { item.img }
-                                                        title = { item.title }
-                                                        content = { item.content }
-                                                        route = { item.route }
-                                                        idCard = { item.idCard }
-                                                        isLocked = { item.isLocked }
-                                                        CardWidth = '100'
-                                                        CardHeight = '300'
-                                                        handleDelete = { handleDelete }
-                                                        article = { item.article }
-                                                        hasArticle = { isArticle( item.article ) }
-                                                    />
-                                            
-                                            ))
-                                        }
-                                
+                              
                         </Container>
                         
-                        <Grid container spacing = { 3 } >
-                            
-                            <Papers  />
+                      
+                            {
+                                cards.map( ( item ) =>(
+                                
+                                     <Carta 
+                                        key = { item.idCard }
+                                        img = { item.img }
+                                        title = { item.title }
+                                        content = { item.content }
+                                        route = { item.route }
+                                        idCard = { item.idCard }
+                                        isLocked = { item.isLocked }
+                                        CardWidth = '100'
+                                        CardHeight = '300'
+                                        handleDelete = { handleDelete }
+                                        article = { item.article }
+                                        hasArticle = { isArticle( item.article ) }
+                                    />
+                            ))}
 
-                        </Grid> 
-            </div>
+                            {
+                                papers.map( ( paper ) => (
+                                    <Papers 
+                                        key = { paper.idPaper }
+                                        img = { paper.img }
+                                        idPaper = {  paper.idPaper }
+                                        title = { paper.title }
+                                        content = { paper.content }
+                                        route = { paper.route }
+                                        handleDelete = { handleDeletePaper }
+                                        article = { paper.article }
+                                        hasArticle = { isArticle( paper.article ) }
+                                    />
+
+                                ))
+                            }
+
+                        { mode && 
+                            <Sidebar 
+                                sidebar = { sidebar } 
+                                toogle = { toogle }
+                                handleNewCard = { handleNewCard }
+                                handleNewPaper = { handleNewPaper }
+                            />  
+                        }
+                    </ Box>
+           
     );
 }

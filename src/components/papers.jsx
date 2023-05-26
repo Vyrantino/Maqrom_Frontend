@@ -1,33 +1,75 @@
 import * as React from 'react';
-import { Box, Paper } from '@mui/material';
+import { Box,  Typography,  ButtonGroup, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadArticle } from './redux/editForm';
 
-
-
-
-
-export default function Papers() {
-
+export default function Papers( props ) {
+  const mode = useSelector( ( state ) => state.adminMode.value ) ;
+  const dispatch = useDispatch() ;
   return (
     <Box
+        className = "BoxPaper"
         sx={{
           height: 150,
-          width: '100%',
-          p: 1,
-          my: 1,
-          bgcolor: (theme) =>
-            theme.palette.mode === 'dark' ? '#101010' : 'grey.100',
-          color: (theme) =>
-            theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800',
-          border: '1px solid',
-          borderColor: (theme) =>
-            theme.palette.mode === 'dark' ? 'grey.800' : 'grey.300',
-          borderRadius: 2,
-          fontSize: '0.875rem',
-          fontWeight: '700',
-          textAlign: 'center',
+          width: '100%'
         }}
     >
-          <Paper sx={ { backgroundColor: 'blue' } } />
+      <Box sx={{ display: 'flex' }} >
+                
+    </Box>
+         <img  src= { props.img } width={ 50 } height={50} />
+         <Typography> { props.title } </Typography>
+         <Typography> { props.content } </Typography>
+        
+         <Link to = { props.link } >  </Link>
+         <Link to = { props.article } >  </Link>
+
+         {
+              mode ?
+              <ButtonGroup>
+                  <Button 
+                      variant = 'contained'
+                      LinkComponent={ Link } 
+                      to = { `editPaper/${props.idPaper}` }  
+                      onClick = { () =>{
+                        
+                      } } 
+                  > 
+                      <Typography color={`#350404`}  > Editar </Typography> 
+                  </Button>
+
+                  <Button 
+                      onClick = {  () => { 
+                         
+                          props.handleDelete( props.idPaper )
+                      } } 
+                      variant="contained"
+                  > 
+                      <Typography color={`#350404`}  > Borrar </Typography> 
+                  </Button>
+              </ButtonGroup>
+              : //else
+              <span />
+          }
+          {
+                props.hasArticle ? 
+                    <Button 
+                    variant = 'text'
+                    LinkComponent={ Link } 
+                    to = "/article/"  
+                    onClick = {  () => { 
+                        dispatch( loadArticle( props.article ) )
+                    } } 
+                    sx={{
+                        color: 'red', // Cambia el color del texto aquí
+                    }}
+                    > 
+                        <Typography color={`primary`}  > Ver Articulo </Typography> 
+                    </Button>
+                    :
+                    <span />
+          }                    
     </Box>
   );
 }

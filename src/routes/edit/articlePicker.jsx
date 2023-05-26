@@ -10,49 +10,37 @@ import {
 } from '@mui/material';
 import * as React from 'react'; 
 import { createArticle, deleteArticle, getArticles, patchArticle } from '../../axiosMain';
-import { useDispatch } from 'react-redux';
 import { loadArticle } from '../../components/redux/editForm';
 
 
 export default function ArticlePicker( props ) {
-    const dispatch = useDispatch() ;
-
-    const [ article , setArticle ] = React.useState('') ;
     const [ articleName , setArticleName ] = React.useState('') ;
-    const [ articles , setArticles ] = React.useState([]) ;
 
-    React.useEffect(() =>{
-        getArticles( setArticles ) ;
 
-    },[ articles ]); 
 
     const handleCreateArticle = async () => {
       
-        createArticle( props.articleName ) ;
-        dispatch( loadArticle( props.articleName ) ) ;
-        getArticles( setArticles ) ;
+        createArticle( articleName ) ;
     }
 
     const handleEditArticle = async () =>{
         
-        patchArticle( props.article, props.articleName ) ;
-        setArticle( props.articleName ) ;
-        setArticleName( props.articleName ) ;
-        dispatch( loadArticle( props.articleName ) ) ;
-        getArticles( setArticles ) ;
+        patchArticle( props.article, articleName ) ;
+        props.setArticle( articleName ) ;
+        setArticleName( articleName ) ;
     }
 
     const handleDeleteArticle = () =>{
        
         deleteArticle( props.article ) ;
         dispatch( loadArticle('') ) ;
-        getArticles( setArticles ) ;
     }
 
     const handleArticleName = ( e ) => setArticleName( e.target.value ) ; 
     const handleChangeArticle = ( e ) => {
         e.preventDefault() ;
-        setArticle( e.target.value ) ;
+        const selectedArticle = e.target.value ;
+        props.setArticle( selectedArticle ) ;
     }
    
     return(
@@ -64,12 +52,12 @@ export default function ArticlePicker( props ) {
                         labelId="demo-simple-select-filled-label"
                         id="demo-simple-select-filled"
                         value={ props.article }
-                        onChange={ props.handleChangeArticle  }
+                        onChange={ handleChangeArticle  }
                         defaultValue=''
                     >   
                        
                         {
-                            articles.map( ( item ) => (
+                            props.articles.map( ( item ) => (
                                 <MenuItem key = { item.idArticle }  value = { item.articleName }  > { item.articleName } </MenuItem> 
                              ) )
                         }
@@ -79,7 +67,7 @@ export default function ArticlePicker( props ) {
                         sx = { { margin: '2%' } }
                         label = 'Nombre del nuevo Articulo'
                         variant='filled'
-                        onChange={ props.handleArticleName }
+                        onChange={ handleArticleName }
                     >
                     </TextField>
 

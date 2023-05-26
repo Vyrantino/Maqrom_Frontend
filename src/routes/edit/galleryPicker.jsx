@@ -1,6 +1,7 @@
 import { 
     Box,
     Button,
+    ButtonGroup,
     Container, 
     FormControl, 
     InputLabel, 
@@ -10,46 +11,36 @@ import {
 } from '@mui/material';
 import * as React from 'react'; 
 import { createGallery, deleteGallery, getGalleries, patchGallery } from '../../axiosMain';
-import { useDispatch } from 'react-redux';
-import { loadArticle } from '../../components/redux/editForm';
+
 
 
 export default function GalleryPicker( props ) {
+    const [ galleryName , setGalleryName ] = React.useState('') ;
 
-    //const [ gallery , setGallery ] = React.useState('') ;
-    //const [ galleryName , setGalleryName ] = React.useState('') ;
-    const [ galleries , setGalleries ] = React.useState([]) ;
 
-    React.useEffect(() =>{
-        getGalleries( setGalleries ) ;
+    const handleCreateGallery = async () => {
 
-    },[ galleries ]); 
-
-    const handleCreateGallery =  () => {
-      
-        createGallery( props.galleryName ) ;
-        getGalleries( setGalleries ) ;
+        await createGallery( galleryName )
+            .then( () => props.setGallery( galleryName ) ) ;  
     }
 
-    const handleEditGallery =  () =>{
-        
-        patchGallery( props.gallery, props.galleryName ) ;
-        props.resetGallery( props.galleryName ) ;
-        getGalleries( setGalleries ) ;
+    const handleEditGallery = async () =>{
+
+        await patchGallery( props.gallery, galleryName )
+            .then( () => props.setGallery( galleryName ) ) ; 
     }
 
-    const handleDeleteGallery =  () =>{
-       
-        deleteGallery( props.gallery ) ;
-        //setGallery( '' ) ;
-        props.resetGallery('') ;
-        getGalleries( setGalleries ) ;
+    const handleDeleteGallery = async () =>{
+    
+        await deleteGallery( props.gallery )
+            .then( () => props.setGallery( '' ) ) ;
     }
 
     const handleGalleryName = ( e ) => setGalleryName( e.target.value ) ; 
     const handleChangeGallery = ( e ) => {
-        e.preventDefault() ;
-        //setGallery( e.target.value ) ;
+        const selectedGallery = e.target.value;
+        props.setGallery( selectedGallery ) ; 
+        
     }
    
     return(
@@ -61,12 +52,12 @@ export default function GalleryPicker( props ) {
                         labelId="demo-simple-select-filled-label"
                         id="demo-simple-select-filled"
                         value={ props.gallery }
-                        onChange={ props.handleChangeGallery  }
+                        onChange={ handleChangeGallery  }
                         defaultValue=''
                     >   
                         <MenuItem key = { 0 } value = { 'Todas las imagenes' } > Todas las imagenes </MenuItem>
                         {
-                            galleries.map( ( item ) => (
+                            props.galleries.map( ( item ) => (
                                 <MenuItem key = { item.idGallery }  value = { item.galleryName }  > { item.galleryName } </MenuItem> 
                              ) )
                         }
@@ -76,14 +67,25 @@ export default function GalleryPicker( props ) {
                         sx = { { margin: '2%' } }
                         label = 'Nombre de la nueva Galeria'
                         variant='filled'
-                        onChange={ props.handleGalleryName }
+                        onChange={ handleGalleryName }
                     >
                     </TextField>
 
-                    <Box>
-                        <Button variant='outlined' onClick={ handleCreateGallery } > Crear Galeria </Button>
-                        <Button variant='outlined' onClick={ handleEditGallery } > Editar </Button>
-                        <Button variant='outlined' onClick={ handleDeleteGallery } > Borrar </Button>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            '& > *': {
+                            m: 1,
+                            },
+                        }}
+                    >
+                            <ButtonGroup color="secondary" aria-label="medium secondary button group">
+                                <Button variant='outlined' onClick={ handleCreateGallery } > Crear Galeria </Button>
+                                <Button variant='outlined' onClick={ handleEditGallery } > Editar </Button>
+                                <Button variant='outlined' onClick={ handleDeleteGallery } > Borrar </Button>
+                            </ButtonGroup>
                     </Box>
                 </FormControl>
            

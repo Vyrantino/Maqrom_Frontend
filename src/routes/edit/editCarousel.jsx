@@ -5,28 +5,22 @@ import {
     Box,
     Button, 
     FormControl, 
-    Icon, 
     IconButton, 
-    Input, 
     InputLabel, 
     MenuItem, 
     Select, 
     TextField, 
-    Typography 
 } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PublishIcon from '@mui/icons-material/Publish';
-import { useEffect } from 'react';
 import { 
     createNewCarouselItem,
     deleteCarouselItem, 
-    deleteImage, 
     getAllCarouselItems, 
     getAllImages, 
     getCarouselItems, 
     getGalleries, 
-    getImageList, 
     uploadPhoto 
 } from '../../axiosMain';
 import { patchCarousel } from '../../axiosMain';
@@ -36,32 +30,35 @@ import Admin from '../../admin' ;
 import Carousel from '../../components/carousel';
 import ListaImagenes from './listaImagenes';
 import NewCarouselItemDto from './models/newCarouselItem';
+import MaqromLogo from "../../assets/MaqromLogoPlantilla.png" ;
 
 export default function EditCarousel(){
-    const [ gallery , setGallery ] = React.useState( '' ) ;
+ /** States */
+        /* Lista Imagenes */
+        const [ imageList , setImageList ] = React.useState( [] ) ;
+        const [ galleries , setGalleries ] = React.useState( [] ) ;
+        const [ gallery , setGallery ] = React.useState( '' ) ;
+        const [ image , setImage ] = React.useState('') ; 
+
     const [ route , setRoute ] = useState('') ;
     const dispatch = useDispatch() ;
     const navigate = useNavigate() ;
     const mode = useSelector( ( state ) => state.adminMode.value ) ; 
     const [ carouselItems , setCarouselItems ] = useState([]) ;
     const [ carouselItem , setCarouselItem ] = useState() ;
-    const loadedCarousel = useSelector( ( state ) => state.editForm.idCarousel ) ;
-    const loadedImage = useSelector( ( state ) => state.editForm.img ) ;
     const [ titulo, setTitulo ] = useState() ; 
     const [ contenido, setContenido ] = useState() ; 
-    const [ image , setImage ] = useState('') ; 
     const [ alt , setAlt ] = useState() ;
     const [ currentImage , setCurrentImage ] = useState() ;
-    const [ imageList, setImageList ] = useState([]) ; 
-    const [ galleries , setGalleries ] = React.useState( [] ) ;
 
     // Handlers
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
     const handleAlt = ( e ) => setAlt( e.target.value ) ;
-    const handleChangeRoute = ( e ) => {
+    
+    const handleChangeRoute =  ( e ) => {
         e.preventDefault() ;
-        setRoute( e.target.value ) ;
+        setRoute( e.target.value ) 
         getAllCarouselItems( setCarouselItems , route ) ;
     } 
 
@@ -118,12 +115,21 @@ export default function EditCarousel(){
         setCarouselItems( result ) ;
     }    
 
-    useEffect(() => {
-        getAllCarouselItems( setCarouselItems , route );
-        getAllImages( setImageList  ) ;
+    React.useEffect(() => {
+        getAllImages( setImageList ) ;
         getGalleries( setGalleries ) ;
+        
     }, []);
    
+    React.useEffect( () =>{
+        getAllCarouselItems( setCarouselItems , route );
+    }, [ route ] )
+
+    React.useEffect( () => {
+        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery  ) ;
+        getGalleries( setGalleries ) ;
+    }, [ gallery ] ) ; 
+
     if( !mode ){
         return <Admin />
     }
@@ -156,8 +162,8 @@ export default function EditCarousel(){
                     route = { route } 
                     updateCarouselItems = { setCarouselItems } 
                     setCarouselItem = { setCarouselItem } 
-                    updatedList = { carouselItems }
                     currentImage = { setCurrentImage }
+                    carouselItems = { carouselItems }
             />
             <Button variant='contained' endIcon = { <AddAPhotoIcon  /> }  onClick = { handleCreateNewCarouselItem } >
                 Agregar una foto predeterminada al carousel
@@ -172,9 +178,18 @@ export default function EditCarousel(){
                 Borrar el elemento seleccionado
             </Button>
             <Box sx = { { display: 'flex' , flexDirection: 'row' } } >   
-                <ListaImagenes imageList = { imageList } setImage = { setImage } height= { 450 } width = { 500 } passGallery = { setGallery }  />
-                <img width={ '500' }  height={ '450' } src={ image } />
-                <img width={ '500' }  height={ '450' } src={ currentImage } />
+                        <ListaImagenes 
+                            setImageList = { setImageList }
+                            setGallery = { setGallery }
+                            setImage = { setImage } 
+                            height= { 450 } 
+                            width = { 500 } 
+                            gallery = { gallery } 
+                            galleries = { galleries }
+                            imageList = { imageList }
+                        />
+                        <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
+                        <img width={ '500' }  height={ '450' } src={ !currentImage ? MaqromLogo : currentImage } />
             </Box>
             
     

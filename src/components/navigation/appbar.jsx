@@ -6,22 +6,28 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
-import fbLogo from "/Users/Vyrant PC/Documents/VsCode Web Pages/MAQROM/maqrom-constructora/src/assets/fbLogo.png" ;
-import MaqromLogo from "/Users/Vyrant PC/Documents/VsCode Web Pages/MAQROM/maqrom-constructora/src/assets/Maqrom.svg" ;
+import fbLogo from "../../assets/fbLogo.png" ;
+import MaqromLogo from "../../assets/Maqrom.svg" ;
 
 import {
     Link,
 } from 'react-router-dom' ; 
+import { useSelector } from 'react-redux';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Typography } from '@mui/material';
 
 
 
+export default function ButtonAppBar( props ) {
+    const mode = useSelector( ( state ) => state.adminMode.value ) ;
 
-export default function ButtonAppBar() {
   return (
 
-    <Box sx={{ flexGrow: 1  }}>
+    <React.Fragment >
+    
     <AppBar position="fixed" sx={{ alignItems: 'center' }} >
       <Toolbar>
+            { mode ? <IconButton  onClick={ () => props.toogle( true ) } >  <MenuIcon sx={{ color: 'white' }} /> </IconButton> : <span />} 
             <IconButton 
                     component = { Link } to = "/" 
             > 
@@ -90,16 +96,6 @@ export default function ButtonAppBar() {
             </IconButton>
       </Toolbar>
     </AppBar>
-  </Box>
-    // <Box  >
-    //   <AppBar position="fixed">
-    //     <Toolbar>
-    
-                            
-                            
-
-    //     </Toolbar>
-    //   </AppBar>
-    // </Box>
+  </ React.Fragment>
   );
 }

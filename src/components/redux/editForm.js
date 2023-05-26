@@ -6,7 +6,8 @@ export const editForm = createSlice(
     initialState: {
         idCard: 0,
         img: '' ,
-        loadedArticle : '' , 
+        loadedArticle : '' ,
+        loadedRoute : '' ,  
 
     },
     reducers: {
@@ -21,12 +22,15 @@ export const editForm = createSlice(
         loadArticle: ( state, action ) =>{
             state.loadedArticle = action.payload ; 
 
+        },
+        loadRoute: ( state , action ) => {
+            state.loadedRoute = action.payload ;
         }
 
     },
 
 }); 
 
-export const { loadIdCard , loadImg , loadArticle } = editForm.actions ;
+export const { loadIdCard , loadImg , loadArticle , loadRoute } = editForm.actions ;
 
 export default editForm.reducer ; 

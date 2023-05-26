@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom' ;
+import { ContactUs } from '../emailjs';
 const mapa = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227.76041372466557!2d-104.66099552310578!3d24.025188861268408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x869bc976da55d5a3%3A0x8e14c234283f4dcc!2sMAQROM%20CONSTRUCCIONES!5e0!3m2!1ses!2smx!4v1681291692239!5m2!1ses!2smx" 
 
 
@@ -19,29 +20,7 @@ export default function Footer() {
             noValidate
             autoComplete="off"
         >
-               <div className = "TextFieldFooter" >
-                    <TextField id="filled-basic" label="Nombre" variant="filled" />
-                    <TextField id="filled-basic" label="Correo" variant="filled" />
-                    <TextField id="filled-basic" label="Asunto" variant="filled" />
-               </div>
-               <div className = "MultilineTextField" >
-                    <TextField
-                           
-                            id="filled-multiline-static"
-                            label="Escriba su mensaje"
-                            multiline
-                            rows={7}
-                            
-                            variant="filled"
-                     />
-                    <Button
-                       type='submit'
-                    > 
-                      Enviar
-
-                    </Button>
-                    
-               </div>
+               <ContactUs />
                
                <iframe 
                     className = "Mapa"
@@ -49,7 +28,7 @@ export default function Footer() {
                     width="600" 
                     height="450" 
                     
-                    allowFullscreen="" 
+                    allowFullScreen="" 
                     loading="lazy" 
                     referrerPolicy="no-referrer-when-downgrade"
                 > 

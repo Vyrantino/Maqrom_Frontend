@@ -9,7 +9,7 @@ import Contacto from './routes/contacto';
 import './index.css' ; 
 import { 
   createBrowserRouter,
-  RouterProvider , 
+  RouterProvider 
  } from "react-router-dom" ;
 import Homepage from './routes/homepage';
 import  ListaServicios from './routes/servicios/lista-servicios';
@@ -25,8 +25,9 @@ import store from './components/redux/store';
 import { Provider as ProviderRedux } from 'react-redux';
 import EditCard from './routes/edit/editCard';
 import EditCarousel from './routes/edit/editCarousel';
-import ArticlePicker from "./routes/edit/articlePicker";
 import Article from './routes/article';
+import EditPaper from './routes/edit/editPaper';
+import Sidebar from './routes/edit/sidebar';
 
 
 
@@ -35,13 +36,15 @@ const theme = createTheme(
     palette: {
       mode: 'light',
       primary: {
-        main: '#ffa726',
+        main: '#E66825',
+        
       },
       secondary: {
-        main: '#000000',
+        main: '#F57A2E',
+        
       },
       background: {
-        default: '#9e9e9e',
+        default: '#E89005',
         paper: '#ffffff',
       },
       error: {
@@ -82,7 +85,7 @@ const theme = createTheme(
       
         {
           path : "contacto/" , 
-          element :  <Contacto />//<Article />//<EditCard /> //<Contacto />,
+          element : <Contacto />,
           
         } ,   
         {
@@ -135,11 +138,16 @@ const theme = createTheme(
           path: "/article/",
           element: <Article />
         },
+        {
+          path: "/editPaper/:idPaper",
+          element: <EditPaper />
+        },
       ]
 
     } , 
 
  ]);
+
 
 
 

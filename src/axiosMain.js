@@ -16,13 +16,24 @@ const apiURL = "http://localhost:3000/" ;
     return result;
   };
 
+  export const register = async ( email, username , password ) => {
+    await axios.post( apiURL+'auth/register', 
+    {
+      email: email, 
+      username: username, 
+      password: password
+
+    } ) 
+      .then( ( register ) => console.log( register ) ) 
+  }
 
 /* Cards */
   export const getCards = async (  setCards , route   ) =>{
     await axios.get( apiURL+"cards/route/"+route  ) 
          .then( ( response ) => {
-             const allCards = response.data ; 
-             setCards( allCards ) ;
+           const allCards = response.data ; 
+           setCards( allCards ) ;
+             
          } )
          .catch( error => console.error( "Error: "+error+" " ) ) ;
   }
@@ -147,8 +158,7 @@ export const patchCarousel = async ( idCarouselItem , titulo, contenido , img ) 
 export const getAllCarouselItems = async (  setCarouselItems  , route ) =>{
   await axios.get( apiURL+"carouselItems/route/"+route ) 
        .then( ( response ) => {
-           const allItems = response.data ; 
-           setCarouselItems( allItems ) ;
+           setCarouselItems( response.data ) ;
        } )
        .catch( error => console.error( "Error: "+error+" " ) ) ;
       
@@ -176,15 +186,11 @@ export const deleteCarouselItem = async ( idCarouselItem  ) =>{
   }
 }
 
-export const getCarouselItems = async ( route ) =>{
+export const getCarouselItems = async ( setCarouselItems , route ) =>{
   const getUrl = apiURL+'carouselItems/route/'+route ;
-  try{
-    const result = await axios.get( getUrl ) ;
-    return result.data ; 
-  }
-  catch{
-    console.error( error ) ; 
-  }
+    await axios.get( getUrl )
+      .then( ( response ) => setCarouselItems( response.data ) ) ;
+ 
 }
 
 
@@ -268,6 +274,7 @@ export const getArticleCarouselItems = async ( setArticleCarouselItems , article
     .then( ( response ) =>{
         const allArticleCarouselItems = response.data ;
         setArticleCarouselItems( allArticleCarouselItems ) ;
+        
     } ) ; 
 }
 
@@ -313,20 +320,20 @@ export const patchGallery = async ( gallery, galleryName ) => {
 
 export const deleteGallery = async ( galleryName  ) =>{
   const encodedGalleryName = encodeURIComponent( galleryName );
-  if( confirm("Esta seguro que quiere borrar el Articulo?") ){
+  if( confirm("Esta seguro que quiere borrar la galería?") ){
   
-    if( confirm("Esta REALMENTE SEGURO que quiere borrar el Articulo?") ){
+    if( confirm("Esta REALMENTE SEGURO que quiere borrar el galería?") ){
   
       await axios.delete( apiURL+"galleries/"+encodedGalleryName ); 
   
     }
     else{
-      console.log( "no se borro el componente" ) ;
+      console.log( "no se borro la galería" ) ;
     }
 
   }
   else{
-    console.log( "no se borro el componente" ) ;
+      console.log( "no se borro la galería" ) ;
   }
 }
 
@@ -338,3 +345,65 @@ export const createGallery = async ( galleryName ) =>{
     .then( ( response ) => console.log( response.status ) )
 }
 
+/* Papers */
+
+export const createNewPaper = async ( paper , route , article ) =>{
+
+  const Article = article ? article : 'pagina' ; 
+  const Route = route ? route : 'articulo' ;
+
+  await axios.post( apiURL+"papers" , {
+    title: paper.title,
+    content: paper.content,
+    img: paper.img,
+    article: Article,
+    link: paper.link,
+    route: Route,
+  })
+    .then( ( response ) => console.log( response.status ) ) ; 
+}
+
+export const getPapers = async ( setPapers , route , article ) =>{
+  const encodedParam = article === '' ? encodeURI( route ) : encodeURI( article )   ;
+  const urlExtension = article === '' ? `route/${encodedParam}` : `article/${encodedParam}`   ; 
+  const getUrl = apiURL+'papers/'+urlExtension ;
+  await axios.get( getUrl )
+    .then( ( response ) =>{
+        const papers = response.data ;
+        setPapers( papers ) ;
+    } ) ; 
+}
+
+
+export const getPaper = async( setPaper , idPaper ) =>{
+  const getUrl = apiURL+`papers/${idPaper}` ; 
+  await axios.get( getUrl )
+    .then( ( response ) => setPaper( response.data )  );
+
+}
+
+export const patchPaper = async ( paper ) => {
+
+  const patchUrl = `${apiURL}papers/patch/${paper.idPaper}`
+  const givenArticle = paper.article ? paper.article : 'pagina' ;  
+  await axios.patch( patchUrl , 
+    { 
+       title: paper.title ,
+       content: paper.content, 
+       img: paper.img , 
+       article: givenArticle , 
+       link: paper.link , 
+       route: paper.route
+    })
+};
+
+export const deletePaper = async ( idPaper ) =>{
+  if( confirm("Esta seguro que quiere borrar esto?") ){
+  
+   await axios.delete( apiURL+"papers/id/"+idPaper )
+     
+  }
+  else{
+    console.log( "no se borro el componente" ) ;
+  }
+}

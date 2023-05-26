@@ -1,71 +1,75 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import ListaPlanos from './servicios/lista-planos';
-import ListaProyectos from './servicios/lista-proyectos';
+
+
+import { Box, Button, ButtonGroup, Container } from '@mui/material';
+import * as React from 'react' ; 
 import ListaServicios from './servicios/lista-servicios';
+import ListaProyectos from './servicios/lista-proyectos';
+import ListaPlanos from './servicios/lista-planos';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
 
 export default function Servicios() {
-  const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [ servicios , setServicios ] = React.useState( null ) ;
+  const [ index0 , setIndex0 ] = React.useState( 'primary' ) ;   
+  const [ index1 , setIndex1 ] = React.useState( 'primary' ) ;   
+  const [ index2 , setIndex2 ] = React.useState( 'primary' ) ;   
+  const listaServicios = [
+    <ListaServicios />,
+    <ListaProyectos />,
+    <ListaPlanos />
+  ] ;
 
-  return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider'  }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered >
-          <Tab label="Servicios" {...a11yProps(0)} />
-          <Tab label="Proyectos" {...a11yProps(1)} />
-          <Tab label="Planos" {...a11yProps(2)} />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        <ListaServicios /> 
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <ListaProyectos />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <ListaPlanos />
-      </TabPanel>     
-    </Box>
-  );
+  React.useEffect( () =>{
+    setServicios( listaServicios[0] ) ;
+    setIndex0( 'error' );
+  },[] );
+
+  const handleClick0 = () =>{
+    setIndex0( 'error' )  ;
+    setIndex1( 'primary' ) ;
+    setIndex2( 'primary' ) ;
+    setServicios( listaServicios[0] );
+  }
+
+  const handleClick1 = () =>{
+    setIndex0( 'primary' ) ;
+    setIndex1( 'error' ) ;
+    setIndex2( 'primary' )  ;
+    setServicios( listaServicios[1] );
+  }
+
+  const handleClick2 = () =>{
+    setIndex0( 'primary' ) ;
+    setIndex1( 'primary' ) ;
+    setIndex2( 'error' )  ;
+    setServicios( listaServicios[2] );
+  }
+
+
+  return(
+
+        <Box>
+            <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  '& > *': {
+                    m: 1,
+                  },
+                }}              
+            >
+              <ButtonGroup>
+                  <Button variant='contained' color={ index0 } onClick = { handleClick0 } > Servicios </Button>
+                  <Button variant='contained' color={ index1 } onClick = { handleClick1 } > Proyectos </Button>
+                  <Button variant='contained' color={ index2 } onClick = { handleClick2 } > Planos </Button>
+              </ButtonGroup>                 
+            </Box>
+            {
+              servicios
+            }                          
+        </Box>
+
+  ) ;
 }

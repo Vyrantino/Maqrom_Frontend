@@ -30,29 +30,40 @@ import { loadArticle, loadImg } from "../components/redux/editForm";
 import NewArticleCardDto from "./edit/models/newArticleCardDto";
 import Carta from "../components/card";
 import ArticlePicker from "./edit/articlePicker";
+import MaqromLogo from "../assets/MaqromLogoPlantilla.png" ;
+
 
 
 export default function Article(  ){
+    /*  */
+
+
     /* Redux */
-    const mode = useSelector( ( state ) => state.adminMode.value ) ; 
-    const article = useSelector( ( state ) => state.editForm.loadedArticle ) ;
-    const dispatch = useDispatch( ) ;
+        const mode = useSelector( ( state ) => state.adminMode.value ) ; 
+        const dispatch = useDispatch( ) ;
     /** States */
-    const [ articleCarouselItems, setArticleCarouselItems ] = React.useState([]) ;
-    const [ articleCarouselItem, setArticleCarouselItem ] = React.useState() ;
-    const [ articleCards , setArticleCards ] = React.useState([]) ;
-    const [ articlePapers, setArticlePapers ] = React.useState([]) ;
-    const [ articleName , setArticleName ] = React.useState('');
-    const [ imageList , setImageList ] = React.useState( [] ) ;
-    const [ currentImage , setCurrentImage ] = React.useState() ;
-    const [ alt, setAlt ] = React.useState() ;
-    const [ titulo, setTitulo ] = React.useState() ; 
-    const [ contenido, setContenido ] = React.useState() ; 
-    const [ image , setImage ] = React.useState('') ; 
-    const [ effect , setEffect ] = React.useState(true) ; 
-    const [ articles , setArticles ] = React.useState( [] ) ;
-    const [ galleries , setGalleries ] = React.useState( [] ) ;
-    const [ gallery , setGallery ] = React.useState( '' ) ;
+        /* Lista Imagenes */
+        const [ imageList , setImageList ] = React.useState( [] ) ;
+        const [ galleries , setGalleries ] = React.useState( [] ) ;
+        const [ gallery , setGallery ] = React.useState( '' ) ;
+        const [ image , setImage ] = React.useState('') ; 
+        
+        /* Articulos */
+        const [ articleName , setArticleName ] = React.useState('');
+        const [ articleCards , setArticleCards ] = React.useState([]) ;
+        const [ articlePapers, setArticlePapers ] = React.useState([]) ;
+        const [ articles , setArticles ] = React.useState( [] ) ;
+        const [ article , setArticle ] = React.useState( '' ) ;
+        
+        /* CarouselItems */
+        const [ articleCarouselItems, setArticleCarouselItems ] = React.useState([]) ;
+        const [ articleCarouselItem, setArticleCarouselItem ] = React.useState() ;
+        
+        const [ currentImage , setCurrentImage ] = React.useState('') ;
+       
+        const [ alt, setAlt ] = React.useState() ;
+        const [ titulo, setTitulo ] = React.useState() ; 
+        const [ contenido, setContenido ] = React.useState() ; 
     /* Constantes */
     
     const navigate = useNavigate() ;
@@ -60,14 +71,6 @@ export default function Article(  ){
     // Handlers
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
-    const handleAlt = ( e ) => setAlt( e.target.value );
-    const handleArticleName = ( e ) => setArticleName( e.target.value ) ;
-    const handleChangeArticle = ( e ) => {
-        e.preventDefault() ;
-        dispatch( loadArticle( e.target.value ) ) ;
-        getArticleCarouselItems( setArticleCarouselItems , article ) ;
-        setEffect( !effect ) ;
-    } 
 
     const handleImagen = async ( e ) => {  
         const file  = e.target.files[0] ;
@@ -83,7 +86,8 @@ export default function Article(  ){
         uploadPhoto( fileTemp , alt , gallery ) ;
         dispatch( ( loadImg( imageUrl ) ) ) ;
         setImage( imageUrl ) ;
-        getAllImages( setImageList );
+        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery );
+
     }; 
 
     const handleCreateNewCarouselItem =  ( e ) =>{
@@ -96,7 +100,7 @@ export default function Article(  ){
             const newCarouselItem = new NewArticleCardDto( article ) ;
             createNewArticleCarouselItem( newCarouselItem , article ) ;
             getArticleCarouselItems( setArticleCarouselItems , article ) ;
-            setEffect( !effect ) ;
+            
        }
     }
 
@@ -104,7 +108,7 @@ export default function Article(  ){
     const handleNewArticleCard =  (  ) =>{
         const card = new NewArticleCardDto( article ) ; 
         newArticleCard( card , article ) ;
-        setEffect( !effect ) ;
+       
     }
 
     const handleDeleteCarouselItem =  ( e ) =>{
@@ -129,29 +133,40 @@ export default function Article(  ){
 
     const handleDelete =  ( idCard ) =>{
         deleteCard( idCard  , setArticleCards,  article ) ;
-        setEffect( !effect ) ;
+        
     }
 
 
 
     React.useEffect(() => {
-        getArticleCarouselItems( setArticleCarouselItems , article );
-        getAllImages( setImageList  ) ;
         getArticles( setArticles ) ;
+    }, []);
+
+    React.useEffect(() => {
+            getArticleCarouselItems( setArticleCarouselItems , article ) 
+    }, [ articleCarouselItems , article ]);
+    
+    React.useEffect(() => {
         getArticleCards( setArticleCards , article ) ;
+    }, [ articleCards , article ]);
+
+    React.useEffect(() => {
+        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery );
+    }, [ imageList , gallery ]);
+
+    React.useEffect( () => {
+        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery  ) ;
         getGalleries( setGalleries ) ;
-    }, [ effect , article ]);
+    }, [ gallery ] ) ; 
    
     return(
         <Box className= 'editCardForm' >
             {
                 mode ?
                     <ArticlePicker 
+                        setArticle = { setArticle }
+                        articles = { articles }
                         article = { article }
-                        handleChangeArticle = { handleChangeArticle } 
-                        handleArticleName = { handleArticleName }
-                        articleName = { articleName }
-                        resetArticle = { setArticleName }
                     />
                 :
                 <span />
@@ -162,8 +177,8 @@ export default function Article(  ){
                     article = { article } 
                     updateCarouselItems = { setArticleCarouselItems } 
                     setCarouselItem = { setArticleCarouselItem } 
-                    updatedList = { articleCarouselItems }
                     currentImage = { setCurrentImage }
+                    carouselItems = { articleCarouselItems }
             />
 
             {
@@ -186,9 +201,20 @@ export default function Article(  ){
                          
                     </Box>
                     <Box sx = { { display: 'flex' , flexDirection: 'row' } } >  {/* Box de galerias */ }
-                        <ListaImagenes imageList = { imageList } setImage = { setImage } height= { 450 } width = { 500 } passGallery = { setGallery } />
-                        <img width={ '500' }  height={ '450' } src={ image } />
-                        <img width={ '500' }  height={ '450' } src={ currentImage } />
+
+                        <ListaImagenes 
+                            setImageList = { setImageList }
+                            setGallery = { setGallery }
+                            setImage = { setImage } 
+                            height= { 450 } 
+                            width = { 500 } 
+                            gallery = { gallery } 
+                            galleries = { galleries }
+                            imageList = { imageList }
+                        />
+                        <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
+                        <img width={ '500' }  height={ '450' } src={ !currentImage ? MaqromLogo : currentImage } />
+
                     </Box> {/* Box de galerias */ }
                     <Box component='form' className= 'editCardForm' onSubmit={ handleSubmit } >   {/* Box de Formulario */ }
                         <TextField 

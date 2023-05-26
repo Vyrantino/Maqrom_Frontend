@@ -8,24 +8,22 @@ import {
     CCarouselCaption,
 } from '@coreui/react' ; 
 import '@coreui/coreui/dist/css/coreui.min.css' ; 
-import { getAllCarouselItems, getArticleCarouselItems } from '../axiosMain';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadImg } from './redux/editForm';
+import { useSelector } from 'react-redux';
+import { Typography } from '@mui/material';
+
 
 
 
 export default function Carousel( props ){
     
     const [ clicked, setClicked ] = React.useState( false ) ;
-    const dispatch = useDispatch() ;
+
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
-    const [ carouselItems, setCarouselItems ] = React.useState([]) ;
     const route = props.route ;
     const article = props.article ; 
     React.useEffect( () => {
-         route ? getAllCarouselItems(  setCarouselItems  ,  route ) : getArticleCarouselItems( setCarouselItems, article ) ;
          setClicked( false ) ;
-     }, [ route, props.updatedList , article ]);
+     }, [ route, props.carouselItems , article ]);
 
      const handleSlid = () =>{
         
@@ -34,10 +32,7 @@ export default function Carousel( props ){
      }
 
      const handleClick = ( item  ) =>{
-        const imageName = item.img ;
-        dispatch( loadImg( imageName ) ) ;
         props.setCarouselItem( item.idCarouselItem ) ;
-        console.log( item.img , item.idCarouselItem ) ;
         props.currentImage ( item.img ) ;
         setClicked( true ) ;
      }
@@ -47,10 +42,10 @@ export default function Carousel( props ){
             controls 
             indicators 
             interval = { mode ? false : 3000 }  
-            onSlid={ mode ? handleSlid : false }
+            onSlid={ mode && handleSlid  }
         >
-            { carouselItems.map( ( item ) => (
-                
+            { 
+                props.carouselItems.map( ( item ) => (
                 <CCarouselItem key = { item.idCarouselItem }>
                     { 
                         mode  ?
@@ -64,9 +59,9 @@ export default function Carousel( props ){
                         :
                             <CImage  height={ 800 }  className="d-block w-100" src={  item.img  } alt="slide 1" />
                     }
-                    <CCarouselCaption className="d-none d-md-block">
+                    <CCarouselCaption  component={'span'} className="d-none d-md-block">
                         <h5>   {  item.title } </h5>
-                        <span> {  item.content } </span>
+                        <h6> {  item.content } </h6>
                     </CCarouselCaption>
                     
                 </CCarouselItem>

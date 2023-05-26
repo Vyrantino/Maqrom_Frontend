@@ -4,6 +4,13 @@
 .root{
   display: flex;
   flex-direction: column;
+}
+
+.MaqromHeader{
+  background-color: #E66825 ;
+  color: azure;
+  text-align: center;
+  margin-top: 45px;
   
 }
 
@@ -40,6 +47,7 @@ a.MuiButtonBase-root{
   margin: 10;
   
 }
+
 
 
 
@@ -192,4 +200,16 @@ div.MultilineTextField{
 .MuiBox-root.css-1raypxk{
   background-color: #c46565e0;
 
+}
+
+/*  */
+
+.BoxPaper{
+  height: 150;
+  width: '100%';
+  padding: 1;
+  margin-top: 1;
+  margin-bottom: 1;
+  background-color: #f7ca86;
+  border-radius: 2;
 }
