@@ -1,21 +1,15 @@
 import * as React from 'react' ;
-import { getAllImages, getGalleries } from '../../axiosMain';
-import { Container, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { Container, ImageList, ImageListItem, ImageListItemBar, Pagination, Stack } from '@mui/material';
 import GalleryPicker from './galleryPicker';
 
-function srcset(image, width, height, rows = 1, cols = 1) {
-    return {
-      src: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format`,
-      srcSet: `${image}?w=${width * cols}&h=${
-        height * rows
-      }&fit=crop&auto=format&dpr=2 2x`,
-    };
-  }
-
 export default function ListaImagenes( props ){
-    
+    const [ page, setPage ] = React.useState(1) ;
     const apiUrl = 'http://localhost:3000/images/' ;
 
+    const handlePage = ( event , newPage ) =>{
+      props.handlePage( event, newPage ) ;
+      setPage( newPage ) ;
+    }
 
     return (
         <Container>
@@ -60,6 +54,14 @@ export default function ListaImagenes( props ){
                   ))
                 }
               </ImageList>
+              <Stack spacing={2}>
+                    <Pagination 
+                        count={ props.pageCount } 
+                        color="primary" 
+                        page={ page }
+                        onChange = { handlePage }
+                    />
+              </Stack>   
 
         </Container>
     );

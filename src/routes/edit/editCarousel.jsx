@@ -4,6 +4,8 @@ import { useState } from 'react';
 import {  
     Box,
     Button, 
+    ButtonGroup, 
+    Container, 
     FormControl, 
     IconButton, 
     InputLabel, 
@@ -17,49 +19,58 @@ import PublishIcon from '@mui/icons-material/Publish';
 import { 
     createNewCarouselItem,
     deleteCarouselItem, 
-    getAllCarouselItems, 
-    getAllImages, 
+    deleteImage, 
     getCarouselItems, 
     getGalleries, 
+    getPaginatedImages, 
     uploadPhoto 
 } from '../../axiosMain';
 import { patchCarousel } from '../../axiosMain';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useOutletContext } from 'react-router-dom';
 import { loadImg } from '../../components/redux/editForm';
 import Admin from '../../admin' ; 
 import Carousel from '../../components/carousel';
 import ListaImagenes from './listaImagenes';
 import NewCarouselItemDto from './models/newCarouselItem';
 import MaqromLogo from "../../assets/MaqromLogoPlantilla.png" ;
+import Sidebar from './sidebar';
 
 export default function EditCarousel(){
+    const dispatch = useDispatch() ;
+    const navigate = useNavigate() ;
+    const mode = useSelector( ( state ) => state.adminMode.value ) ; 
  /** States */
         /* Lista Imagenes */
         const [ imageList , setImageList ] = React.useState( [] ) ;
         const [ galleries , setGalleries ] = React.useState( [] ) ;
         const [ gallery , setGallery ] = React.useState( '' ) ;
         const [ image , setImage ] = React.useState('') ; 
-
-    const [ route , setRoute ] = useState('') ;
-    const dispatch = useDispatch() ;
-    const navigate = useNavigate() ;
-    const mode = useSelector( ( state ) => state.adminMode.value ) ; 
-    const [ carouselItems , setCarouselItems ] = useState([]) ;
-    const [ carouselItem , setCarouselItem ] = useState() ;
-    const [ titulo, setTitulo ] = useState() ; 
-    const [ contenido, setContenido ] = useState() ; 
-    const [ alt , setAlt ] = useState() ;
-    const [ currentImage , setCurrentImage ] = useState() ;
-
+        const [ page , setPage ] = React.useState(1) ;
+        const [ pageCount , setPageCount ] = React.useState(1) ; 
+        /* Carousel */
+        const [ route , setRoute ] = useState('') ;
+        const [ carouselItems , setCarouselItems ] = useState([]) ;
+        const [ carouselItem , setCarouselItem ] = useState() ;
+        const [ titulo, setTitulo ] = useState() ; 
+        const [ contenido, setContenido ] = useState() ; 
+        const [ alt , setAlt ] = useState() ;
+        const [ currentImage , setCurrentImage ] = useState() ;
+        /* Sidebar */
+        const [ sidebar, setSidebar ] = useOutletContext() ;
     // Handlers
+    const handlePage = ( event , newPage ) =>{
+        setPage( newPage ) ;
+        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
+    }
+
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
     const handleAlt = ( e ) => setAlt( e.target.value ) ;
     
     const handleChangeRoute =  ( e ) => {
         e.preventDefault() ;
-        setRoute( e.target.value ) 
-        getAllCarouselItems( setCarouselItems , route ) ;
+        setRoute( e.target.value ) ;
+        getCarouselItems( setCarouselItems , route ) ;
     } 
 
     const handleImagen = async ( e ) => {  
@@ -76,7 +87,7 @@ export default function EditCarousel(){
         uploadPhoto( fileTemp , alt , gallery ) ;
         dispatch( ( loadImg( imageUrl ) ) ) ;
         setImage( imageUrl ) ;
-        getAllImages( setImageList );
+        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
     }; 
 
     const handleCreateNewCarouselItem = async ( e ) =>{
@@ -88,16 +99,17 @@ export default function EditCarousel(){
        else{
             const newCarouselItem = new NewCarouselItemDto( route ) ;
             await createNewCarouselItem( newCarouselItem , route ) ;
-            const result = getCarouselItems( route ) ;
-            setCarouselItems( result ) ;
+            const result = await getCarouselItems( route ) 
+                .then( setCarouselItems( result ) );
+
        }
     }
 
     const handleDeleteCarouselItem = async ( e ) =>{
         e.preventDefault() ;
         deleteCarouselItem( carouselItem ) ;
-        const result = getCarouselItems( route ) ;
-        setCarouselItems( result ) ;
+        getCarouselItems( setCarouselItems, route ) ;
+                
     }
     
     const handleSubmit = async ( e ) =>{
@@ -115,18 +127,45 @@ export default function EditCarousel(){
         setCarouselItems( result ) ;
     }    
 
-    React.useEffect(() => {
-        getAllImages( setImageList ) ;
-        getGalleries( setGalleries ) ;
+    const handleDeleteImage = async ( e ) =>{
+        e.preventDefault() ;
+        const partirImage = image.split('/');
+        const nombreImage = partirImage[partirImage.length - 1];
+        await deleteImage( nombreImage  ) ;
+        setAlt( '' ) ;
+        setImage('');
+        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
+        //getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery ) ;
         
-    }, []);
+    }
+
+    /* Para abrir la sidebar */
+    const toogle = ( open ) =>  {
+        setSidebar( open );
+    };
+
+
+    /* Effects */
+    React.useEffect(() => {
+       
+        getGalleries( setGalleries ) ;
+        setSidebar( false ) ;
+    }, [  ]);
+    
+    React.useEffect(() => {
+        getPaginatedImages( 
+            setImageList , 
+            gallery === 'Todas las imagenes' ? '' : gallery, 
+            page , 
+            setPageCount 
+        ) ;  
+    }, [ page , gallery ]);
    
     React.useEffect( () =>{
-        getAllCarouselItems( setCarouselItems , route );
+        getCarouselItems( setCarouselItems , route );
     }, [ route ] )
 
     React.useEffect( () => {
-        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery  ) ;
         getGalleries( setGalleries ) ;
     }, [ gallery ] ) ; 
 
@@ -135,8 +174,12 @@ export default function EditCarousel(){
     }
     else
     return(
-        <Box className= 'editCardForm' >
-            <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+        <Container className= 'editCardForm' >
+             <Sidebar 
+                sidebar = { sidebar } 
+                toogle = { toogle }
+            />  
+            <FormControl variant="filled" sx={{ m: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-filled-label">Elija el Carrusel</InputLabel>
                 <Select
                     labelId="demo-simple-select-filled-label"
@@ -165,18 +208,35 @@ export default function EditCarousel(){
                     currentImage = { setCurrentImage }
                     carouselItems = { carouselItems }
             />
-            <Button variant='contained' endIcon = { <AddAPhotoIcon  /> }  onClick = { handleCreateNewCarouselItem } >
-                Agregar una foto predeterminada al carousel
-            </Button>
+            <ButtonGroup  >
+                <Button variant='contained' endIcon = { <AddAPhotoIcon  /> }  onClick = { handleCreateNewCarouselItem } >
+                    Agregar una foto predeterminada al carousel
+                </Button>
 
-            <Button 
-                        aria-label="Example" 
-                        variant='outlined'
-                        onClick={ handleDeleteCarouselItem }
-                        endIcon = { <DeleteIcon /> }
-            >
-                Borrar el elemento seleccionado
-            </Button>
+                <Button 
+                            color='error'
+                            variant='contained'
+                            onClick={ handleDeleteCarouselItem }
+                            endIcon = { <DeleteIcon /> }
+                >
+                    Borrar el elemento seleccionado
+                </Button>
+
+                <Button 
+                    variant = 'contained'
+                    color='success'
+                    onClick = { handleSubmit }
+                    endIcon = { <PublishIcon /> }
+                >
+                    Aplicar Cambios   
+                </Button>
+
+                <Button variant= 'contained' color="primary" aria-label="upload picture" component="label" endIcon={ <AddAPhotoIcon /> } >
+                     <input hidden accept="image/*" type="file" onChange= { handleImagen }  />
+                     
+                     Subir una Imagen
+                </Button>
+            </ButtonGroup>
             <Box sx = { { display: 'flex' , flexDirection: 'row' } } >   
                         <ListaImagenes 
                             setImageList = { setImageList }
@@ -187,11 +247,29 @@ export default function EditCarousel(){
                             gallery = { gallery } 
                             galleries = { galleries }
                             imageList = { imageList }
+                            pageCount = { pageCount }
+                            page = { page }
+                            handlePage = { handlePage }
                         />
-                        <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
-                        <img width={ '500' }  height={ '450' } src={ !currentImage ? MaqromLogo : currentImage } />
-            </Box>
-            
+                         <Box sx={{ display: 'flex' , flexDirection: 'column' }} >
+                                <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
+                       
+                          
+                                <Button 
+                                    variant='contained'
+                                    
+                                    sx={ { 
+                                        width: '100%' , 
+                                        alignSelf: 'center'  
+                                    } } 
+                                    onClick={ handleDeleteImage }
+                                >
+                                    Borrar Esta Imagen  
+                                    <DeleteIcon />
+                                </Button>         
+                        </Box>
+                        
+            </Box>         
     
 
             <Box component='form' className= 'editCardForm' onSubmit={ handleSubmit } >  
@@ -217,20 +295,7 @@ export default function EditCarousel(){
                    
                 </Box>
 
-               <IconButton color="primary" aria-label="upload picture" component="label">
-                     <input hidden accept="image/*" type="file" onChange= { handleImagen }  />
-                     <AddAPhotoIcon />
-                </IconButton>
-                <IconButton 
-                    aria-label="Example" 
-                    sx={ { 
-                        width: '20%' , 
-                        alignSelf: 'center'  
-                        } } 
-                    onClick = { handleSubmit }
-                >
-                    <PublishIcon />   
-                </IconButton>
+              
 
                 <TextField 
                     className='editCardFormTextField' 
@@ -239,7 +304,7 @@ export default function EditCarousel(){
                     onChange={ handleAlt }
                 />  
             </Box>
-        </Box>    
+        </Container>    
             
 
     );

@@ -1,4 +1,11 @@
 
+html, body{
+  background-color: #F3F3F3;
+  padding:0;
+  display: 100%;
+  min-height: 100%;
+  overflow: auto;
+}
 /* Root */
 
 .root{
@@ -7,7 +14,7 @@
 }
 
 .MaqromHeader{
-  background-color: #E66825 ;
+  background-color: #f57a2E ;
   color: azure;
   text-align: center;
   margin-top: 45px;
@@ -89,7 +96,7 @@ a.MuiButtonBase-root{
 .PaginaContacto{
   text-align: center;
   align-items: center;
-  background-color: #ffa726;
+  background-color: #f57a2E;
 }  
 
 
@@ -121,7 +128,7 @@ a.MuiButtonBase-root{
 form.BoxFooter.MuiBox-root{
   display: flex ;
   flex-direction: row;
-  background-color: #ffa826e0
+  background-color: #f57a2E
   
 }
 
@@ -147,10 +154,6 @@ div.MultilineTextField{
 
 }
 
-.Videos{
-  background-color: blue;
-  width: 100%;
-}
 
 .FormLogin{
   display: flex;
@@ -183,19 +186,8 @@ div.MultilineTextField{
 }
 
 /* CreateArticle */
-.CreateArticleBox{
- 
-  background-color: rgb(196, 252, 252);
-  display: 'flex';
-  flex-direction: 'column';
-  
-}
 
-.ArticleButton{
-  text-shadow: #ffa826e0;
-  color: #0af593;
 
-}
 
 .MuiBox-root.css-1raypxk{
   background-color: #c46565e0;
@@ -210,6 +202,10 @@ div.MultilineTextField{
   padding: 1;
   margin-top: 1;
   margin-bottom: 1;
-  background-color: #f7ca86;
+  background-color: #ffa826e0;
   border-radius: 2;
 }
+
+/* Lista de Imagenes y Galerias */
+
+

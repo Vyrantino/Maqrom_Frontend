@@ -40,18 +40,19 @@ const theme = createTheme(
         
       },
       secondary: {
-        main: '#F57A2E',
+        main: '#F3F3F3',
         
       },
       background: {
-        default: '#E89005',
-        paper: '#ffffff',
+        default: '#F57A2E',
+        paper: '#F3F3F3',
       },
       error: {
-        main: '#afb42b',
+        main: '#1F0318',
       },
       info: {
-        main: '#fbc02d',
+        main: '#F3F3F3',
+        
       },
     },
   }

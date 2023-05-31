@@ -9,7 +9,9 @@ import {
     Select, 
     TextField, 
     Typography,
-    IconButton 
+    IconButton, 
+    Stack,
+    Pagination
 } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,7 +23,8 @@ import {
     getPaper, 
     getGalleries, 
     uploadPhoto , 
-    patchPaper 
+    patchPaper, 
+    getPaginatedImages
 } from '../../axiosMain';
 
 import { useNavigate , useParams } from 'react-router-dom';
@@ -35,7 +38,9 @@ export default function EditPaper(  ){
         const [ imageList , setImageList ] = React.useState( [] ) ;
         const [ galleries , setGalleries ] = React.useState( [] ) ;
         const [ gallery , setGallery ] = React.useState( '' ) ;
-        const [ image , setImage ] = React.useState('') ; 
+        const [ image , setImage ] = React.useState('') ;
+        const [ page , setPage ] = React.useState(1) ;
+        const [ pageCount , setPageCount ] = React.useState(1) ;  
         
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ; 
@@ -48,6 +53,15 @@ export default function EditPaper(  ){
     
    
     const navigate = useNavigate() ;
+
+    /* Handlers */
+
+    const handlePage = ( event , newPage ) =>{
+        setPage( newPage ) ;
+        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
+    }
+
+
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
     const handleAlt = ( e ) => setAlt( e.target.value ) ; 
@@ -65,8 +79,7 @@ export default function EditPaper(  ){
 
         uploadPhoto( fileTemp , alt , gallery ) ;
         setImage( imageUrl ) ;
-        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery ) ;
-       
+        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
 
     }; 
 
@@ -101,18 +114,22 @@ export default function EditPaper(  ){
     
     React.useEffect(() => {
         getPaper( setPaper , paperId ) ; 
-        getAllImages( setImageList ) ;
         getArticles( setArticles ) ;
        
     }, []);
 
     React.useEffect(() => {
-        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery );
-    }, [ imageList , gallery ]);
-
+        getPaginatedImages( 
+            setImageList , 
+            gallery === 'Todas las imagenes' ? '' : gallery, 
+            page , 
+            setPageCount 
+        ) ;  
+    }, [ page , gallery ]);
+    
     React.useEffect( () => {
-        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery  ) ;
         getGalleries( setGalleries ) ;
+        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery );
     }, [ gallery ] ) ; 
    
     if( !mode ){
@@ -182,6 +199,14 @@ export default function EditPaper(  ){
                     <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
                     <img width={ '500' }  height={ '450' } src={ !paper.img ? MaqromLogo : paper.img } />
                 </Box>
+                <Stack spacing={2}>
+                    <Pagination 
+                        count={ pageCount } 
+                        color="primary" 
+                        page={ page }
+                        onChange = { handlePage }
+                    />
+                 </Stack>            
 
                <IconButton color="primary" aria-label="upload picture" component="label">
                      <input hidden accept="image/*" type="file" onChange= { handleImagen }  />

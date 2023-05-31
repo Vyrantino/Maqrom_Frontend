@@ -1,26 +1,59 @@
 
 
-import { Container } from "@mui/material";
+import { Button, Container, Dialog } from "@mui/material";
 import React from "react";
+import Dialogo from "../components/Dialogo";
 
 
 
 
 export default function Contacto() {
 
+  const [ open , setOpen ] = React.useState( false ) ;
+
+  const closeDialog = () =>{
+    setOpen( false ) ;
+
+  }
+  
+
   return (
     <Container>
-      <iframe 
-        width="560" 
-        height="315" 
-        src="https://www.youtube.com/embed/08inkUdDLl8" 
-        title="YouTube video player" 
-        frameBorder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        allowFullScreen
-      >
-        </iframe>
+        <Dialogo 
+           open = { open }
+           closeDialog = { closeDialog }
+        />
+        <Button
+          onClick = {  setOpen }
+        >
+          Testing
+        </Button>
     </Container>
   );
 
 }
+
+/* DUMP CODE, DELETE LATER
+
+  const callBackFunction = () =>{
+      let responseLength = 84 ; 
+      let residuo = responseLength % 8 ;
+      let pageCount = Math.round( responseLength / 8 ) ; 
+     
+     if( true ){
+      if( residuo === 0 )
+        pageCount = pageCount ;
+      else if( residuo < 5 ){
+        pageCount = pageCount + 1;
+      }
+        
+      else if( residuo >= 5 ) {
+        pageCount = pageCount ;
+      }
+     }
+      
+
+    console.log( pageCount ) ;
+
+  }
+*/

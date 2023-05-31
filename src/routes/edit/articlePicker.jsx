@@ -1,6 +1,7 @@
 import { 
     Box,
     Button,
+    ButtonGroup,
     Container, 
     FormControl, 
     InputLabel, 
@@ -9,38 +10,56 @@ import {
     TextField 
 } from '@mui/material';
 import * as React from 'react'; 
-import { createArticle, deleteArticle, getArticles, patchArticle } from '../../axiosMain';
+import { createArticle, deleteArticle, patchArticle } from '../../axiosMain';
 import { loadArticle } from '../../components/redux/editForm';
+import Dialogo from '../../components/Dialogo';
 
 
 export default function ArticlePicker( props ) {
     const [ articleName , setArticleName ] = React.useState('') ;
-
-
-
-    const handleCreateArticle = async () => {
+    const [ open , setOpen ] = React.useState( false ) ;
+   
+    const handleCreateArticle = async ( entry ) => {
       
-        createArticle( articleName ) ;
+        await createArticle( entry ) 
+            .then( () =>{
+                props.setArticle( entry ) ;
+                setArticleName( entry ) ;
+                closeDialog() ;
+            } )
+
+       
     }
 
     const handleEditArticle = async () =>{
         
-        patchArticle( props.article, articleName ) ;
-        props.setArticle( articleName ) ;
-        setArticleName( articleName ) ;
+        await patchArticle( props.article, articleName ) 
+            .then( () =>{
+                props.setArticle( articleName ) ;
+                setArticleName( articleName ) ;
+            } )
+        
+         ;
     }
 
-    const handleDeleteArticle = () =>{
+    const handleDeleteArticle = async () =>{
        
-        deleteArticle( props.article ) ;
-        dispatch( loadArticle('') ) ;
+        await deleteArticle( props.article ) 
+            .then( () =>{
+                props.setArticle( '' ) ;
+                setArticleName( '' ) ;
+            } ) ;
     }
 
-    const handleArticleName = ( e ) => setArticleName( e.target.value ) ; 
     const handleChangeArticle = ( e ) => {
         e.preventDefault() ;
         const selectedArticle = e.target.value ;
         props.setArticle( selectedArticle ) ;
+    }
+
+    
+    const closeDialog = () =>{
+        setOpen( false ) ;
     }
    
     return(
@@ -63,21 +82,18 @@ export default function ArticlePicker( props ) {
                         }
                     </Select>
 
-                    <TextField
-                        sx = { { margin: '2%' } }
-                        label = 'Nombre del nuevo Articulo'
-                        variant='filled'
-                        onChange={ handleArticleName }
-                    >
-                    </TextField>
-
-                    <Box>
-                        <Button variant='outlined' onClick={ handleCreateArticle } > Crear Articulo </Button>
+                    <ButtonGroup>
+                        <Button variant='outlined' onClick={ () => setOpen( true ) } > Crear Articulo </Button>
                         <Button variant='outlined' onClick={ handleEditArticle } > Editar </Button>
                         <Button variant='outlined' onClick={ handleDeleteArticle } > Borrar </Button>
-                    </Box>
+                       
+                    </ButtonGroup>
                 </FormControl>
-           
+                <Dialogo
+                    open = { open }
+                    closeDialog = { closeDialog }
+                    handleCreateArticle = { handleCreateArticle }
+                />
         </Container>
         
     ) ;

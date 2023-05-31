@@ -10,18 +10,24 @@ import {
     TextField 
 } from '@mui/material';
 import * as React from 'react'; 
-import { createGallery, deleteGallery, getGalleries, patchGallery } from '../../axiosMain';
-
+import { createGallery, deleteGallery, patchGallery } from '../../axiosMain';
+import Dialogo from '../../components/Dialogo';
 
 
 export default function GalleryPicker( props ) {
     const [ galleryName , setGalleryName ] = React.useState('') ;
+    const [ open , setOpen ] = React.useState( false ) ;
 
 
-    const handleCreateGallery = async () => {
+    const handleCreateGallery = async ( entry ) => {
 
-        await createGallery( galleryName )
-            .then( () => props.setGallery( galleryName ) ) ;  
+        await createGallery( entry ) 
+        .then( () =>{
+            props.setGallery( entry ) ;
+            setGalleryName( entry ) ;
+            closeDialog() ;
+        } )
+        
     }
 
     const handleEditGallery = async () =>{
@@ -36,11 +42,14 @@ export default function GalleryPicker( props ) {
             .then( () => props.setGallery( '' ) ) ;
     }
 
-    const handleGalleryName = ( e ) => setGalleryName( e.target.value ) ; 
     const handleChangeGallery = ( e ) => {
         const selectedGallery = e.target.value;
         props.setGallery( selectedGallery ) ; 
         
+    }
+
+    const closeDialog = () =>{
+        setOpen( false ) ;
     }
    
     return(
@@ -63,14 +72,6 @@ export default function GalleryPicker( props ) {
                         }
                     </Select>
 
-                    <TextField
-                        sx = { { margin: '2%' } }
-                        label = 'Nombre de la nueva Galeria'
-                        variant='filled'
-                        onChange={ handleGalleryName }
-                    >
-                    </TextField>
-
                     <Box
                         sx={{
                             display: 'flex',
@@ -82,13 +83,19 @@ export default function GalleryPicker( props ) {
                         }}
                     >
                             <ButtonGroup color="secondary" aria-label="medium secondary button group">
-                                <Button variant='outlined' onClick={ handleCreateGallery } > Crear Galeria </Button>
+                                <Button variant='outlined' onClick={ () => setOpen( true ) } > Crear Galeria </Button>
+                                
                                 <Button variant='outlined' onClick={ handleEditGallery } > Editar </Button>
                                 <Button variant='outlined' onClick={ handleDeleteGallery } > Borrar </Button>
                             </ButtonGroup>
                     </Box>
                 </FormControl>
-           
+
+                <Dialogo
+                    open = { open }
+                    closeDialog = { closeDialog }
+                    handleCreateArticle = { handleCreateGallery }
+                />          
         </Container>
         
     ) ;

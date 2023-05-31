@@ -1,5 +1,5 @@
 import * as React from 'react' ; 
-import { useSelector, useDispatch } from 'react-redux' ; 
+import { useSelector } from 'react-redux' ; 
 import { useState } from 'react';
 import {  
     Box, 
@@ -8,26 +8,40 @@ import {
     MenuItem, 
     Select, 
     TextField, 
-    Typography,
-    IconButton 
+    IconButton, 
+    Button
 } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PublishIcon from '@mui/icons-material/Publish';
-import { useEffect } from 'react';
-import { deleteImage, getAllImages, getArticles, getCard, getGalleries, uploadPhoto } from '../../axiosMain';
+import { 
+    deleteImage, 
+    getAllImages, 
+    getArticles, 
+    getCard, 
+    getGalleries, 
+    getPaginatedImages, 
+    uploadPhoto 
+} from '../../axiosMain';
 import { patchCard } from '../../axiosMain';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useOutletContext } from 'react-router-dom';
 import Admin from '../../admin' ; 
 import ListaImagenes from './listaImagenes';
 import MaqromLogo from "../../assets/MaqromLogoPlantilla.png" ;
+import Carta from '../../components/card';
+import Sidebar from './sidebar';
 
 export default function EditCard(){
-   /* Lista Imagenes */
-        const [ imageList , setImageList ] = React.useState( [] ) ;
-        const [ galleries , setGalleries ] = React.useState( [] ) ;
-        const [ gallery , setGallery ] = React.useState( '' ) ;
-        const [ image , setImage ] = React.useState('') ; 
+    /* States */
+        /* Lista Imagenes */
+            const [ imageList , setImageList ] = React.useState( [] ) ;
+            const [ galleries , setGalleries ] = React.useState( [] ) ;
+            const [ gallery , setGallery ] = React.useState( '' ) ;
+            const [ image , setImage ] = React.useState( '' ) ; 
+            const [ page , setPage ] = React.useState(1) ;
+            const [ pageCount , setPageCount ] = React.useState( 1 ) ; 
+        /* Sidebar */
+            const [ sidebar, setSidebar ] = useOutletContext() ;
         
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ; 
@@ -38,9 +52,17 @@ export default function EditCard(){
     const [ alt , setAlt ] = useState() ;
     const [ article , setArticle ] = useState('') ;
     const [ articles , setArticles ] = useState([]) ;
-    
+       
    
     const navigate = useNavigate() ;
+    
+    /* Handlers */
+
+    const handlePage = ( event , newPage ) =>{
+        setPage( newPage ) ;
+        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
+    }
+
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
     const handleAlt = ( e ) => setAlt( e.target.value ) ; 
@@ -58,7 +80,7 @@ export default function EditCard(){
 
         uploadPhoto( fileTemp , alt , gallery ) ;
         setImage( imageUrl ) ;
-        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery ) ;
+        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
        
 
     }; 
@@ -82,7 +104,8 @@ export default function EditCard(){
         await deleteImage( nombreImage  ) ;
         setAlt( '' ) ;
         setImage('');
-        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery ) ;
+        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
+        //getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery ) ;
         
     }
 
@@ -92,21 +115,32 @@ export default function EditCard(){
         setArticle( articleValue === 'Sin Articulo' ? '' : articleValue ) ;
         
     }
+
+     /* Para abrir la sidebar */
+     const toogle = ( open ) =>  {
+        setSidebar( open );
+    };
+
     
     React.useEffect(() => {
         getCard( setCard , loadedCard ) ; 
         getAllImages( setImageList ) ;
         getArticles( setArticles ) ;
-       
+        setSidebar( false ) ;
     }, []);
 
     React.useEffect(() => {
-        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery );
-    }, [ imageList , gallery ]);
+        getPaginatedImages( 
+            setImageList , 
+            gallery === 'Todas las imagenes' ? '' : gallery, 
+            page , 
+            setPageCount 
+        ) ;  
+    }, [ page , gallery ]);
 
     React.useEffect( () => {
-        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery  ) ;
         getGalleries( setGalleries ) ;
+        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery );
     }, [ gallery ] ) ; 
    
     if( !mode ){
@@ -117,11 +151,24 @@ export default function EditCard(){
     return(
 
             <Box component='form' className= 'editCardForm' onSubmit={ handleSubmit } >
-                
-                <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } >
-                     { `Esta carta actualmente redirige a ${card.article} ${ card.route }` } 
-                </Typography>
-                <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } > { card.idCard } </Typography>
+                <Sidebar 
+                    sidebar = { sidebar } 
+                    toogle = { toogle }
+                    // handleNewCard = { handleNewArticleCard }
+                    //handleNewPaper = { handleNewAr }
+                />  
+                <Carta 
+                    key = { card.idCard }
+                    img = { card.img }
+                    title = { card.title }
+                    content = { card.content }
+                    route = { card.route }
+                    idCard = { card.idCard }
+                    //isLocked = { card.isLocked }
+                    CardWidth = '100'
+                    CardHeight = '300'
+                />
+        
                 <FormControl  variant="filled" sx={{ m: 1, minWidth: '60%' }} >
                     <InputLabel id="demo-simple-select-filled-label"> Articulos dados de alta </InputLabel>
                     <Select
@@ -139,6 +186,7 @@ export default function EditCard(){
                         }
                     </Select>
                 </FormControl>
+
                 <TextField 
                     autoFocus
                     className='editCardFormTextField' 
@@ -162,6 +210,7 @@ export default function EditCard(){
                     defaultValue = { card.content }
                     InputLabelProps={{ shrink: true }} 
                 />  
+
                 <Box sx = { { display: 'flex' , flexDirection: 'row' } } > 
                     <ListaImagenes 
                             setImageList = { setImageList }
@@ -172,15 +221,34 @@ export default function EditCard(){
                             gallery = { gallery } 
                             galleries = { galleries }
                             imageList = { imageList }
+                            pageCount = { pageCount }
+                            page = { page }
+                            handlePage = { handlePage }
                     />
-                    <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
-                    <img width={ '500' }  height={ '450' } src={ !card.img ? MaqromLogo : card.img } />
+
+                    <Box sx={{ display: 'flex' , flexDirection: 'column' , alignItems: 'center' , justifyContent: 'center' }} >
+                        <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
+                            <Button 
+                                variant='contained'
+                                
+                                sx={ { 
+                                    width: '100%' , 
+                                    alignSelf: 'center'  
+                                } } 
+                                onClick={ handleDeleteImage }
+                            >
+                              Borrar Esta Imagen  
+                              <DeleteIcon />
+                            </Button>         
+                    </Box>
+
                 </Box>
 
-               <IconButton color="primary" aria-label="upload picture" component="label">
+                <IconButton color="primary" aria-label="upload picture" component="label">
                      <input hidden accept="image/*" type="file" onChange= { handleImagen }  />
                      <AddAPhotoIcon />
                 </IconButton>
+
                 <IconButton 
                     aria-label="Example" 
                     sx={ { 
@@ -202,17 +270,6 @@ export default function EditCard(){
                     onChange={ handleAlt }
                 />  
 
-            
-                <IconButton 
-                    aria-label="Example" 
-                    sx={ { 
-                        width: '20%' , 
-                        alignSelf: 'center'  
-                    } } 
-                    onClick={ handleDeleteImage }
-                >
-                    <DeleteIcon></DeleteIcon>
-                </IconButton>
             </Box>
      
 

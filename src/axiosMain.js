@@ -29,6 +29,7 @@ const apiURL = "http://localhost:3000/" ;
 
 /* Cards */
   export const getCards = async (  setCards , route   ) =>{
+    route &&
     await axios.get( apiURL+"cards/route/"+route  ) 
          .then( ( response ) => {
            const allCards = response.data ; 
@@ -40,7 +41,7 @@ const apiURL = "http://localhost:3000/" ;
   
 
 export const getCard = async ( setCard  , idCard ) =>{
-
+ idCard &&
  await axios.get( apiURL+"cards/id/"+idCard )
     .then( ( response ) =>{
       const card = response.data ; 
@@ -50,7 +51,7 @@ export const getCard = async ( setCard  , idCard ) =>{
 }
 
 export const getIdCard = async ( idCard ) =>{
-
+ idCard &&
  await axios.get( apiURL+"cards/id/"+idCard )
     .then( ( response ) =>{
       const card = response.data.idCard ; 
@@ -59,8 +60,9 @@ export const getIdCard = async ( idCard ) =>{
 }
 
 export const deleteCard = async ( idCard , setCards , param ) =>{
+  
       if( confirm("Esta seguro que quiere borrar esto?") ){
-      
+      idCard  &&
        await axios.delete( apiURL+"cards/id/"+idCard )
         .then( getCards( setCards , param ) ) ;
        
@@ -118,6 +120,35 @@ export const getAllImages = async ( setImages , gallery ) =>{
   .catch( error => console.error( "Error: "+error+" " ) )
 }
 
+export const getPaginatedImages = async ( setImages , gallery , page , setPageCount ) =>{
+  const pagesUrl = gallery ? 
+    `${apiURL}images/gallery/${gallery}` : `${apiURL}images/`
+  await axios.get( pagesUrl )
+    .then( ( response ) => {
+      let responseLength = response.data.length ; 
+      let division = responseLength / 8 ;
+      let decimal = ( division % 1 ) * 10 ;
+      let pageCount = Math.round( responseLength / 8 ) ; 
+      if( decimal === 0 )
+        pageCount = pageCount ;
+      else if( decimal < 5 )
+        pageCount = pageCount + 1;
+      else  
+        pageCount = pageCount ;
+      setPageCount( pageCount ) ;
+    } ) ;
+  
+  const getUrl = gallery ? 
+    `${apiURL}images/gallery/${gallery}` : `${apiURL}images?limit=8&offset=${(page-1)*8}` ;
+  await axios.get( getUrl )
+    .then( ( response ) => {
+      const allImages = response.data ; 
+      
+      setImages( allImages ) ;
+  } )
+  .catch( error => console.error( "Error: "+error+" " ) )
+}
+
 
 
 export const getImageList = async (  ) =>{
@@ -154,14 +185,13 @@ export const patchCarousel = async ( idCarouselItem , titulo, contenido , img ) 
 };
 
 
+export const getCarouselItems = async ( setCarouselItems , route ) =>{
 
-export const getAllCarouselItems = async (  setCarouselItems  , route ) =>{
-  await axios.get( apiURL+"carouselItems/route/"+route ) 
-       .then( ( response ) => {
-           setCarouselItems( response.data ) ;
-       } )
-       .catch( error => console.error( "Error: "+error+" " ) ) ;
-      
+  const getUrl = apiURL+'carouselItems/route/'+route ;
+  route  &&
+    await axios.get( getUrl )
+      .then( ( response ) => setCarouselItems( response.data ) ) ;
+ 
 }
 
 export const getCarouselItem = async ( setCarouselItem  , idCarouselItem ) =>{
@@ -177,7 +207,6 @@ export const getCarouselItem = async ( setCarouselItem  , idCarouselItem ) =>{
 
 export const deleteCarouselItem = async ( idCarouselItem  ) =>{
   if( confirm("Esta seguro que quiere borrar esto?") ){
-  
     await axios.delete( apiURL+"carouselItems/id/"+idCarouselItem ); 
 
   }
@@ -185,15 +214,6 @@ export const deleteCarouselItem = async ( idCarouselItem  ) =>{
     console.log( "no se borro el componente" ) ;
   }
 }
-
-export const getCarouselItems = async ( setCarouselItems , route ) =>{
-  const getUrl = apiURL+'carouselItems/route/'+route ;
-    await axios.get( getUrl )
-      .then( ( response ) => setCarouselItems( response.data ) ) ;
- 
-}
-
-
 
 export const createNewCarouselItem = async ( carouselItem , route ) =>{
 
@@ -221,8 +241,8 @@ export const getArticles = async (  setArticles   ) =>{
 }
 
 export const patchArticle = async ( article, articleName ) => {
-  
-  await axios.patch( apiURL+"articles/patch/"+article , 
+  const encodedArticle = encodeURIComponent(article) ; 
+  await axios.patch( apiURL+"articles/patch/"+encodedArticle , 
     { 
       articleName: articleName
     })
@@ -248,12 +268,27 @@ export const deleteArticle = async ( articleName  ) =>{
   }
 }
 
+export const deleteArticleCards = async ( idCard ) =>{
+  
+
+  if( confirm("Esta seguro que quiere borrar esto?") ){
+      
+    await axios.delete( `${apiURL}cards/id/${idCard}` ) ;
+
+   }
+   else{
+     console.log( "no se borro el componente" ) ;
+   }
+}
+
 export const createArticle = async ( articleName ) =>{
 
-  await axios.post( apiURL+"articles" , {
-    articleName: articleName 
-  })
-    .then( ( response ) => console.log( response.status ) )
+  articleName &&
+    await axios.post( apiURL+"articles" , {
+      articleName: articleName 
+    })
+      .then( ( response ) => console.log( response.status ) )
+   
 }
 
 export const createNewArticleCarouselItem = async ( carouselItem , article ) =>{
@@ -269,7 +304,10 @@ export const createNewArticleCarouselItem = async ( carouselItem , article ) =>{
 }
 
 export const getArticleCarouselItems = async ( setArticleCarouselItems , article ) =>{
-  const getUrl = apiURL+'carouselItems/article/'+article ;
+
+  const encodedArticle = encodeURIComponent( article ) ;
+  const getUrl = apiURL+'carouselItems/article/'+encodedArticle ;
+  article   &&
   await axios.get( getUrl )
     .then( ( response ) =>{
         const allArticleCarouselItems = response.data ;
@@ -279,7 +317,8 @@ export const getArticleCarouselItems = async ( setArticleCarouselItems , article
 }
 
 export const newArticleCard = async ( card , article ) =>{
-  await axios.post( apiURL+"cards" , {
+  await axios.post( apiURL+"cards" , 
+  {
     route: card.route ,
     title: card.title,
     content: card.content,
@@ -291,6 +330,7 @@ export const newArticleCard = async ( card , article ) =>{
 }
 
 export const getArticleCards = async (  setArticleCards , article   ) =>{
+  article   &&
   await axios.get( apiURL+"cards/article/"+article  ) 
        .then( ( response ) => {
            const allCards = response.data ; 
@@ -311,8 +351,8 @@ export const getGalleries = async (  setGalleries   ) =>{
 }
 
 export const patchGallery = async ( gallery, galleryName ) => {
-  
-  await axios.patch( apiURL+"galleries/patch/"+gallery , 
+  const encodedGallery = encodeURIComponent(gallery) ; 
+  await axios.patch( apiURL+"galleries/patch/"+encodedGallery , 
     { 
       galleryName: galleryName
     })
@@ -338,7 +378,7 @@ export const deleteGallery = async ( galleryName  ) =>{
 }
 
 export const createGallery = async ( galleryName ) =>{
-
+  galleryName &&
   await axios.post( apiURL+"galleries" , {
     galleryName: galleryName 
   })
@@ -364,14 +404,17 @@ export const createNewPaper = async ( paper , route , article ) =>{
 }
 
 export const getPapers = async ( setPapers , route , article ) =>{
-  const encodedParam = article === '' ? encodeURI( route ) : encodeURI( article )   ;
-  const urlExtension = article === '' ? `route/${encodedParam}` : `article/${encodedParam}`   ; 
+  const encodedParam = !article  ? encodeURI( route ) : encodeURI( article )   ;
+  const urlExtension = !article  ? `route/${encodedParam}` : `article/${encodedParam}`   ; 
   const getUrl = apiURL+'papers/'+urlExtension ;
-  await axios.get( getUrl )
-    .then( ( response ) =>{
-        const papers = response.data ;
-        setPapers( papers ) ;
-    } ) ; 
+  if( article || route  ){
+      await axios.get( getUrl )
+      .then( ( response ) =>{
+          const papers = response.data ;
+          setPapers( papers ) ;
+      } ) ;
+  }
+  
 }
 
 

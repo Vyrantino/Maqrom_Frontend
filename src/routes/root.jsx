@@ -1,15 +1,12 @@
-import React , {
-    useState
-} from "react";
+import * as React from 'react' ; 
 import { 
     Outlet,
  } from "react-router-dom" ;
 import { FloatingWhatsApp } from 'react-floating-whatsapp';
 import ButtonAppBar from "../components/navigation/appbar";
 import Footer from "../components/navigation/footer";
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import MaqromLogo from '../assets/Maqrom.svg' ;
-import Sidebar from "./edit/sidebar";
 import { useSelector } from "react-redux";
 
 
@@ -24,16 +21,18 @@ import { useSelector } from "react-redux";
 
     return(
        
-            <Box className = "root"> 
+            <Box> 
                
                 <ButtonAppBar toogle = { toogle } />     
                   
                 <Box className = "ButtonAppBar" >
-                <Box className='MaqromHeader' >
-                    <Typography  position = 'relative' variant='h1' > Maqrom Constructora </Typography> 
-                    
-                </Box>
-                    <Outlet context={ [ sidebar , setSidebar ] } />   
+                    <Box className='MaqromHeader' >
+                        <Typography  position = 'relative' variant='h1' > Maqrom Constructora </Typography> 
+                    </Box>
+                    <Container>
+                        <Outlet context={ [ sidebar , setSidebar ] } /> 
+                    </Container>
+                      
                 </Box>   
                
                 <Footer />
