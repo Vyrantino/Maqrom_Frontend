@@ -29,9 +29,9 @@ import { useSelector } from "react-redux";
                     <Box className='MaqromHeader' >
                         <Typography  position = 'relative' variant='h1' > Maqrom Constructora </Typography> 
                     </Box>
-                    <Container>
+                   
                         <Outlet context={ [ sidebar , setSidebar ] } /> 
-                    </Container>
+               
                       
                 </Box>   
                

@@ -55,6 +55,7 @@ export default function EditCarousel(){
         const [ contenido, setContenido ] = useState() ; 
         const [ alt , setAlt ] = useState() ;
         const [ currentImage , setCurrentImage ] = useState() ;
+        const [ index, setIndex ] = React.useState( 0 ) ;
         /* Sidebar */
         const [ sidebar, setSidebar ] = useOutletContext() ;
     // Handlers
@@ -99,9 +100,7 @@ export default function EditCarousel(){
        else{
             const newCarouselItem = new NewCarouselItemDto( route ) ;
             await createNewCarouselItem( newCarouselItem , route ) ;
-            const result = await getCarouselItems( route ) 
-                .then( setCarouselItems( result ) );
-
+            await getCarouselItems( setCarouselItems,  route ) ;
        }
     }
 
@@ -123,8 +122,8 @@ export default function EditCarousel(){
                 : 
                 image 
         ) ; 
-        const result = getCarouselItems( route ) ;
-        setCarouselItems( result ) ;
+        getCarouselItems( setCarouselItems , route ) ;
+        
     }    
 
     const handleDeleteImage = async ( e ) =>{
@@ -133,9 +132,8 @@ export default function EditCarousel(){
         const nombreImage = partirImage[partirImage.length - 1];
         await deleteImage( nombreImage  ) ;
         setAlt( '' ) ;
-        setImage('');
+        setImage( '' );
         getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
-        //getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery ) ;
         
     }
 
@@ -203,7 +201,7 @@ export default function EditCarousel(){
 
             <Carousel 
                     route = { route } 
-                    updateCarouselItems = { setCarouselItems } 
+                    index = { index }
                     setCarouselItem = { setCarouselItem } 
                     currentImage = { setCurrentImage }
                     carouselItems = { carouselItems }
@@ -228,7 +226,7 @@ export default function EditCarousel(){
                     onClick = { handleSubmit }
                     endIcon = { <PublishIcon /> }
                 >
-                    Aplicar Cambios   
+                    Cambiar foto    
                 </Button>
 
                 <Button variant= 'contained' color="primary" aria-label="upload picture" component="label" endIcon={ <AddAPhotoIcon /> } >

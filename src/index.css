@@ -202,10 +202,15 @@ div.MultilineTextField{
   padding: 1;
   margin-top: 1;
   margin-bottom: 1;
-  background-color: #ffa826e0;
+  background-color: #f57a2E;
   border-radius: 2;
+  margin: 5px;
 }
 
 /* Lista de Imagenes y Galerias */
 
-
+.Cartas{
+  display: inline-flex;
+  margin: 10px;
+  
+}

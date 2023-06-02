@@ -159,7 +159,6 @@ export default function Article(  ){
         setAlt( '' ) ;
         setImage('');
         getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
-        //getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery ) ;
         
     }
 
@@ -209,6 +208,7 @@ export default function Article(  ){
             {
                 mode ?
                     <ArticlePicker 
+                        className = 'ArticlePicker'
                         setArticle = { setArticle }
                         articles = { articles }
                         article = { article }

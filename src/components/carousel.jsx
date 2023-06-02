@@ -17,16 +17,26 @@ export default function Carousel( props ){
     
     const [ clicked, setClicked ] = React.useState( false ) ;
     const [ index, setIndex ] = React.useState( 0 ) ;
+    
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
     React.useEffect( () => {
          setClicked( false ) ;
      }, [ props.route, props.carouselItems , props.article ]);
 
      const handleSlid = ( newIndex ) =>{
-        if( props.article ){
-            setClicked( false )
-            props.setCarouselItem( props.carouselItems[newIndex].idCarouselItem );            
-        }
+       if( !props.carouselItems.length === 0 )
+       {
+            if( props.article ){
+                setClicked( false )
+                props.setCarouselItem( props.carouselItems[newIndex].idCarouselItem );            
+            }
+            console.log( props.carouselItems ) ;
+            if( props.route ){
+                setClicked( false )
+                props.setCarouselItem( props.carouselItems[newIndex].idCarouselItem );            
+            }
+
+       }
 
      }
 
