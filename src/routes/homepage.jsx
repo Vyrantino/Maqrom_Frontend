@@ -204,7 +204,7 @@ export default function Homepage (  ){
 
                                         <Typography
                                             color='info.main' 
-                                            sx={{ margin: 10 , }}
+                                            sx={{ m: 10 , }}
                                         > 
                                             Es profesional y de Maqrom calidad 
                                         </Typography>
