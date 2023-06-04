@@ -86,7 +86,7 @@ export default function Article(  ){
         const ext = file.name.split('.').pop();
         const fileName = Date.now();
         const imageName = fileName+'.'+ext ; 
-        const imageUrl = `http://localhost:3000/images/${fileName}.${ext}`;
+        const imageUrl = `http://147.182.177.178/images/${fileName}.${ext}`;
         const fileTemp = {
             fileRaw: file, 
             fileName: imageName ,

@@ -4,7 +4,7 @@ import GalleryPicker from './galleryPicker';
 
 export default function ListaImagenes( props ){
     const [ page, setPage ] = React.useState(1) ;
-    const apiUrl = 'http://localhost:3000/images/' ;
+    const apiUrl = 'http://147.182.177.178/images/' ;
 
     const handlePage = ( event , newPage ) =>{
       props.handlePage( event, newPage ) ;
