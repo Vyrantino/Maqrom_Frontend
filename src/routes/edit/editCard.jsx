@@ -30,6 +30,7 @@ import ListaImagenes from './listaImagenes';
 import MaqromLogo from "../../assets/MaqromLogoPlantilla.png" ;
 import Carta from '../../components/card';
 import Sidebar from './sidebar';
+import imageCompression from 'browser-image-compression';
 
 export default function EditCard(){
     /* States */
@@ -66,15 +67,29 @@ export default function EditCard(){
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
     const handleAlt = ( e ) => setAlt( e.target.value ) ; 
+
     const handleImagen = async ( e ) => { 
         
         const file  = e.target.files[0] ;
         const ext = file.name.split('.').pop();
         const fileName = Date.now();
         const imageName = fileName+'.'+ext ; 
-        const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
+        //const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
+        const imageUrl = `http://localhost:3000/images/${fileName}.${ext}`;
+
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true
+        }
+
+     
+            const compressedFile = await imageCompression(file, options);
+            console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
+            console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+  
         const fileTemp = {
-            fileRaw: file, 
+            fileRaw: compressedFile, 
             fileName: imageName ,
         }
 
@@ -84,6 +99,7 @@ export default function EditCard(){
        
 
     }; 
+
 
     const handleSubmit = async ( e ) =>{
        console.log( article ) ;
