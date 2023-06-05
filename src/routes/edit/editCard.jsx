@@ -74,8 +74,8 @@ export default function EditCard(){
         const ext = file.name.split('.').pop();
         const fileName = Date.now();
         const imageName = fileName+'.'+ext ; 
-        //const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
-        const imageUrl = `http://localhost:3000/images/${fileName}.${ext}`;
+        const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
+        //const imageUrl = `http://localhost:3000/images/${fileName}.${ext}`;
 
         const options = {
             maxSizeMB: 1,
