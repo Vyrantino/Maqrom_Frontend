@@ -1,23 +1,21 @@
-
-
 export const aTheme = {
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#ffa726',
+      main: "#ffa726",
     },
     secondary: {
-      main: '#000000',
+      main: "#000000",
     },
     background: {
-      default: '#9e9e9e',
-      paper: '#ffffff',
+      default: "#9e9e9e",
+      paper: "#ffffff",
     },
     error: {
-      main: '#afb42b',
+      main: "#afb42b",
     },
     info: {
-      main: '#fbc02d',
+      main: "#fbc02d",
     },
   },
 };
