@@ -31,6 +31,7 @@ import { useNavigate , useParams } from 'react-router-dom';
 import Admin from '../../admin' ; 
 import ListaImagenes from './listaImagenes';
 import MaqromLogo from "../../assets/MaqromLogoPlantilla.png" ;
+import imageCompression from 'browser-image-compression';
 
 export default function EditPaper(  ){
     const paperId = useParams() ;
@@ -65,23 +66,15 @@ export default function EditPaper(  ){
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
     const handleAlt = ( e ) => setAlt( e.target.value ) ; 
+    
     const handleImagen = async ( e ) => { 
-        
-        const file  = e.target.files[0] ;
-        const ext = file.name.split('.').pop();
-        const fileName = Date.now();
-        const imageName = fileName+'.'+ext ; 
-        const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
-        const fileTemp = {
-            fileRaw: file, 
-            fileName: imageName ,
-        }
-
-        uploadPhoto( fileTemp , alt , gallery ) ;
-        setImage( imageUrl ) ;
-        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
+        // ( file , alt , gallery , setImage , setImageList, page , setPageCount ) 
+       const file  = e.target.files[0] ;
+       
+       uploadCompressedPhoto( file , alt , gallery , setImage , setImageList , page , setPageCount ) ;
 
     }; 
+
 
     const handleSubmit = async ( e ) =>{
         e.preventDefault() ;

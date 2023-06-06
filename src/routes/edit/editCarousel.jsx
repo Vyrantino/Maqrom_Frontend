@@ -34,6 +34,7 @@ import ListaImagenes from './listaImagenes';
 import NewCarouselItemDto from './models/newCarouselItem';
 import MaqromLogo from "../../assets/MaqromLogoPlantilla.png" ;
 import Sidebar from './sidebar';
+import imageCompression from 'browser-image-compression';
 
 export default function EditCarousel(){
     const dispatch = useDispatch() ;
@@ -74,22 +75,14 @@ export default function EditCarousel(){
         getCarouselItems( setCarouselItems , route ) ;
     } 
 
-    const handleImagen = async ( e ) => {  
-        const file  = e.target.files[0] ;
-        const ext = file.name.split('.').pop();
-        const fileName = Date.now();
-        const imageName = fileName+'.'+ext ; 
-        const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
-        const fileTemp = {
-            fileRaw: file, 
-            fileName: imageName ,
-        }
+    const handleImagen = async ( e ) => { 
+        // ( file , alt , gallery , setImage , setImageList, page , setPageCount ) 
+       const file  = e.target.files[0] ;
+       
+       uploadCompressedPhoto( file , alt , gallery , setImage , setImageList , page , setPageCount ) ;
 
-        uploadPhoto( fileTemp , alt , gallery ) ;
-        dispatch( ( loadImg( imageUrl ) ) ) ;
-        setImage( imageUrl ) ;
-        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
     }; 
+
 
     const handleCreateNewCarouselItem = async ( e ) =>{
         e.preventDefault() ;

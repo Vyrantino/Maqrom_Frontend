@@ -34,6 +34,7 @@ import Carta from "../components/card";
 import ArticlePicker from "./edit/articlePicker";
 import MaqromLogo from "../assets/MaqromLogoPlantilla.png" ;
 import Sidebar from "./edit/sidebar";
+import imageCompression from 'browser-image-compression';
 
 
 
@@ -81,22 +82,10 @@ export default function Article(  ){
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
 
-    const handleImagen = async ( e ) => {  
-        const file  = e.target.files[0] ;
-        const ext = file.name.split('.').pop();
-        const fileName = Date.now();
-        const imageName = fileName+'.'+ext ; 
-        const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
-        const fileTemp = {
-            fileRaw: file, 
-            fileName: imageName ,
-        }
-
-        uploadPhoto( fileTemp , alt , gallery ) ;
-        dispatch( ( loadImg( imageUrl ) ) ) ;
-        setImage( imageUrl ) ;
-        getPaginatedImages ( setImageList , gallery , page , setPageCount ) ;
-
+    const handleImagen = async ( e ) => { 
+        // ( file , alt , gallery , setImage , setImageList, page , setPageCount ) 
+       const file  = e.target.files[0] ;
+       uploadCompressedPhoto( file , alt , gallery , setImage , setImageList , page , setPageCount ) ;
     }; 
 
     const handleCreateNewCarouselItem = async ( e ) =>{

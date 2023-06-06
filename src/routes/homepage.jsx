@@ -19,6 +19,7 @@ import {
     Box, 
     Button, 
     Container,
+    Grid,
     Paper,
     Typography
 } from '@mui/material';
@@ -96,35 +97,41 @@ export default function Homepage (  ){
                             carouselItems = { carouselItems }
                         />
                         <hr />  
-                      
-                        <Container  className='HomepageCardContainer'>
+                        <Container>
 
-                              
-                        </Container>
-                        
-                      
-                            {
-                                cards.map( ( item ) =>(
-                                <Box
-                                    className = 'Cartas'
-                                >
-                                    <Carta 
-                                        key = { item.idCard }
-                                        img = { item.img }
-                                        title = { item.title }
-                                        content = { item.content }
-                                        route = { item.route }
-                                        idCard = { item.idCard }
-                                        isLocked = { item.isLocked }
-                                        CardWidth = '100'
-                                        CardHeight = '300'
-                                        handleDelete = { handleDelete }
-                                        article = { item.article }
-                                        hasArticle = { isArticle( item.article ) }
-                                    />
-                                </ Box>
+                            <Grid
+                                    container
+                                    spacing ={0.5}
+                                    sx={{
                                     
-                            ))}
+                                    }}
+                                    justifyContent={'space-around'}
+                                >
+                                
+                                        {
+                                            cards.map( ( item ) =>(
+                                    
+                                            <Carta 
+                                                key = { item.idCard }
+                                                img = { item.img }
+                                                title = { item.title }
+                                                content = { item.content }
+                                                route = { item.route }
+                                                idCard = { item.idCard }
+                                                isLocked = { item.isLocked }
+                                                CardWidth = '100'
+                                                CardHeight = '300'
+                                                handleDelete = { handleDelete }
+                                                article = { item.article }
+                                                hasArticle = { isArticle( item.article ) }
+                                            /> 
+                                    
+                                        ))}
+                                    
+                                </Grid>
+                        </Container>
+                            
+
                             <Box
                                  sx={{
                                     width: '100hw',
@@ -211,22 +218,30 @@ export default function Homepage (  ){
 
                                    </Box>
                             </Box>
-                            {
-                                papers.map( ( paper ) => (
-                                    <Papers 
-                                        key = { paper.idPaper }
-                                        img = { paper.img }
-                                        idPaper = {  paper.idPaper }
-                                        title = { paper.title }
-                                        content = { paper.content }
-                                        route = { paper.route }
-                                        handleDelete = { handleDeletePaper }
-                                        article = { paper.article }
-                                        hasArticle = { isArticle( paper.article ) }
-                                    />
-
-                                ))
-                            }
+                            <Container>
+                                <Grid
+                                    container
+                                    spacing={1}
+                                >
+                                    {
+                                        papers.map( ( paper ) => (
+                                            <Papers 
+                                                key = { paper.idPaper }
+                                                img = { paper.img }
+                                                idPaper = {  paper.idPaper }
+                                                title = { paper.title }
+                                                content = { paper.content }
+                                                route = { paper.route }
+                                                handleDelete = { handleDeletePaper }
+                                                article = { paper.article }
+                                                hasArticle = { isArticle( paper.article ) }
+                                            />
+                                        ))
+                                    }                                    
+                                </Grid>
+                            
+                            </Container>
+                           
 
                         { mode && 
                             <Sidebar 

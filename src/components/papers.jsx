@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box,  Typography,  ButtonGroup, Button } from '@mui/material';
+import { Box,  Typography,  ButtonGroup, Button, Grid, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadArticle } from './redux/editForm';
@@ -8,23 +8,25 @@ export default function Papers( props ) {
   const mode = useSelector( ( state ) => state.adminMode.value ) ;
   const dispatch = useDispatch() ;
   return (
-    <Box
-        className = "BoxPaper"
-        sx={{
-          height: 150,
-          width: '100%'
-        }}
-    >
-      <Box sx={{ display: 'flex' }} >
-                
-    </Box>
-         <img  src= { props.img } width={ 50 } height={50} />
-         <Typography> { props.title } </Typography>
-         <Typography> { props.content } </Typography>
+    <Grid
+        item
+        justifyContent={'space-evenly'}
         
-         <Link to = { props.link } >  </Link>
-         <Link to = { props.article } >  </Link>
+        xs = { 12 }
+        sm = { 12 }
+        md = { 6 }
+        lg = { 4 }
+        xl = { 3 }
+    >
+        <Paper
+          
+           sx={{
+            backgroundColor: 'black'
+           }}
+        > 
 
+
+        </Paper>
          {
               mode ?
               <ButtonGroup>
@@ -70,6 +72,6 @@ export default function Papers( props ) {
                     :
                     <span />
           }                    
-    </Box>
+    </Grid>
   );
 }

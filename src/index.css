@@ -209,8 +209,13 @@ div.MultilineTextField{
 
 /* Lista de Imagenes y Galerias */
 
-.Cartas{
-  display: inline-flex;
-  margin: 10px;
-  
+
+
+.secondBox{
+  display: flex;
+  width: 100%;
+  height: 50px;
+  background-color: #f57a2E;
 }
+
+

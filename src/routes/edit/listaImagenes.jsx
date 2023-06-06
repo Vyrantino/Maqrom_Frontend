@@ -1,11 +1,12 @@
 import * as React from 'react' ;
 import { Container, ImageList, ImageListItem, ImageListItemBar, Pagination, Stack } from '@mui/material';
 import GalleryPicker from './galleryPicker';
+import imageCompression from 'browser-image-compression';
 
 export default function ListaImagenes( props ){
     const [ page, setPage ] = React.useState(1) ;
-    const apiUrl = 'http://147.182.177.178:80/images/' ;
-
+    //const apiUrl = 'http://147.182.177.178:80/images/' ;
+    const apiUrl = 'http://localhost:3000/images/' ;
     const handlePage = ( event , newPage ) =>{
       props.handlePage( event, newPage ) ;
       setPage( newPage ) ;

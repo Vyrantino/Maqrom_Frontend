@@ -1,5 +1,5 @@
 import * as React from 'react' ;
-import { Box } from "@mui/material";
+import { Box, Divider , Grid } from "@mui/material";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -18,29 +18,38 @@ export default function Carta( props ){
     const dispatch = useDispatch() ;
 
     return(
-        <Box>
+        <Grid
+            item
+            xs = { 12 }
+            sm = { 12 }
+            md = { 6 }
+            lg = { 4 }
+            xl = { 4 }
+        >
             <Card 
                 raised
             >
                 <CardMedia
                     component= "img"
                     alt="green iguana"
-                    height= { !props.CardHeight ? '200' : props.CardHeight  } 
+                   
                     image = { props.img }  
                     sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }} 
                 />
                 <CardContent>
                     <Typography component = 'span' gutterBottom variant="h5" >
                         { props.title   } 
-                        <br />
-                        { props.route }
-                        <br />
-                        { props.article }
                     </Typography>
+
+                    <Divider />
+
                     <Typography component = {'span'} variant="body2" color="text.secondary">
                         { props.content }
                     </Typography>
-                    <CardActions>
+                </CardContent>
+                {
+                    mode ?
+                        <CardActions>
                         {
                             props.hasArticle ? 
                                 <Button 
@@ -58,13 +67,7 @@ export default function Carta( props ){
                                 </Button>
                                 :
                                 <span />
-                        }                            
-                        
-                    </CardActions>
-                </CardContent>
-                {
-                    mode ?
-                        <CardActions>
+                        }                                          
                             <Button 
                                 variant = 'contained'
                                 LinkComponent={ Link } 
@@ -95,6 +98,6 @@ export default function Carta( props ){
                 }
              </Card>
 
-        </Box>
+        </Grid>
     );
 }

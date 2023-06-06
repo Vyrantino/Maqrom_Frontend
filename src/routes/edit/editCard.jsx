@@ -21,6 +21,7 @@ import {
     getCard, 
     getGalleries, 
     getPaginatedImages, 
+    uploadCompressedPhoto, 
     uploadPhoto 
 } from '../../axiosMain';
 import { patchCard } from '../../axiosMain';
@@ -69,34 +70,10 @@ export default function EditCard(){
     const handleAlt = ( e ) => setAlt( e.target.value ) ; 
 
     const handleImagen = async ( e ) => { 
-        
-        const file  = e.target.files[0] ;
-        const ext = file.name.split('.').pop();
-        const fileName = Date.now();
-        const imageName = fileName+'.'+ext ; 
-        const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
-        //const imageUrl = `http://localhost:3000/images/${fileName}.${ext}`;
-
-        const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true
-        }
-
-     
-            const compressedFile = await imageCompression(file, options);
-            console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
-            console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-  
-        const fileTemp = {
-            fileRaw: compressedFile, 
-            fileName: imageName ,
-        }
-
-        uploadPhoto( fileTemp , alt , gallery ) ;
-        setImage( imageUrl ) ;
-        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
+        // ( file , alt , gallery , setImage , setImageList, page , setPageCount ) 
+       const file  = e.target.files[0] ;
        
+       uploadCompressedPhoto( file , alt , gallery , setImage , setImageList , page , setPageCount ) ;
 
     }; 
 
