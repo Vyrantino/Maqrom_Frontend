@@ -1,6 +1,7 @@
 import { Button, Container, Dialog } from "@mui/material";
 import React from "react";
 import Dialogo from "../components/Dialogo";
+import { ContactUs } from "../components/emailjs";
 
 export default function Contacto() {
   const [open, setOpen] = React.useState(false);
@@ -11,8 +12,7 @@ export default function Contacto() {
 
   return (
     <Container>
-      <Dialogo open={open} closeDialog={closeDialog} />
-      <Button onClick={setOpen}>Testing</Button>
+      <ContactUs />
     </Container>
   );
 }
