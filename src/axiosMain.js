@@ -457,18 +457,17 @@ export const getPaper = async( setPaper , idPaper ) =>{
 
 }
 
-export const patchPaper = async ( paper ) => {
+export const patchPaper = async ( idPaper, titulo, contenido, imagen, articulo ) => {
 
-  const patchUrl = `${apiURL}papers/patch/${paper.idPaper}`
-  const givenArticle = paper.article ? paper.article : 'pagina' ;  
+  const patchUrl = `${apiURL}papers/patch/${ idPaper }`
+  const givenArticle = articulo ? articulo : 'pagina' ;  
   await axios.patch( patchUrl , 
     { 
-       title: paper.title ,
-       content: paper.content, 
-       img: paper.img , 
+       title: titulo ,
+       content: contenido, 
+       img: imagen , 
        article: givenArticle , 
-       link: paper.link , 
-       route: paper.route
+      
     })
 };
 

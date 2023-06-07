@@ -19,6 +19,7 @@ import {
     getPaginatedImages, 
     newArticleCard, 
     patchCarousel, 
+    uploadCompressedPhoto, 
     uploadPhoto 
 } from "../axiosMain";
 import { useDispatch, useSelector } from "react-redux";

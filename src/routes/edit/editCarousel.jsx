@@ -23,6 +23,7 @@ import {
     getCarouselItems, 
     getGalleries, 
     getPaginatedImages, 
+    uploadCompressedPhoto, 
     uploadPhoto 
 } from '../../axiosMain';
 import { patchCarousel } from '../../axiosMain';

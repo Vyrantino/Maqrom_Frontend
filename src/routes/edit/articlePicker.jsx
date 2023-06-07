@@ -12,6 +12,8 @@ import {
 import * as React from 'react'; 
 import { createArticle, deleteArticle, patchArticle } from '../../axiosMain';
 import Dialogo from '../../components/Dialogo';
+import Admin from '../../admin';
+import { useSelector } from 'react-redux';
 
 
 export default function ArticlePicker( props ) {
@@ -60,7 +62,12 @@ export default function ArticlePicker( props ) {
     const closeDialog = () =>{
         setOpen( false ) ;
     }
-   
+    const mode = useSelector( ( state ) => state.adminMode.value ) ; 
+    if( !mode ){
+        return <Admin />
+
+    }
+    else
     return(
         <Container maxWidth = 'sm'   >
            

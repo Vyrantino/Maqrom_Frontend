@@ -1,5 +1,5 @@
 import * as React from 'react' ;
-import { Box, Divider , Grid } from "@mui/material";
+import { Box, ButtonGroup, Container, Divider , Grid } from "@mui/material";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -23,11 +23,18 @@ export default function Carta( props ){
             xs = { 12 }
             sm = { 12 }
             md = { 6 }
-            lg = { 4 }
-            xl = { 4 }
+            lg = { 3.6 }
+            xl = { 3.6 }
+           
         >
             <Card 
                 raised
+                sx={{ 
+                    height: '100%' ,
+                    
+                    backgroundColor: 'rgba(0, 0, 0, 0.23)',
+                    
+                }}
             >
                 <CardMedia
                     component= "img"
@@ -47,10 +54,8 @@ export default function Carta( props ){
                         { props.content }
                     </Typography>
                 </CardContent>
+                <Container>
                 {
-                    mode ?
-                        <CardActions>
-                        {
                             props.hasArticle ? 
                                 <Button 
                                 variant = 'text'
@@ -67,35 +72,46 @@ export default function Carta( props ){
                                 </Button>
                                 :
                                 <span />
-                        }                                          
-                            <Button 
-                                variant = 'contained'
-                                LinkComponent={ Link } 
-                                to = "/editCard/"  
-                                onClick = { () =>{
-                                   
-                                    dispatch( loadIdCard( props.idCard ) ), 
-                                    dispatch( loadImg( props.img ) )    
-                              
-                                } } 
-                            > 
-                                <Typography component = {'span'} color={`#350404`}  > Editar </Typography> 
-                            </Button>
-
-                            <Button 
-                                onClick = {  () => { 
+                }
+                {
+                    mode ?
+                        <CardActions
+                            sx={{  }}
+                        >
+                                                            
+                            <ButtonGroup>
+                                <Button 
+                                    variant = 'contained'
+                                    LinkComponent={ Link } 
+                                    to = "/editCard/"  
+                                    onClick = { () =>{
                                     
-                                    props.handleDelete( props.idCard )
-                                } } 
-                                variant="contained"
-                            > 
-                               <Typography component = {'span'} color={`#350404`}  > Borrar </Typography> 
-                            </Button>
+                                        dispatch( loadIdCard( props.idCard ) ), 
+                                        dispatch( loadImg( props.img ) )    
+                                
+                                    } } 
+                                > 
+                                    <Typography component = {'span'} color={`#350404`}  > Editar </Typography> 
+                                </Button>
+
+                                <Button 
+                                    onClick = {  () => { 
+                                        
+                                        props.handleDelete( props.idCard )
+                                    } } 
+                                    variant="contained"
+                                > 
+                                <Typography component = {'span'} color={`#350404`}  > Borrar </Typography> 
+                                </Button>
+                                
+                            </ButtonGroup>
 
                          </CardActions>
                     : //else
                         <span />
                 }
+                </Container>
+                
              </Card>
 
         </Grid>

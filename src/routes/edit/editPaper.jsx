@@ -8,10 +8,8 @@ import {
     MenuItem, 
     Select, 
     TextField, 
-    Typography,
     IconButton, 
-    Stack,
-    Pagination
+    Button
 } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,41 +18,44 @@ import {
     deleteImage, 
     getAllImages, 
     getArticles, 
-    getPaper, 
     getGalleries, 
-    uploadPhoto , 
-    patchPaper, 
-    getPaginatedImages
+    getPaginatedImages, 
+    uploadCompressedPhoto, 
+    getPaper,
 } from '../../axiosMain';
-
-import { useNavigate , useParams } from 'react-router-dom';
+import { patchPaper } from '../../axiosMain';
+import { useNavigate , useOutletContext, useParams } from 'react-router-dom';
 import Admin from '../../admin' ; 
 import ListaImagenes from './listaImagenes';
 import MaqromLogo from "../../assets/MaqromLogoPlantilla.png" ;
-import imageCompression from 'browser-image-compression';
+import Sidebar from './sidebar';
+import Papers from '../../components/papers';
 
-export default function EditPaper(  ){
-    const paperId = useParams() ;
-   /* Lista Imagenes */
-        const [ imageList , setImageList ] = React.useState( [] ) ;
-        const [ galleries , setGalleries ] = React.useState( [] ) ;
-        const [ gallery , setGallery ] = React.useState( '' ) ;
-        const [ image , setImage ] = React.useState('') ;
-        const [ page , setPage ] = React.useState(1) ;
-        const [ pageCount , setPageCount ] = React.useState(1) ;  
+export default function EditPaper(){
+    /* States */
+        /* Lista Imagenes */
+            const [ imageList , setImageList ] = React.useState( [] ) ;
+            const [ galleries , setGalleries ] = React.useState( [] ) ;
+            const [ gallery , setGallery ] = React.useState( '' ) ;
+            const [ image , setImage ] = React.useState( '' ) ; 
+            const [ page , setPage ] = React.useState(1) ;
+            const [ pageCount , setPageCount ] = React.useState( 1 ) ; 
+        /* Sidebar */
+            const [ sidebar, setSidebar ] = useOutletContext() ;
         
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ; 
     const [ paper , setPaper ] = useState([]) ; 
+    const idPaper = useParams( ) ;
     const [ titulo, setTitulo ] = useState() ; 
     const [ contenido, setContenido ] = useState() ; 
     const [ alt , setAlt ] = useState() ;
     const [ article , setArticle ] = useState('') ;
     const [ articles , setArticles ] = useState([]) ;
-    
+       
    
     const navigate = useNavigate() ;
-
+    
     /* Handlers */
 
     const handlePage = ( event , newPage ) =>{
@@ -62,11 +63,10 @@ export default function EditPaper(  ){
         getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
     }
 
-
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
     const handleAlt = ( e ) => setAlt( e.target.value ) ; 
-    
+
     const handleImagen = async ( e ) => { 
         // ( file , alt , gallery , setImage , setImageList, page , setPageCount ) 
        const file  = e.target.files[0] ;
@@ -77,10 +77,12 @@ export default function EditPaper(  ){
 
 
     const handleSubmit = async ( e ) =>{
+
         e.preventDefault() ;
         patchPaper( 
-            paper.idCard , 
-            titulo, contenido , 
+            idPaper.idPaper, 
+            titulo, 
+            contenido , 
             !image ? paper.img : image ,
             article ? article :  'pagina'
         ) ; 
@@ -94,7 +96,8 @@ export default function EditPaper(  ){
         await deleteImage( nombreImage  ) ;
         setAlt( '' ) ;
         setImage('');
-        getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery ) ;
+        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
+        //getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery ) ;
         
     }
 
@@ -104,11 +107,18 @@ export default function EditPaper(  ){
         setArticle( articleValue === 'Sin Articulo' ? '' : articleValue ) ;
         
     }
+
+     /* Para abrir la sidebar */
+     const toogle = ( open ) =>  {
+        setSidebar( open );
+    };
+
     
     React.useEffect(() => {
-        getPaper( setPaper , paperId ) ; 
+        getPaper( setPaper , idPaper.idPaper ) ; 
+        getAllImages( setImageList ) ;
         getArticles( setArticles ) ;
-       
+        setSidebar( false ) ;
     }, []);
 
     React.useEffect(() => {
@@ -119,7 +129,7 @@ export default function EditPaper(  ){
             setPageCount 
         ) ;  
     }, [ page , gallery ]);
-    
+
     React.useEffect( () => {
         getGalleries( setGalleries ) ;
         getAllImages( setImageList , gallery === 'Todas las imagenes' ? '' : gallery );
@@ -127,17 +137,25 @@ export default function EditPaper(  ){
    
     if( !mode ){
         return <Admin />
-
     }
     else
     return(
 
             <Box component='form' className= 'editCardForm' onSubmit={ handleSubmit } >
-                
-                <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } >
-                     { `Esta carta actualmente redirige a ${paper.article} ${ paper.route }` } 
-                </Typography>
-                <Typography variant="h1" gutterBottom sx={ { alignSelf: 'center' } } > { paper.idpaper } </Typography>
+                <Sidebar 
+                    sidebar = { sidebar } 
+                    toogle = { toogle }
+                />  
+                <Papers 
+                    key = { paper.idPaper }
+                    img = { paper.img }
+                    title = { paper.title }
+                    content = { paper.content }
+                    route = { paper.route }
+                    idPaper = { paper.idPaper }
+
+                />
+        
                 <FormControl  variant="filled" sx={{ m: 1, minWidth: '60%' }} >
                     <InputLabel id="demo-simple-select-filled-label"> Articulos dados de alta </InputLabel>
                     <Select
@@ -155,6 +173,7 @@ export default function EditPaper(  ){
                         }
                     </Select>
                 </FormControl>
+
                 <TextField 
                     autoFocus
                     className='editCardFormTextField' 
@@ -162,7 +181,7 @@ export default function EditPaper(  ){
                     defaultValue = { paper.title }
                     label = 'Titulo'
                     multiline
-                     inputProps={ { maxLength: 50 } }
+                    inputProps={ { maxLength: 50 } }
                     onChange={ handleTitulo }
                     InputLabelProps={{ shrink: true }} 
                 />
@@ -178,6 +197,7 @@ export default function EditPaper(  ){
                     defaultValue = { paper.content }
                     InputLabelProps={{ shrink: true }} 
                 />  
+
                 <Box sx = { { display: 'flex' , flexDirection: 'row' } } > 
                     <ListaImagenes 
                             setImageList = { setImageList }
@@ -188,23 +208,34 @@ export default function EditPaper(  ){
                             gallery = { gallery } 
                             galleries = { galleries }
                             imageList = { imageList }
+                            pageCount = { pageCount }
+                            page = { page }
+                            handlePage = { handlePage }
                     />
-                    <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
-                    <img width={ '500' }  height={ '450' } src={ !paper.img ? MaqromLogo : paper.img } />
-                </Box>
-                <Stack spacing={2}>
-                    <Pagination 
-                        count={ pageCount } 
-                        color="primary" 
-                        page={ page }
-                        onChange = { handlePage }
-                    />
-                 </Stack>            
 
-               <IconButton color="primary" aria-label="upload picture" component="label">
+                    <Box sx={{ display: 'flex' , flexDirection: 'column' , alignItems: 'center' , justifyContent: 'center' }} >
+                        <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
+                            <Button 
+                                variant='contained'
+                                
+                                sx={ { 
+                                    width: '100%' , 
+                                    alignSelf: 'center'  
+                                } } 
+                                onClick={ handleDeleteImage }
+                            >
+                              Borrar Esta Imagen  
+                              <DeleteIcon />
+                            </Button>         
+                    </Box>
+
+                </Box>
+
+                <IconButton color="primary" aria-label="upload picture" component="label">
                      <input hidden accept="image/*" type="file" onChange= { handleImagen }  />
                      <AddAPhotoIcon />
                 </IconButton>
+
                 <IconButton 
                     aria-label="Example" 
                     sx={ { 
@@ -226,17 +257,6 @@ export default function EditPaper(  ){
                     onChange={ handleAlt }
                 />  
 
-            
-                <IconButton 
-                    aria-label="Example" 
-                    sx={ { 
-                        width: '20%' , 
-                        alignSelf: 'center'  
-                    } } 
-                    onClick={ handleDeleteImage }
-                >
-                    <DeleteIcon></DeleteIcon>
-                </IconButton>
             </Box>
      
 

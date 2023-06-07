@@ -2,6 +2,8 @@ import * as React from 'react' ;
 import { Container, ImageList, ImageListItem, ImageListItemBar, Pagination, Stack } from '@mui/material';
 import GalleryPicker from './galleryPicker';
 import imageCompression from 'browser-image-compression';
+import Admin from '../../admin';
+import { useSelector } from 'react-redux';
 
 export default function ListaImagenes( props ){
     const [ page, setPage ] = React.useState(1) ;
@@ -11,7 +13,12 @@ export default function ListaImagenes( props ){
       props.handlePage( event, newPage ) ;
       setPage( newPage ) ;
     }
+    const mode = useSelector( ( state ) => state.adminMode.value ) ; 
+    if( !mode ){
+        return <Admin />
 
+    }
+    else
     return (
         <Container>
             <GalleryPicker 

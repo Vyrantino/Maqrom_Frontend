@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Box,  Typography,  ButtonGroup, Button, Grid, Paper } from '@mui/material';
+import { Box,  Typography,  ButtonGroup, Button, Grid, Paper, Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadArticle } from './redux/editForm';
+import { useTheme } from '@emotion/react';
 
 export default function Papers( props ) {
   const mode = useSelector( ( state ) => state.adminMode.value ) ;
@@ -10,23 +11,32 @@ export default function Papers( props ) {
   return (
     <Grid
         item
-        justifyContent={'space-evenly'}
         
         xs = { 12 }
-        sm = { 12 }
-        md = { 6 }
+        sm = { 7 }
+        md = { 5 }
         lg = { 4 }
-        xl = { 3 }
+        xl = { 4 }
     >
+    
         <Paper
-          
-           sx={{
-            backgroundColor: 'black'
-           }}
-        > 
+            sx={{
+                width: '20rem',
+                height: '20rem',
+                bgcolor: 'background.default',
+                
+                padding: "1em 1em 0 1em", 
+            }}
+            
+        >   
+            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}  > 
+                <img src={ props.img } width={'50%'} height={'50%'} />
+            </Box>
 
-
+            <Typography variant='h3' align='center' > { props.title } </Typography>
+            <Typography align='center' > { props.content } </Typography>
         </Paper>
+
          {
               mode ?
               <ButtonGroup>

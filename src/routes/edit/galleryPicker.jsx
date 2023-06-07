@@ -12,6 +12,8 @@ import {
 import * as React from 'react'; 
 import { createGallery, deleteGallery, patchGallery } from '../../axiosMain';
 import Dialogo from '../../components/Dialogo';
+import Admin from '../../admin';
+import { useSelector } from 'react-redux';
 
 
 export default function GalleryPicker( props ) {
@@ -51,7 +53,13 @@ export default function GalleryPicker( props ) {
     const closeDialog = () =>{
         setOpen( false ) ;
     }
-   
+
+    const mode = useSelector( ( state ) => state.adminMode.value ) ; 
+    if( !mode ){
+        return <Admin />
+
+    }
+    else
     return(
         <Container maxWidth = 'sm'   >
            
