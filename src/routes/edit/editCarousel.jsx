@@ -6,6 +6,7 @@ import {
     Button, 
     ButtonGroup, 
     Container, 
+    Divider, 
     FormControl, 
     IconButton, 
     InputLabel, 
@@ -37,268 +38,276 @@ import MaqromLogo from "../../assets/MaqromLogoPlantilla.png" ;
 import Sidebar from './sidebar';
 import imageCompression from 'browser-image-compression';
 
-export default function EditCarousel(){
-    const dispatch = useDispatch() ;
-    const navigate = useNavigate() ;
-    const mode = useSelector( ( state ) => state.adminMode.value ) ; 
- /** States */
-        /* Lista Imagenes */
-        const [ imageList , setImageList ] = React.useState( [] ) ;
-        const [ galleries , setGalleries ] = React.useState( [] ) ;
-        const [ gallery , setGallery ] = React.useState( '' ) ;
-        const [ image , setImage ] = React.useState('') ; 
-        const [ page , setPage ] = React.useState(1) ;
-        const [ pageCount , setPageCount ] = React.useState(1) ; 
-        /* Carousel */
-        const [ route , setRoute ] = useState('') ;
-        const [ carouselItems , setCarouselItems ] = useState([]) ;
-        const [ carouselItem , setCarouselItem ] = useState() ;
-        const [ titulo, setTitulo ] = useState() ; 
-        const [ contenido, setContenido ] = useState() ; 
-        const [ alt , setAlt ] = useState() ;
-        const [ currentImage , setCurrentImage ] = useState() ;
-        const [ index, setIndex ] = React.useState( 0 ) ;
-        /* Sidebar */
-        const [ sidebar, setSidebar ] = useOutletContext() ;
-    // Handlers
-    const handlePage = ( event , newPage ) =>{
-        setPage( newPage ) ;
-        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
+export default function EditCarousel() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const mode = useSelector((state) => state.adminMode.value);
+  /** States */
+  /* Lista Imagenes */
+  const [imageList, setImageList] = React.useState([]);
+  const [galleries, setGalleries] = React.useState([]);
+  const [gallery, setGallery] = React.useState("");
+  const [image, setImage] = React.useState("");
+  const [page, setPage] = React.useState(1);
+  const [pageCount, setPageCount] = React.useState(1);
+  /* Carousel */
+  const [route, setRoute] = useState("");
+  const [carouselItems, setCarouselItems] = useState([]);
+  const [carouselItem, setCarouselItem] = useState();
+  const [titulo, setTitulo] = useState();
+  const [contenido, setContenido] = useState();
+  const [alt, setAlt] = useState();
+  const [currentImage, setCurrentImage] = useState();
+  const [index, setIndex] = React.useState(0);
+  /* Sidebar */
+  const [sidebar, setSidebar] = useOutletContext();
+  // Handlers
+  const handlePage = (event, newPage) => {
+    setPage(newPage);
+    getPaginatedImages(setImageList, gallery, page, setPageCount);
+  };
+
+  const handleTitulo = (e) => setTitulo(e.target.value);
+  const handleContenido = (e) => setContenido(e.target.value);
+  const handleAlt = (e) => setAlt(e.target.value);
+
+  const handleChangeRoute = (e) => {
+    e.preventDefault();
+    setRoute(e.target.value);
+    getCarouselItems(setCarouselItems, route);
+  };
+
+  const handleImagen = async (e) => {
+    // ( file , alt , gallery , setImage , setImageList, page , setPageCount )
+    const file = e.target.files[0];
+
+    await uploadCompressedPhoto(
+      file,
+      alt,
+      gallery,
+      setImage,
+      setImageList,
+      page,
+      setPageCount
+    )
+      .then( () => getPaginatedImages( setImageList , gallery , page , setPageCount )  ) ; 
+  };
+
+  const handleCreateNewCarouselItem = async (e) => {
+    e.preventDefault();
+
+    if (!route) {
+      alert("Debe seleccionar un carousel primero");
+    } else {
+      const newCarouselItem = new NewCarouselItemDto(route);
+      await createNewCarouselItem(newCarouselItem, route);
+      await getCarouselItems(setCarouselItems, route);
     }
+  };
 
-    const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
-    const handleContenido = ( e ) => setContenido( e.target.value ) ; 
-    const handleAlt = ( e ) => setAlt( e.target.value ) ;
-    
-    const handleChangeRoute =  ( e ) => {
-        e.preventDefault() ;
-        setRoute( e.target.value ) ;
-        getCarouselItems( setCarouselItems , route ) ;
-    } 
+  const handleDeleteCarouselItem = async (e) => {
+    e.preventDefault();
+    deleteCarouselItem(carouselItem);
+    getCarouselItems(setCarouselItems, route);
+  };
 
-    const handleImagen = async ( e ) => { 
-        // ( file , alt , gallery , setImage , setImageList, page , setPageCount ) 
-       const file  = e.target.files[0] ;
-       
-       uploadCompressedPhoto( file , alt , gallery , setImage , setImageList , page , setPageCount ) ;
-
-    }; 
-
-
-    const handleCreateNewCarouselItem = async ( e ) =>{
-        e.preventDefault() ;
-        
-       if( !route ) {
-            alert( 'Debe seleccionar un carousel primero' ) ;
-       }
-       else{
-            const newCarouselItem = new NewCarouselItemDto( route ) ;
-            await createNewCarouselItem( newCarouselItem , route ) ;
-            await getCarouselItems( setCarouselItems,  route ) ;
-       }
-    }
-
-    const handleDeleteCarouselItem = async ( e ) =>{
-        e.preventDefault() ;
-        deleteCarouselItem( carouselItem ) ;
-        getCarouselItems( setCarouselItems, route ) ;
-                
-    }
-    
-    const handleSubmit = async ( e ) =>{
-        e.preventDefault() ;
-        await patchCarousel( 
-            carouselItem , 
-            titulo, 
-            contenido , 
-            !image ? 
-                carouselItem.img 
-                : 
-                image 
-        ) ; 
-        getCarouselItems( setCarouselItems , route ) ;
-        
-    }    
-
-    const handleDeleteImage = async ( e ) =>{
-        e.preventDefault() ;
-        const partirImage = image.split('/');
-        const nombreImage = partirImage[partirImage.length - 1];
-        await deleteImage( nombreImage  ) ;
-        setAlt( '' ) ;
-        setImage( '' );
-        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
-        
-    }
-
-    /* Para abrir la sidebar */
-    const toogle = ( open ) =>  {
-        setSidebar( open );
-    };
-
-
-    /* Effects */
-    React.useEffect(() => {
-       
-        getGalleries( setGalleries ) ;
-        setSidebar( false ) ;
-    }, [  ]);
-    
-    React.useEffect(() => {
-        getPaginatedImages( 
-            setImageList , 
-            gallery === 'Todas las imagenes' ? '' : gallery, 
-            page , 
-            setPageCount 
-        ) ;  
-    }, [ page , gallery ]);
-   
-    React.useEffect( () =>{
-        getCarouselItems( setCarouselItems , route );
-    }, [ route ] )
-
-    React.useEffect( () => {
-        getGalleries( setGalleries ) ;
-    }, [ gallery ] ) ; 
-
-    if( !mode ){
-        return <Admin />
-    }
-    else
-    return(
-        <Container className= 'editCardForm' >
-             <Sidebar 
-                sidebar = { sidebar } 
-                toogle = { toogle }
-            />  
-            <FormControl variant="filled" sx={{ m: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-filled-label">Elija el Carrusel</InputLabel>
-                <Select
-                    labelId="demo-simple-select-filled-label"
-                    id="demo-simple-select-filled"
-                    value={ route }
-                    onChange={ handleChangeRoute  }
-                >
-                    <MenuItem value={ `Homepage` } >Homepage</MenuItem>
-                    <MenuItem value={ 'Renta' }   >Renta</MenuItem>
-                    <MenuItem value={ 'Planos' } >Planos</MenuItem>
-                    <MenuItem value={ 'Proyectos' }>Proyectos</MenuItem>
-                    <MenuItem value={ 'Servicios' }>Servicios</MenuItem>
-                    <MenuItem value={ 'CalidadProductos' }>CalidadProductos</MenuItem>
-                    <MenuItem value={ 'CalidadServicios' }>CalidadServicios</MenuItem>
-                    <MenuItem value={ 'Certificados' }>Certificados</MenuItem>
-                    <MenuItem value={ 'Contacto' }>Contacto</MenuItem>
-                    <MenuItem value={ 'Nosotros' }>Nosotros</MenuItem>
-                </Select>
-            </FormControl>
-            
-
-            <Carousel 
-                    route = { route } 
-                    index = { index }
-                    setCarouselItem = { setCarouselItem } 
-                    currentImage = { setCurrentImage }
-                    carouselItems = { carouselItems }
-            />
-            <ButtonGroup  >
-                <Button variant='contained' endIcon = { <AddAPhotoIcon  /> }  onClick = { handleCreateNewCarouselItem } >
-                    Agregar una foto predeterminada al carousel
-                </Button>
-
-                <Button 
-                            color='error'
-                            variant='contained'
-                            onClick={ handleDeleteCarouselItem }
-                            endIcon = { <DeleteIcon /> }
-                >
-                    Borrar el elemento seleccionado
-                </Button>
-
-                <Button 
-                    variant = 'contained'
-                    color='success'
-                    onClick = { handleSubmit }
-                    endIcon = { <PublishIcon /> }
-                >
-                    Cambiar foto    
-                </Button>
-
-                <Button variant= 'contained' color="primary" aria-label="upload picture" component="label" endIcon={ <AddAPhotoIcon /> } >
-                     <input hidden accept="image/*" type="file" onChange= { handleImagen }  />
-                     
-                     Subir una Imagen
-                </Button>
-            </ButtonGroup>
-            <Box sx = { { display: 'flex' , flexDirection: 'row' } } >   
-                        <ListaImagenes 
-                            setImageList = { setImageList }
-                            setGallery = { setGallery }
-                            setImage = { setImage } 
-                            height= { 450 } 
-                            width = { 500 } 
-                            gallery = { gallery } 
-                            galleries = { galleries }
-                            imageList = { imageList }
-                            pageCount = { pageCount }
-                            page = { page }
-                            handlePage = { handlePage }
-                        />
-                         <Box sx={{ display: 'flex' , flexDirection: 'column' }} >
-                                <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
-                       
-                          
-                                <Button 
-                                    variant='contained'
-                                    
-                                    sx={ { 
-                                        width: '100%' , 
-                                        alignSelf: 'center'  
-                                    } } 
-                                    onClick={ handleDeleteImage }
-                                >
-                                    Borrar Esta Imagen  
-                                    <DeleteIcon />
-                                </Button>         
-                        </Box>
-                        
-            </Box>         
-    
-
-            <Box component='form' className= 'editCardForm' onSubmit={ handleSubmit } >  
-                <TextField 
-                    className='editCardFormTextField' 
-                    id="filled-basic"
-                    label = 'Titulo'
-                    multiline
-                    onChange={ handleTitulo }
-                    InputLabelProps={{ shrink: true }} 
-                />
-                        
-                <TextField 
-                    id="filled-multiline-static"
-                    label="Contenido"
-                    multiline
-                    rows={2}
-                    variant="filled"
-                    onChange={ handleContenido }
-                    InputLabelProps={{ shrink: true }} 
-                />  
-                <Box sx = { { display: 'flex' , flexDirection: 'row' } } > 
-                   
-                </Box>
-
-              
-
-                <TextField 
-                    className='editCardFormTextField' 
-                    id="filled-basic"
-                    label = 'Breve descripcion de la imagen'
-                    onChange={ handleAlt }
-                />  
-            </Box>
-        </Container>    
-            
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await patchCarousel(
+      carouselItem,
+      titulo,
+      contenido,
+      !image ? carouselItem.img : image
     );
+    getCarouselItems(setCarouselItems, route);
+  };
 
+  const handleDeleteImage = async (e) => {
+    e.preventDefault();
+    const partirImage = image.split("/");
+    const nombreImage = partirImage[partirImage.length - 1];
+    await deleteImage(nombreImage);
+    setAlt("");
+    setImage("");
+    getPaginatedImages(setImageList, gallery, page, setPageCount);
+  };
+
+  /* Para abrir la sidebar */
+  const toogle = (open) => {
+    setSidebar(open);
+  };
+
+  /* Effects */
+  React.useEffect(() => {
+    getGalleries(setGalleries);
+    setSidebar(false);
+  }, []);
+
+  React.useEffect(() => {
+    getPaginatedImages(
+      setImageList,
+      gallery === "Todas las imagenes" ? "" : gallery,
+      page,
+      setPageCount
+    );
+  }, [page, gallery]);
+
+  React.useEffect(() => {
+    getCarouselItems(setCarouselItems, route);
+  }, [route]);
+
+  React.useEffect(() => {
+    getGalleries(setGalleries);
+  }, [gallery]);
+
+  if (!mode) {
+    return <Admin />;
+  } else
+    return (
+      <Container className="editCardForm">
+        <Sidebar sidebar={sidebar} toogle={toogle} />
+        <FormControl variant="filled" sx={{ m: 1, minWidth: "100%" }}>
+          <InputLabel id="demo-simple-select-filled-label">
+            Elija el Carrusel
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-filled-label"
+            id="demo-simple-select-filled"
+            value={route}
+            onChange={handleChangeRoute}
+          >
+            <MenuItem value={`Homepage`}>Homepage</MenuItem>
+            <MenuItem value={"Renta"}>Renta</MenuItem>
+            <MenuItem value={"Planos"}>Planos</MenuItem>
+            <MenuItem value={"Proyectos"}>Proyectos</MenuItem>
+            <MenuItem value={"Servicios"}>Servicios</MenuItem>
+            <MenuItem value={"CalidadProductos"}>CalidadProductos</MenuItem>
+            <MenuItem value={"CalidadServicios"}>CalidadServicios</MenuItem>
+            <MenuItem value={"Certificados"}>Certificados</MenuItem>
+            <MenuItem value={"Contacto"}>Contacto</MenuItem>
+            <MenuItem value={"Nosotros"}>Nosotros</MenuItem>
+          </Select>
+        </FormControl>
+
+        <Carousel
+          route={route}
+          index={index}
+          setCarouselItem={setCarouselItem}
+          currentImage={setCurrentImage}
+          carouselItems={carouselItems}
+        />
+        <ButtonGroup
+          sx={{ width: '100%'  , justifyContent: 'center' }}
+        >
+          <Button
+            variant="contained"
+            endIcon={<AddAPhotoIcon />}
+            onClick={handleCreateNewCarouselItem}
+          >
+            Agregar una foto predeterminada al carousel
+          </Button>
+
+          <Button
+            color="error"
+            variant="contained"
+            onClick={handleDeleteCarouselItem}
+            endIcon={<DeleteIcon />}
+          >
+            Borrar el elemento seleccionado
+          </Button>
+
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleSubmit}
+            endIcon={<PublishIcon />}
+          >
+            Cambiar foto
+          </Button>
+        </ButtonGroup>
+
+        <Box component="form" className="editCardForm" onSubmit={handleSubmit} padding={2} >
+          <TextField
+            className="editCardFormTextField"
+            id="filled-basic"
+            label="Titulo"
+            multiline
+            onChange={handleTitulo}
+            InputLabelProps={{ shrink: true }}
+          />
+
+          <TextField
+            id="filled-multiline-static"
+            label="Contenido"
+            multiline
+            rows={2}
+            variant="filled"
+            onChange={handleContenido}
+            InputLabelProps={{ shrink: true }}
+          />
+          <Box sx={{ display: "flex", flexDirection: "row" }}></Box>
+        </Box>
+
+        <Box sx={{ display: "flex", flexDirection: "row" , justifyContent: 'center' }}>
+          <ListaImagenes
+            setImageList={setImageList}
+            setGallery={setGallery}
+            setImage={setImage}
+            height={450}
+            width={500}
+            gallery={gallery}
+            galleries={galleries}
+            imageList={imageList}
+            pageCount={pageCount}
+            page={page}
+            handlePage={handlePage}
+          />
+          
+          <Box sx={{ display: "flex", flexDirection: "column" , padding: 3 , }}>
+            <Button
+              variant="contained"
+              color="primary"
+              aria-label="upload picture"
+              component="label"
+              endIcon={<AddAPhotoIcon />}
+            >
+              <input
+                hidden
+                accept="image/*"
+                type="file"
+                onChange={handleImagen}
+              />
+              Subir una Imagen
+            </Button>
+            <Divider sx={{ height: '1em' }}/>
+            <TextField
+              className="editCardFormTextField"
+              id="filled-basic"
+              label="Breve descripcion de la imagen"
+              onChange={handleAlt}
+            />
+            <img
+              width={"500"}
+              height={"450"}
+              src={!image ? MaqromLogo : image}
+            />
+
+            <Button
+              variant="contained"
+              color= "error"
+              sx={{
+                width: "100%",
+                alignSelf: "center",
+              }}
+              onClick={handleDeleteImage}
+            >
+              Borrar Esta Imagen
+              <DeleteIcon />
+            </Button>
+          </Box>
+        </Box>
+
+        
+      </Container>
+    );
 }

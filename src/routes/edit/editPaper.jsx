@@ -9,7 +9,10 @@ import {
     Select, 
     TextField, 
     IconButton, 
-    Button
+    Button,
+    Divider,
+    Container,
+    Grid
 } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -42,7 +45,7 @@ export default function EditPaper(){
             const [ pageCount , setPageCount ] = React.useState( 1 ) ; 
         /* Sidebar */
             const [ sidebar, setSidebar ] = useOutletContext() ;
-        
+            
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ; 
     const [ paper , setPaper ] = useState([]) ; 
@@ -58,10 +61,10 @@ export default function EditPaper(){
     
     /* Handlers */
 
-    const handlePage = ( event , newPage ) =>{
-        setPage( newPage ) ;
-        getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
-    }
+  const handlePage = (event, newPage) => {
+    setPage(newPage);
+    getPaginatedImages(setImageList, gallery, page, setPageCount);
+  };
 
     const handleTitulo = ( e ) => setTitulo( e.target.value ) ; 
     const handleContenido = ( e ) => setContenido( e.target.value ) ; 
@@ -70,8 +73,16 @@ export default function EditPaper(){
     const handleImagen = async ( e ) => { 
         // ( file , alt , gallery , setImage , setImageList, page , setPageCount ) 
        const file  = e.target.files[0] ;
-       
-       uploadCompressedPhoto( file , alt , gallery , setImage , setImageList , page , setPageCount ) ;
+       await uploadCompressedPhoto(
+        file,
+        alt,
+        gallery,
+        setImage,
+        setImageList,
+        page,
+        setPageCount
+      )
+        .then( () => getPaginatedImages( setImageList , gallery , page , setPageCount )  ) ; 
 
     }; 
 
@@ -117,7 +128,7 @@ export default function EditPaper(){
     React.useEffect(() => {
         getPaper( setPaper , idPaper.idPaper ) ; 
         getAllImages( setImageList ) ;
-        getArticles( setArticles ) ;
+        getArticles( setArticles ) ;    
         setSidebar( false ) ;
     }, []);
 
@@ -140,126 +151,150 @@ export default function EditPaper(){
     }
     else
     return(
-
-            <Box component='form' className= 'editCardForm' onSubmit={ handleSubmit } >
+            <Box 
+                display={'flex'}
+                flexDirection={'column'}
+                sx={{  }}
+                component='form'  
+                onSubmit={ handleSubmit } 
+            >
                 <Sidebar 
                     sidebar = { sidebar } 
                     toogle = { toogle }
                 />  
-                <Papers 
-                    key = { paper.idPaper }
-                    img = { paper.img }
-                    title = { paper.title }
-                    content = { paper.content }
-                    route = { paper.route }
-                    idPaper = { paper.idPaper }
-
-                />
-        
-                <FormControl  variant="filled" sx={{ m: 1, minWidth: '60%' }} >
-                    <InputLabel id="demo-simple-select-filled-label"> Articulos dados de alta </InputLabel>
-                    <Select
-                        labelId="demo-simple-select-filled-label"
-                        id="demo-simple-select-filled"
-                        value={ article }
-                        onChange={ handleChangeArticle  }
-                        defaultValue=''
-                    >   
-                        <MenuItem key = 'blank' value = { 'Sin Articulo' } > Sin Articulo </MenuItem>
-                        {
-                            articles.map( ( item ) => (
-                                <MenuItem key = { item.idArticle }  value = { item.articleName }  > { item.articleName } </MenuItem> 
-                             ) )
-                        }
-                    </Select>
-                </FormControl>
-
-                <TextField 
-                    autoFocus
-                    className='editCardFormTextField' 
-                    id="filled-basic"
-                    defaultValue = { paper.title }
-                    label = 'Titulo'
-                    multiline
-                    inputProps={ { maxLength: 50 } }
-                    onChange={ handleTitulo }
-                    InputLabelProps={{ shrink: true }} 
-                />
-                        
-                <TextField 
-                    id="filled-multiline-static"
-                    label="Contenido"
-                    multiline
-                    inputProps={ { maxLength: 255 } }
-                    
-                    variant="filled"
-                    onChange={ handleContenido }
-                    defaultValue = { paper.content }
-                    InputLabelProps={{ shrink: true }} 
-                />  
-
-                <Box sx = { { display: 'flex' , flexDirection: 'row' } } > 
-                    <ListaImagenes 
-                            setImageList = { setImageList }
-                            setGallery = { setGallery }
-                            setImage = { setImage } 
-                            height= { 450 } 
-                            width = { 500 } 
-                            gallery = { gallery } 
-                            galleries = { galleries }
-                            imageList = { imageList }
-                            pageCount = { pageCount }
-                            page = { page }
-                            handlePage = { handlePage }
-                    />
-
-                    <Box sx={{ display: 'flex' , flexDirection: 'column' , alignItems: 'center' , justifyContent: 'center' }} >
-                        <img width={ '500' }  height={ '450' } src={ !image ? MaqromLogo : image } />
-                            <Button 
-                                variant='contained'
-                                
-                                sx={ { 
-                                    width: '100%' , 
-                                    alignSelf: 'center'  
-                                } } 
-                                onClick={ handleDeleteImage }
-                            >
-                              Borrar Esta Imagen  
-                              <DeleteIcon />
-                            </Button>         
-                    </Box>
-
-                </Box>
-
-                <IconButton color="primary" aria-label="upload picture" component="label">
-                     <input hidden accept="image/*" type="file" onChange= { handleImagen }  />
-                     <AddAPhotoIcon />
-                </IconButton>
-
-                <IconButton 
-                    aria-label="Example" 
-                    sx={ { 
-                        width: '20%' , 
-                        alignSelf: 'center'  
-                        } } 
-                    type='submit'
-                    onClick = {() => {
-                        navigate(-1) ; 
-                     }}
+                <Box
+                    alignSelf={'center'}
                 >
-                    <PublishIcon />   
-                </IconButton>
+                     <Papers 
+                        key = { paper.idPaper }
+                        img = { paper.img }
+                        title = { paper.title }
+                        content = { paper.content }
+                        route = { paper.route }
+                        idPaper = { paper.idPaper }
+                        buttons = { false }
+                    />
+                </Box>
+               
+                <Box
+                    display={'flex'}
+                    flexDirection={'column'}
+                    alignContent={'center'}
+                    alignSelf={'center'}
+                    width={'70%'}
+                >
+                    <FormControl  variant="filled" sx={{ m: 1 }} >
+                        <InputLabel id="demo-simple-select-filled-label"> Articulos dados de alta </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-filled-label"
+                            id="demo-simple-select-filled"
+                            value={ article }
+                            onChange={ handleChangeArticle  }
+                            defaultValue=''
+                        >   
+                            <MenuItem key = 'blank' value = { 'Sin Articulo' } > Sin Articulo </MenuItem>
+                            {
+                                articles.map( ( item ) => (
+                                    <MenuItem key = { item.idArticle }  value = { item.articleName }  > { item.articleName } </MenuItem> 
+                                ) )
+                            }
+                        </Select>
+                    </FormControl>
 
-                <TextField 
-                    className='editCardFormTextField' 
-                    id="filled-basic"
-                    label = 'Breve descripcion de la imagen'
-                    onChange={ handleAlt }
-                />  
-
+                    <TextField 
+                        autoFocus
+                        className='editCardFormTextField' 
+                        id="filled-basic"
+                        defaultValue = { paper.title }
+                        label = 'Titulo'
+                        multiline
+                        inputProps={ { maxLength: 50 } }
+                        onChange={ handleTitulo }
+                        InputLabelProps={{ shrink: true }} 
+                    />
+                            
+                    <TextField 
+                        id="filled-multiline-static"
+                        label="Contenido"
+                        multiline
+                        inputProps={ { maxLength: 255 } }
+                        
+                        variant="filled"
+                        onChange={ handleContenido }
+                        defaultValue = { paper.content }
+                        InputLabelProps={{ shrink: true }} 
+                    /> 
+                    <Box sx = { { display: 'flex' , flexDirection: 'row' } } > 
+                        <ListaImagenes 
+                                setImageList = { setImageList }
+                                setGallery = { setGallery }
+                                setImage = { setImage } 
+                                height= { 450 } 
+                                width = { 500 } 
+                                gallery = { gallery } 
+                                galleries = { galleries }
+                                imageList = { imageList }
+                                pageCount = { pageCount }
+                                page = { page }
+                                handlePage = { handlePage }
+                        />
+                            <Box padding={6} >
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    sx={{
+                                        width: "100%",
+                                        alignSelf: "center",
+                                    }}
+                                    type="submit"
+                                    onClick={() => {
+                                        navigate(-1);
+                                    }}
+                                    endIcon= { <PublishIcon /> }
+                                >
+                                    Aplicar cambios
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    component="label"
+                                    endIcon={<AddAPhotoIcon />}
+                                    sx={{ width: '100%' }}
+                                >
+                                    <input
+                                        hidden
+                                        accept="image/*"
+                                        type="file"
+                                        onChange={handleImagen}
+                                    />
+                                    Subir una Imagen
+                                </Button>
+                                <Divider sx = {{ padding: '.3em' }} />
+                                <TextField
+                                    sx={{ width: '100%' }}
+                                    className="editCardFormTextField"
+                                    id="filled-basic"
+                                    label="Breve descripcion de la imagen"
+                                    onChange={handleAlt}
+                                />
+                                <img width={ '100%' }  height={ '450' } src={ !image ? MaqromLogo : image } />
+                                <Button 
+                                    variant='contained'
+                                    
+                                    sx={ { 
+                                        width: '100%' , 
+                                        alignSelf: 'center'  
+                                    } } 
+                                    onClick={ handleDeleteImage }
+                                >
+                                    Borrar Esta Imagen  
+                                    <DeleteIcon />
+                                </Button>  
+                            </Box>         
+                    </Box>
+                </Box> 
             </Box>
      
 
     );
-
 }

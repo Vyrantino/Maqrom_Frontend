@@ -15,10 +15,10 @@ import Dialogo from '../../components/Dialogo';
 import Admin from '../../admin';
 import { useSelector } from 'react-redux';
 
-
-export default function GalleryPicker( props ) {
-    const [ galleryName , setGalleryName ] = React.useState('') ;
-    const [ open , setOpen ] = React.useState( false ) ;
+export default function GalleryPicker(props) {
+  const [galleryName, setGalleryName] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
 
 
     const handleCreateGallery = async ( entry ) => {
@@ -53,6 +53,9 @@ export default function GalleryPicker( props ) {
     const closeDialog = () =>{
         setOpen( false ) ;
     }
+    const closeDialogEdit = () =>{
+        setOpen( false ) ;
+    }
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ; 
     if( !mode ){
@@ -61,8 +64,9 @@ export default function GalleryPicker( props ) {
     }
     else
     return(
-        <Container maxWidth = 'sm'   >
-           
+        <Box
+          sx={{ alignSelf: 'center' }}
+        >
                 <FormControl  variant="filled" sx={{ m: 1, minWidth: '60%' }} >
                     <InputLabel id="demo-simple-select-filled-label"> Galerias </InputLabel>
                     <Select
@@ -80,32 +84,39 @@ export default function GalleryPicker( props ) {
                         }
                     </Select>
 
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            '& > *': {
-                            m: 1,
-                            },
-                        }}
-                    >
-                            <ButtonGroup color="secondary" aria-label="medium secondary button group">
-                                <Button variant='outlined' onClick={ () => setOpen( true ) } > Crear Galeria </Button>
-                                
-                                <Button variant='outlined' onClick={ handleEditGallery } > Editar </Button>
-                                <Button variant='outlined' onClick={ handleDeleteGallery } > Borrar </Button>
-                            </ButtonGroup>
-                    </Box>
-                </FormControl>
+          <ButtonGroup
+            color="primary"
+            aria-label="medium secondary button group"
+          >
+            <Button variant="contained" color='success' onClick={() => setOpen(true)}>
+              {" "}
+              Crear Galeria{" "}
+            </Button>
 
-                <Dialogo
-                    open = { open }
-                    closeDialog = { closeDialog }
-                    handleCreateArticle = { handleCreateGallery }
-                />          
-        </Container>
-        
-    ) ;
+            <Button variant="contained"  onClick={() => setOpenEdit(true)}>
+              {" "}
+              Editar{" "}
+            </Button>
+            <Button variant="contained" color='error' onClick={handleDeleteGallery}>
+              {" "}
+              Borrar{" "}
+            </Button>
+          </ButtonGroup>
+       
+      </FormControl>
 
+      <Dialogo
+        open={open}
+        closeDialog={closeDialog}
+        handleCreateArticle={handleCreateGallery}
+        mensaje = 'Crear nueva Galeria'
+      />
+      <Dialogo
+        open={openEdit}
+        closeDialog={closeDialogEdit}
+        handleCreateArticle={handleEditGallery}
+        mensaje = 'Editar Galeria'
+      />
+    </Box>
+  );
 }

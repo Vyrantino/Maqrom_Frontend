@@ -29,61 +29,55 @@ import NewPaperDto from './edit/models/newPaperDto';
 import Sidebar from './edit/sidebar';
 import MaqromLogo from "../assets/Maqrom.svg" ;
 
-export default function Homepage (  ){
-    const [ cards, setCards ] = React.useState([]); 
-    const [ papers, setPapers ] = React.useState([]); 
-    const [ articles, setArticles ] = React.useState([]) ;
-    const [ carouselItems, setCarouselItems ] = React.useState([]) ;
-    const [ sidebar, setSidebar ] = useOutletContext() ;
-    
-    const route = "Homepage" ;
+export default function Homepage() {
+  const [cards, setCards] = React.useState([]);
+  const [papers, setPapers] = React.useState([]);
+  const [articles, setArticles] = React.useState([]);
+  const [carouselItems, setCarouselItems] = React.useState([]);
+  const [sidebar, setSidebar] = useOutletContext();
+  
 
-    React.useEffect( () =>{
-        getArticles( setArticles ) ;
-        getCarouselItems( setCarouselItems , route ) ;
-        getCards(  setCards  , route ) ; 
-        getPapers( setPapers, route , '' ) ;
-        setSidebar( false ) ;
-    },[] );
+  const route = "Homepage";
 
+  React.useEffect(() => {
+    getArticles(setArticles);
+    getCarouselItems(setCarouselItems, route);
+    getCards(setCards, route);
+    getPapers(setPapers, route, "");
+    setSidebar(false);
+  }, []);
 
-    const mode = useSelector( ( state ) => state.adminMode.value ) ;
+  const mode = useSelector((state) => state.adminMode.value);
 
-    const handleNewCard =  async (  ) =>{
-        const card = new NewCardDto( route ) ; 
-        await newCard( card , route ) 
-            .then( () =>{
-                getCards( setCards , route ) ;
-            } )
-    }
+  const handleNewCard = async () => {
+    const card = new NewCardDto(route);
+    await newCard(card, route).then(() => {
+      getCards(setCards, route);
+    });
+  };
 
-    const handleNewPaper = async (  ) =>{
-        const paper = new NewPaperDto( route , '' ) ; 
-      await createNewPaper( paper , route , '' ) 
-            .then( () =>{
-                getPapers( setPapers, route , '' ) ;
-            } )
-    }
+  const handleNewPaper = async () => {
+    const paper = new NewPaperDto(route, "");
+    await createNewPaper(paper, route, "").then(() => {
+      getPapers(setPapers, route, "");
+    });
+  };
 
-    const handleDelete = async ( idCard ) =>{
-        deleteCard( idCard  , setCards,  route ) 
-            .then( () =>{
-                getCards( setCards , route ) ;
-            } )
-       
-    }
+  const handleDelete = async (idCard) => {
+    deleteCard(idCard, setCards, route).then(() => {
+      getCards(setCards, route);
+    });
+  };
 
-    const handleDeletePaper = async ( idPaper ) =>{
-        
-        await deletePaper( idPaper ) 
-            .then( () =>{
-                getPapers( setPapers, route , '' ) ;
-            } )
-    }
+  const handleDeletePaper = async (idPaper) => {
+    await deletePaper(idPaper).then(() => {
+      getPapers(setPapers, route, "");
+    });
+  };
 
-    const toogle = ( open ) =>  {
-        setSidebar( open );
-    };
+  const toogle = (open) => {
+    setSidebar(open);
+  };
 
     const isArticle = ( article ) =>{
         const articleList = articles.map( ( item ) => item.articleName ) ;
@@ -123,6 +117,7 @@ export default function Homepage (  ){
                                                 handleDelete = { handleDelete }
                                                 article = { item.article }
                                                 hasArticle = { isArticle( item.article ) }
+                                                buttons = { mode }
                                             /> 
                                     
                                         ))}
@@ -158,6 +153,7 @@ export default function Homepage (  ){
                                                     handleDelete = { handleDeletePaper }
                                                     article = { paper.article }
                                                     hasArticle = { isArticle( paper.article ) }
+                                                    buttons = { mode }
                                                 />
                                             ))
                                         }                                    

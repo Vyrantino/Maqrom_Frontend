@@ -1,17 +1,16 @@
-import * as React from 'react' ;
-import { Box, ButtonGroup, Container, Divider , Grid } from "@mui/material";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button } from "@mui/material";  
-import { useSelector , useDispatch } from 'react-redux'
+import * as React from "react";
+import { Box, ButtonGroup, Container, Divider, Grid } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { Button } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
 import { loadArticle, loadIdCard, loadImg } from "./redux/editForm";
 import { Link } from "react-router-dom";
 
-
-export default function Carta( props ){
+export default function Carta(props) {
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
 
@@ -31,24 +30,20 @@ export default function Carta( props ){
                 raised
                 sx={{ 
                     height: '100%' ,
-                    
-                    backgroundColor: 'rgba(0, 0, 0, 0.23)',
-                    
                 }}
             >
                 <CardMedia
                     component= "img"
                     alt="green iguana"
-                   
                     image = { props.img }  
                     sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }} 
                 />
                 <CardContent>
-                    <Typography component = 'span' gutterBottom variant="h5" >
+                    <Typography component = 'span' gutterBottom variant="h5" color={'primary'} >
                         { props.title   } 
                     </Typography>
 
-                    <Divider />
+          <Divider />
 
                     <Typography component = {'span'} variant="body2" color="text.secondary">
                         { props.content }
@@ -56,25 +51,25 @@ export default function Carta( props ){
                 </CardContent>
                 <Container>
                 {
-                            props.hasArticle ? 
-                                <Button 
-                                variant = 'text'
-                                LinkComponent={ Link } 
-                                to = "/article/"  
-                                onClick = {  () => { 
-                                    dispatch( loadArticle( props.article ) )
-                                } } 
-                                sx={{
-                                    color: 'red', // Cambia el color del texto aquí
-                                }}
-                                > 
-                                    <Typography color={`primary`}  > Ver Articulo </Typography> 
-                                </Button>
-                                :
-                                <span />
+                    props.hasArticle ? 
+                    <Button 
+                    variant = 'text'
+                    LinkComponent={ Link } 
+                    to = "/article/"  
+                    onClick = {  () => { 
+                        dispatch( loadArticle( props.article ) )
+                    } } 
+                    sx={{
+                        color: 'red', // Cambia el color del texto aquí
+                    }}
+                    > 
+                        <Typography color={`primary`}  > Ver Articulo </Typography> 
+                    </Button>
+                    :
+                    <span />
                 }
                 {
-                    mode ?
+                    mode  && props.buttons ?
                         <CardActions
                             sx={{  }}
                         >

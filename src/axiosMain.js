@@ -124,11 +124,8 @@ export const uploadCompressedPhoto = async ( file , alt , gallery , setImage , s
       fileRaw: compressedFile, 
       fileName: imageName ,
   }
-
-  uploadPhoto( fileTemp , alt , gallery ) ;
-  setImage( imageUrl ) ;
-  getPaginatedImages( setImageList , gallery , page , setPageCount ) ;
-
+  uploadPhoto( fileTemp , alt , gallery ),  setImage( imageUrl ) ;
+    
 }
 
 export const uploadPhoto = async ( selectedFile , alt , gallery ) =>{
@@ -451,10 +448,9 @@ export const getPapers = async ( setPapers , route , article ) =>{
 
 
 export const getPaper = async( setPaper , idPaper ) =>{
-  const getUrl = apiURL+`papers/${idPaper}` ; 
+  const getUrl = apiURL+`papers/id/${idPaper}` ; 
   await axios.get( getUrl )
     .then( ( response ) => setPaper( response.data )  );
-
 }
 
 export const patchPaper = async ( idPaper, titulo, contenido, imagen, articulo ) => {

@@ -5,18 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadArticle } from './redux/editForm';
 import { useTheme } from '@emotion/react';
 
-export default function Papers( props ) {
-  const mode = useSelector( ( state ) => state.adminMode.value ) ;
-  const dispatch = useDispatch() ;
+export default function Papers(props) {
+  const mode = useSelector((state) => state.adminMode.value);
+  const dispatch = useDispatch();
   return (
     <Grid
         item
-        
         xs = { 12 }
         sm = { 7 }
         md = { 5 }
         lg = { 4 }
         xl = { 4 }
+        
     >
     
         <Paper
@@ -24,64 +24,61 @@ export default function Papers( props ) {
                 width: '20rem',
                 height: '20rem',
                 bgcolor: 'background.default',
-                
                 padding: "1em 1em 0 1em", 
             }}
-            
         >   
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}  > 
                 <img src={ props.img } width={'50%'} height={'50%'} />
             </Box>
-
             <Typography variant='h3' align='center' > { props.title } </Typography>
             <Typography align='center' > { props.content } </Typography>
+            { mode && props.buttons ?
+              <ButtonGroup
+                sx={{ display:'flex' , justifyContent:'center' }}
+              >
+                        <Button 
+                            variant = 'contained'
+                            LinkComponent={ Link } 
+                            to = { `editPaper/${props.idPaper}` }  
+                            onClick = { () =>{
+                            } } 
+                        > 
+                            <Typography color={`#350404`}  > Editar </Typography> 
+                        </Button>
+
+                <Button
+                  onClick={() => {
+                    props.handleDelete(props.idPaper);
+                  }}
+                  variant="contained"
+                >
+                  <Typography color={`#350404`}> Borrar </Typography>
+                </Button>
+              </ButtonGroup>
+            : 
+              //else
+              <span />
+            }
         </Paper>
 
-         {
-              mode ?
-              <ButtonGroup>
-                  <Button 
-                      variant = 'contained'
-                      LinkComponent={ Link } 
-                      to = { `editPaper/${props.idPaper}` }  
-                      onClick = { () =>{
-                        
-                      } } 
-                  > 
-                      <Typography color={`#350404`}  > Editar </Typography> 
-                  </Button>
-
-                  <Button 
-                      onClick = {  () => { 
-                         
-                          props.handleDelete( props.idPaper )
-                      } } 
-                      variant="contained"
-                  > 
-                      <Typography color={`#350404`}  > Borrar </Typography> 
-                  </Button>
-              </ButtonGroup>
-              : //else
-              <span />
-          }
-          {
-                props.hasArticle ? 
-                    <Button 
-                    variant = 'text'
-                    LinkComponent={ Link } 
-                    to = "/article/"  
-                    onClick = {  () => { 
-                        dispatch( loadArticle( props.article ) )
-                    } } 
-                    sx={{
-                        color: 'red', // Cambia el color del texto aquí
-                    }}
-                    > 
-                        <Typography color={`primary`}  > Ver Articulo </Typography> 
-                    </Button>
-                    :
-                    <span />
-          }                    
+         
+      {props.hasArticle ? (
+        <Button
+          variant="text"
+          LinkComponent={Link}
+          to="/article/"
+          onClick={() => {
+            dispatch(loadArticle(props.article));
+          }}
+          sx={{
+            color: "red", // Cambia el color del texto aquí
+          }}
+        >
+          <Typography color={`primary`}> Ver Articulo </Typography>
+        </Button>
+      ) : (
+        <span />
+      )}
     </Grid>
   );
 }

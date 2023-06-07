@@ -1,221 +1,188 @@
-
-html, body{
-  background-color: #F3F3F3;
-  padding:0;
+html,
+body {
+  background-color: #f3f3f3;
+  padding: 0;
   display: 100%;
   min-height: 100%;
   overflow: auto;
 }
 /* Root */
 
-.root{
+.root {
   display: flex;
   flex-direction: column;
 }
 
-.MaqromHeader{
-  background-color: #f57a2E ;
+.MaqromHeader {
+  background-color: #f57a2e;
   color: azure;
   text-align: center;
-  margin-top: 45px;
-  
 }
 
-.Outlet{
+.Outlet {
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
-  padding-top: 20px ;
-  
+  padding-top: 20px;
 }
 
-.ButtonAppBar{
-  padding-top: 2%;
-
+.ButtonAppBar {
+  padding-top: 60px;
 }
 
 /* Top Navigator */
 
-[alt = "facebookLogo"] {
+[alt="facebookLogo"] {
   background-color: white;
-  
 }
 
-a.MuiButtonBase-root{
+a.MuiButtonBase-root {
   color: aliceblue; /* color de las letras de la AppBar */
 }
 
 /* Homepage */
-.HomepageCards{
+.HomepageCards {
   list-style-type: none;
   height: 50%;
   padding: 10;
   margin: 10;
-  
 }
 
-
-
-
-
-#root > div > div.AboutUs > div{
-  flex: .3;
-
+#root > div > div.AboutUs > div {
+  flex: 0.3;
 }
 
 /* About Us page */
-.AboutUs  {
-   
-    padding-top: 3vh;
-    padding-bottom: 1vh;
-    list-style-type: none ;
-    display: flex;
+.AboutUs {
+  padding-top: 3vh;
+  padding-bottom: 1vh;
+  list-style-type: none;
+  display: flex;
 }
 
 .UnaBox {
-  display: flex ;
-  
+  display: flex;
 }
 
 .card {
   width: 90%;
   margin-bottom: 2%;
-  flex: 2 1 auto ;
+  flex: 2 1 auto;
 }
-
-
 
 /* Servicios */
 
-.DivServicios{
+.DivServicios {
   padding-top: 20px;
-
 }
 /* Contacto  */
-.PaginaContacto{
+.PaginaContacto {
   text-align: center;
   align-items: center;
-  background-color: #f57a2E;
-}  
-
+  background-color: #f57a2e;
+}
 
 /* Footer */
-.TextFieldFooter{
-  flex: .3;
+.TextFieldFooter {
+  flex: 0.3;
   align-self: center;
-  
+  height: 100%;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.TextFieldFooter > *{
-  width: 100% ;
-  
+.TextFieldFooter > * {
+  width: 100%;
 }
 
-.Mapa{
-  flex: .28; 
-
+.Mapa {
+  flex: 0.28;
 }
 
-#root > div > form > div.MultilineTextField > button{
-  background-color: rgb(148, 125, 125) ;
+#root > div > form > div.MultilineTextField > button {
+  background-color: rgb(148, 125, 125);
   font-weight: 600;
   font-style: bold;
   size: medium;
-  
 }
 
-form.BoxFooter.MuiBox-root{
-  display: flex ;
+form.BoxFooter.MuiBox-root {
+  display: flex;
   flex-direction: row;
-  background-color: #f57a2E
-  
+  background-color: #f57a2e;
 }
 
-.FooterLinks{
+.FooterLinks {
   list-style: none;
-  flex: .2;
-  
+  flex: 0.2;
 }
 
-div.MultilineTextField{
+div.MultilineTextField {
   display: flex;
   flex-direction: column;
-  flex: .35;
-  
+  flex: 0.35;
 }
 
-#root > div > form > div.MultilineTextField > div{
+#root > div > form > div.MultilineTextField > div {
   flex: 1.3;
-  
 }
-#root > div > form > div.MultilineTextField > div > div{
+#root > div > form > div.MultilineTextField > div > div {
   height: 100%;
-
 }
 
-
-.FormLogin{
+.FormLogin {
   display: flex;
   flex-direction: column;
-  
 }
 
 /* Formulario editor cartas */
-.editCardForm{
-  display: flex ; 
+.editCardForm {
+  display: flex;
   flex-direction: column;
-  
+
   align-content: center;
-
 }
-
 
 /* editCardButton */
 
-.editCardButton{
+.editCardButton {
   color: rgb(48, 34, 4);
-  
 }
 
 .CarouselItemSelected {
   color: #ffa726;
   display: block;
   width: 100%;
-  opacity: .75 ;
+  opacity: 0.75;
 }
 
 /* CreateArticle */
 
-
-
-.MuiBox-root.css-1raypxk{
+.MuiBox-root.css-1raypxk {
   background-color: #c46565e0;
-
 }
 
 /*  */
 
-.BoxPaper{
+.BoxPaper {
   height: 150;
-  width: '100%';
+  width: "100%";
   padding: 1;
   margin-top: 1;
   margin-bottom: 1;
-  background-color: #f57a2E;
+  background-color: #f57a2e;
   border-radius: 2;
   margin: 5px;
 }
 
 /* Lista de Imagenes y Galerias */
 
-
-
-.secondBox{
+.secondBox {
   display: flex;
   width: 100%;
   height: 50px;
-  background-color: #f57a2E;
+  background-color: #f57a2e;
 }
-
-
