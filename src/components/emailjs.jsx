@@ -52,38 +52,46 @@ export const ContactUs = () => {
 
   return (
     <Box className="TextFieldFooter">
-      <TextField
-        id="filled-basic"
-        label="Nombre"
-        variant="filled"
-        name="user_name"
-        onChange={handleNombre}
-      />
-      <TextField
-        id="filled-basic"
-        label="Correo"
-        variant="filled"
-        name="user_email"
-        type="email"
-        onChange={handleCorreo}
-      />
-
-      <TextField
-        id="filled-multiline-static"
-        label="Escriba su mensaje"
-        multiline
-        rows={7}
-        variant="filled"
-        name="message"
-        onChange={handleMensaje}
-      />
-      <Button
-        // type='submit'
-        // value='Send'
-        onClick={handleEnviar}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
-        Enviar
-      </Button>
+        <TextField
+          id="standard-basic"
+          label="Nombre"
+          variant="standard"
+          name="user_name"
+          onChange={handleNombre}
+        />
+        <TextField
+          id="standard-basic"
+          label="Correo"
+          variant="standard"
+          name="user_email"
+          type="email"
+          onChange={handleCorreo}
+        />
+
+        <TextField
+          id="standard-multiline-static"
+          label="Escriba su mensaje"
+          multiline
+          rows={7}
+          variant="standard"
+          name="message"
+          onChange={handleMensaje}
+        />
+        <Button
+          // type='submit'
+          // value='Send'
+          onClick={handleEnviar}
+          sx={{color: 'black', fontWeight: 'bold'}}
+        >
+          Enviar
+        </Button>
+      </Box>
     </Box>
   );
 };
