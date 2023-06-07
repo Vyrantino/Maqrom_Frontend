@@ -77,6 +77,14 @@ export default function Homepage() {
 
   return (
     <Box>
+      {mode && (
+        <Sidebar
+          sidebar={sidebar}
+          toogle={toogle}
+          handleNewCard={handleNewCard}
+          handleNewPaper={handleNewPaper}
+        />
+      )}
       <Carousel route={route} carouselItems={carouselItems} />
       <hr />
       <Container>
@@ -179,14 +187,7 @@ export default function Homepage() {
         </Grid>
       </Container>
 
-      {mode && (
-        <Sidebar
-          sidebar={sidebar}
-          toogle={toogle}
-          handleNewCard={handleNewCard}
-          handleNewPaper={handleNewPaper}
-        />
-      )}
+      
     </Box>
   );
 }

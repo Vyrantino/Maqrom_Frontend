@@ -94,12 +94,28 @@ a.MuiButtonBase-root {
   flex-direction: column;
 }
 
+.footer-left-grid {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-style {
+  background-color: #222;
+  width: 100%;
+  height: 20rem;
+  padding: 3rem 1rem;
+}
+
 .TextFieldFooter > * {
   width: 100%;
 }
 
 .Mapa {
-  flex: 0.28;
+  width: 95%;
+  height: 20rem;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
 }
 
 #root > div > form > div.MultilineTextField > button {
@@ -117,7 +133,6 @@ form.BoxFooter.MuiBox-root {
 
 .FooterLinks {
   list-style: none;
-  flex: 0.2;
 }
 
 div.MultilineTextField {
@@ -136,6 +151,22 @@ div.MultilineTextField {
 .FormLogin {
   display: flex;
   flex-direction: column;
+}
+
+.footer-text {
+  color: #aeaeae;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.footer-social {
+  color: #aeaeae;
+}
+
+.footer-separator{
+  margin: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 1rem;
 }
 
 /* Formulario editor cartas */
@@ -185,4 +216,8 @@ div.MultilineTextField {
   width: 100%;
   height: 50px;
   background-color: #f57a2e;
+}
+
+.MuiBox-root .css-h5fkc8 {
+  margin-top: 24px;
 }
