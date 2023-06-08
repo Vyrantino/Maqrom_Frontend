@@ -1,43 +1,27 @@
-import { Button, Container, Dialog } from "@mui/material";
 import React from "react";
-import Dialogo from "../components/Dialogo";
+import { Box, Grid } from "@mui/material";
 import { ContactUs } from "../components/emailjs";
 
+const mapa =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227.76041372466557!2d-104.66099552310578!3d24.025188861268408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x869bc976da55d5a3%3A0x8e14c234283f4dcc!2sMAQROM%20CONSTRUCCIONES!5e0!3m2!1ses!2smx!4v1681291692239!5m2!1ses!2smx";
+
 export default function Contacto() {
-  const [open, setOpen] = React.useState(false);
-
-  const closeDialog = () => {
-    setOpen(false);
-  };
-
   return (
-    <Container>
-      <ContactUs />
-    </Container>
+    <Box>
+      <Grid container spacing={2}>
+        <Grid className="footer-left-grid" xs={6}>
+          <iframe
+            className="Mapa"
+            src={mapa}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </Grid>
+        <Grid xs={6}>
+          <ContactUs />
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
-
-/* DUMP CODE, DELETE LATER
-
-  const callBackFunction = () =>{
-      let responseLength = 84 ; 
-      let residuo = responseLength % 8 ;
-      let pageCount = Math.round( responseLength / 8 ) ; 
-     
-     if( true ){
-      if( residuo === 0 )
-        pageCount = pageCount ;
-      else if( residuo < 5 ){
-        pageCount = pageCount + 1;
-      }
-        
-      else if( residuo >= 5 ) {
-        pageCount = pageCount ;
-      }
-     }
-      
-
-    console.log( pageCount ) ;
-
-  }
-*/

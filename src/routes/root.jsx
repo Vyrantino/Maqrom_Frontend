@@ -6,18 +6,32 @@ import Footer from "../components/navigation/footer";
 import { Box, Container, Typography } from "@mui/material";
 import MaqromLogo from "../assets/Maqrom.svg";
 import { useSelector } from "react-redux";
+import Sidebar from "./edit/sidebar";
 
 export default function Root() {
+  const [sidebar, setSidebar] = React.useState(false);
+  const toogle = () => {
+    setSidebar(!sidebar);
+  };
+
   const mode = useSelector((state) => state.adminMode.value);
 
-  const [sidebar, setSidebar] = React.useState(false);
+  const handleNewCard = async () => {
+    const card = new NewCardDto(route);
+    await newCard(card, route).then(() => {
+      getCards(setCards, route);
+    });
+  };
 
-  const toogle = (open) => {
-    setSidebar(open);
+  const handleNewPaper = async () => {
+    const paper = new NewPaperDto(route, "");
+    await createNewPaper(paper, route, "").then(() => {
+      getPapers(setPapers, route, "");
+    });
   };
 
   return (
-    <Box>
+    <Box sx={{ padding: 0 }}>
       <ButtonAppBar toogle={toogle} />
 
       <Box className="ButtonAppBar">
@@ -26,6 +40,14 @@ export default function Root() {
             {" "}
             Maqrom Constructora{" "}
           </Typography>
+          {mode && (
+            <Sidebar
+              sidebar={sidebar}
+              toogle={toogle}
+              handleNewCard={handleNewCard}
+              handleNewPaper={handleNewPaper}
+            />
+          )}
         </Box>
 
         <Outlet context={[sidebar, setSidebar]} />
