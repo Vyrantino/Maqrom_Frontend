@@ -1,65 +1,87 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, IconButton, MenuItem, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ContactUs } from "../emailjs";
-import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 import backgroundImage from "../../assets/footer.webp";
-
-const mapa =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227.76041372466557!2d-104.66099552310578!3d24.025188861268408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x869bc976da55d5a3%3A0x8e14c234283f4dcc!2sMAQROM%20CONSTRUCCIONES!5e0!3m2!1ses!2smx!4v1681291692239!5m2!1ses!2smx";
+import { ParallaxProvider, Parallax } from "react-scroll-parallax";
+import fbLogo from "../../assets/fbLogo.png";
+import MaqromLogo from "../../assets/Maqrom.svg";
 
 export default function Footer() {
+  const pages = [
+    { page: "Inicio", linkTo: "/" },
+    { page: "Nosotros", linkTo: "/about-us" },
+    { page: "Servicios y Planos", linkTo: "/servicios" },
+    { page: "Renta de Maquinaria", linkTo: "/renta" },
+    { page: "Calidad", linkTo: "/calidad" },
+    { page: "Contacto", linkTo: "/contacto" },
+  ];
   return (
-    <Box mt={4}>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <img src={backgroundImage}></img>
+    <Box mt={4} sx={{ height: "100%" }}>
+      <div className="footer-style">
+        <Grid
+          container
+          spacing={2}
+          xs={{ display: "flex", alignItems: "center" }}
+        >
+          <Grid item xs={6}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+              }}
+            >
+              <IconButton
+                component={Link}
+                to="https://www.facebook.com/MaqromConstrucciones"
+                target="_blank"
+              >
+                <img src={MaqromLogo} width={60} height={60} />
+              </IconButton>
+              <p className="footer-text">
+                Fundada por dos visionarios arquitectos, nació bajo una luna
+                azul en una tierra mítica. Su pasión por construir un futuro
+                brillante unió sus destinos en una firma que transformaría
+                ciudades.
+              </p>
+            </Box>
+          </Grid>
+          <Grid item xs={6}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "1rem",
+                justifyContent: "center",
+                textAlign: "center",
+              }}
+            >
+              <h3 className="footer-social">Siguenos en nuestras redes</h3>
+              <IconButton
+                component={Link}
+                to="https://www.facebook.com/MaqromConstrucciones"
+                target="_blank"
+              >
+                <img src={fbLogo} width={40} height={40} />
+              </IconButton>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <div className="FooterLinks">
-            <ul className="FooterLinks">
-              <li>
-                <Link to="/">
-                  {" "}
-                  <h3> Maqrom construcciones </h3>{" "}
-                </Link>
-              </li>
-              <li>
-                <Link to="/about-us">
-                  {" "}
-                  <h5> Nosotros </h5>{" "}
-                </Link>
-              </li>
-              <li>
-                <Link to="/servicios">
-                  {" "}
-                  <h5> Servicios </h5>{" "}
-                </Link>
-              </li>
-              <li>
-                <Link to="/renta">
-                  {" "}
-                  <h5> Renta de Maquinaria </h5>{" "}
-                </Link>
-              </li>
-              <li>
-                <Link to="/calidad">
-                  {" "}
-                  <h5> Calidad </h5>{" "}
-                </Link>
-              </li>
-              <li>
-                <Link to="/contacto">
-                  {" "}
-                  <h5> Contacto </h5>{" "}
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </Grid>
-      </Grid>
+        <div className="footer-separator" />
+
+        <div style={{display:'flex'}}>
+          {pages.map((item) => {
+            return (
+              <MenuItem component={Link} to={item.linkTo}>
+                <Typography textAlign="center">{item.page}</Typography>
+              </MenuItem>
+            );
+          })}
+        </div>
+      </div>
     </Box>
   );
 }
