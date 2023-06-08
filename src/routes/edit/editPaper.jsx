@@ -283,7 +283,8 @@ export default function EditPaper(){
                                     
                                     sx={ { 
                                         width: '100%' , 
-                                        alignSelf: 'center'  
+                                        alignSelf: 'center' ,
+                                        margin: '1em' 
                                     } } 
                                     onClick={ handleDeleteImage }
                                 >

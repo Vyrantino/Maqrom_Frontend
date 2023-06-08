@@ -11,6 +11,7 @@ import {
   IconButton,
   Button,
   Input,
+  Divider,
 } from "@mui/material";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -285,6 +286,15 @@ export default function EditCard() {
               />
               Agregar una foto
             </Button>
+
+            <TextField
+              sx={{ width: '100%' }}
+              className="editCardFormTextField"
+              id="filled-basic"
+              label="Breve descripcion de la imagen"
+              onChange={handleAlt}
+            />
+
             <img
               width={"500"}
               height={"450"}
@@ -296,6 +306,7 @@ export default function EditCard() {
               sx={{
                 width: "100%",
                 alignSelf: "center",
+                margin: '1em'
               }}
               onClick={handleDeleteImage}
             >
@@ -305,12 +316,7 @@ export default function EditCard() {
           </Box>
         </Box>
 
-        <TextField
-          className="editCardFormTextField"
-          id="filled-basic"
-          label="Breve descripcion de la imagen"
-          onChange={handleAlt}
-        />
+       
       </Box>
     );
 }

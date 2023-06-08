@@ -46,6 +46,17 @@ const theme = createTheme({
       main: "#F3F3F3",
     },
   },
+  typography: {
+    h3: {
+      fontSize: '4.2rem',
+      '@media (min-width:600px)': {
+        fontSize: '4.5rem',
+      },
+      
+    }
+
+
+  }
 });
 
 const router = createBrowserRouter([

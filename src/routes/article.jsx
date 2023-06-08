@@ -11,6 +11,7 @@ import {
     createNewArticleCarouselItem, 
     deleteArticleCards, 
     deleteCarouselItem, 
+    deleteImage, 
     getAllImages, 
     getArticleCards, 
     getArticleCarouselItems, 
@@ -225,14 +226,6 @@ export default function Article() {
             </Button>
 
             <Button
-              variant="contained"
-              onClick={handleSubmit}
-              endIcon={<PublishIcon />}
-            >
-              Aplicar Cambios
-            </Button>
-
-            <Button
               color="error"
               variant="contained"
               onClick={handleDeleteCarouselItem}
@@ -292,15 +285,18 @@ export default function Article() {
               handlePage={handlePage}
             />
               <Box sx={{ display: "flex", flexDirection: "column" , alignSelf: 'center', justifySelf: 'center' , padding: '1em' }}>
-                <img
-                  width={"500"}
-                  height={"450"}
-                  src={!image ? MaqromLogo : image}
-                />
-
+                    
                 <Button
                   variant="contained"
                   color="success"
+                  onClick={handleSubmit}
+                  endIcon={<PublishIcon />}
+                >
+                  Aplicar Cambios
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
                   aria-label="upload picture"
                   component="label"
                   endIcon={<AddAPhotoIcon />}
@@ -313,12 +309,20 @@ export default function Article() {
                   />
                   Subir una Imagen
                 </Button>
+                <img
+                  width={"500"}
+                  height={"450"}
+                  src={!image ? MaqromLogo : image}
+                />
+
+                
 
                 <Button
                   variant="contained"
                   sx={{
                     width: "100%",
                     alignSelf: "center",
+                    margin: '1em'
                   }}
                   onClick={handleDeleteImage}
                 >

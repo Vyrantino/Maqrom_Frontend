@@ -215,15 +215,6 @@ export default function EditCarousel() {
           >
             Borrar el elemento seleccionado
           </Button>
-
-          <Button
-            variant="contained"
-            color="success"
-            onClick={handleSubmit}
-            endIcon={<PublishIcon />}
-          >
-            Cambiar foto
-          </Button>
         </ButtonGroup>
 
         <Box component="form" className="editCardForm" onSubmit={handleSubmit} padding={2} >
@@ -264,50 +255,57 @@ export default function EditCarousel() {
           />
           
           <Box sx={{ display: "flex", flexDirection: "column" , padding: 3 , }}>
-            <Button
-              variant="contained"
-              color="primary"
-              aria-label="upload picture"
-              component="label"
-              endIcon={<AddAPhotoIcon />}
-            >
-              <input
-                hidden
-                accept="image/*"
-                type="file"
-                onChange={handleImagen}
+            
+              <Divider sx={{ height: '1em' }}/>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleSubmit}
+                endIcon={<PublishIcon />}
+              >
+                Aplicar cambios
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                aria-label="upload picture"
+                component="label"
+                endIcon={<AddAPhotoIcon />}
+              >
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={handleImagen}
+                />
+                Subir una Imagen
+              </Button>
+              <TextField
+                className="editCardFormTextField"
+                id="filled-basic"
+                label="Breve descripcion de la imagen"
+                onChange={handleAlt}
               />
-              Subir una Imagen
-            </Button>
-            <Divider sx={{ height: '1em' }}/>
-            <TextField
-              className="editCardFormTextField"
-              id="filled-basic"
-              label="Breve descripcion de la imagen"
-              onChange={handleAlt}
-            />
-            <img
-              width={"500"}
-              height={"450"}
-              src={!image ? MaqromLogo : image}
-            />
-
-            <Button
-              variant="contained"
-              color= "error"
-              sx={{
-                width: "100%",
-                alignSelf: "center",
-              }}
-              onClick={handleDeleteImage}
-            >
-              Borrar Esta Imagen
-              <DeleteIcon />
-            </Button>
+              <img
+                width={"500"}
+                height={"450"}
+                src={!image ? MaqromLogo : image}
+              />
+              <Button
+                variant="contained"
+                color= "error"
+                sx={{
+                  width: "100%",
+                  alignSelf: "center",
+                  margin: '1em'
+                }}
+                onClick={handleDeleteImage}
+              >
+                Borrar Esta Imagen
+                <DeleteIcon />
+              </Button>
           </Box>
         </Box>
-
-        
       </Container>
     );
 }

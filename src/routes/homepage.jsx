@@ -28,6 +28,7 @@ import { Link , useOutletContext } from 'react-router-dom';
 import NewPaperDto from './edit/models/newPaperDto';
 import Sidebar from './edit/sidebar';
 import MaqromLogo from "../assets/Maqrom.svg" ;
+import AfterCarousel from '../components/page components/afterCarousel';
 
 export default function Homepage() {
   const [cards, setCards] = React.useState([]);
@@ -85,125 +86,123 @@ export default function Homepage() {
     }
 
     return(
+      <Box > 
+          <Carousel 
+              route = { route } 
+              carouselItems = { carouselItems }
+          />
+          <Divider sx={{ backgroundColor: 'rgba( 255,106,0,0.83 )'   , height: '80px' }}/>
+          <AfterCarousel 
           
-                    <Box > 
-                        <Carousel 
-                            route = { route } 
-                            carouselItems = { carouselItems }
-                        />
-                        <hr />  
-                        <Container>
+          />
+          <hr />  
+          <Container>
+              <Grid
+                      container
+                      spacing ={0.5}
+                      rowGap={5}
+                      justifyContent={'space-around'}
+              >
+                {cards.map( ( item ) =>(
+            
+                    <Carta 
+                        key = { item.idCard }
+                        img = { item.img }
+                        title = { item.title }
+                        content = { item.content }
+                        route = { item.route }
+                        idCard = { item.idCard }
+                        isLocked = { item.isLocked }
+                        CardWidth = '100'
+                        CardHeight = '300'
+                        handleDelete = { handleDelete }
+                        article = { item.article }
+                        hasArticle = { isArticle( item.article ) }
+                        buttons = { mode }
+                    /> 
+                ))} 
+              </Grid>
+          </Container>
+              
+          <Divider sx={{ padding: '1em' }} />
+          
+              
+          <Divider sx={{ padding: '1em' }} />
 
-                            <Grid
-                                    container
-                                    spacing ={0.5}
-                                    rowGap={5}
-                                    justifyContent={'space-around'}
-                            >
-                                
-                                        {
-                                            cards.map( ( item ) =>(
-                                    
-                                            <Carta 
-                                                key = { item.idCard }
-                                                img = { item.img }
-                                                title = { item.title }
-                                                content = { item.content }
-                                                route = { item.route }
-                                                idCard = { item.idCard }
-                                                isLocked = { item.isLocked }
-                                                CardWidth = '100'
-                                                CardHeight = '300'
-                                                handleDelete = { handleDelete }
-                                                article = { item.article }
-                                                hasArticle = { isArticle( item.article ) }
-                                                buttons = { mode }
-                                            /> 
-                                    
-                                        ))}
-                                    
-                                </Grid>
-                        </Container>
-                            
-                        <Divider sx={{ padding: '1em' }} />
-                        
-                           
-                        <Divider sx={{ padding: '1em' }} />
+              <Container
+                  
+              >
+                      <Grid
+                          container
+                          spacing={1}
+                          justifyContent={'space-between'}
+                          justifySelf={'center'}
+                          rowGap={1}
+                              
+                      >
+                          {
+                              papers.map( ( paper ) => (
+                                  <Papers 
+                                      key = { paper.idPaper }
+                                      img = { paper.img }
+                                      idPaper = {  paper.idPaper }
+                                      title = { paper.title }
+                                      content = { paper.content }
+                                      route = { paper.route }
+                                      handleDelete = { handleDeletePaper }
+                                      article = { paper.article }
+                                      hasArticle = { isArticle( paper.article ) }
+                                      buttons = { mode }
+                                  />
+                              ))
+                          }                                    
+                      </Grid>
+              </Container>
+              <Divider sx={{ padding: '1em' }} />
+              <Paper
+                  
+                  sx={{
+                      position: 'relative',
+                      backgroundImage: `url(${MaqromLogo})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      minHeight: '500px', 
+                  }}
+              >
+                  
+                  <Box
+                      sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      color: '#ffffff', 
+                      padding: '1rem', 
+                      }}
+                  >
+                      <Typography variant="h5" align="center">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis ipsam voluptatem veritatis. Consequatur eligendi excepturi sed nesciunt, expedita officia saepe vel quae libero ad sunt tempora quia voluptatibus quas natus!
+          
+                      </Typography>
+                  </Box>
+              </Paper>
+              <Divider sx={{ padding: '1em' }} />
 
-                            <Container
-                                
-                            >
-                                    <Grid
-                                        container
-                                        spacing={1}
-                                        justifyContent={'space-between'}
-                                        justifySelf={'center'}
-                                        rowGap={1}
-                                            
-                                    >
-                                        {
-                                            papers.map( ( paper ) => (
-                                                <Papers 
-                                                    key = { paper.idPaper }
-                                                    img = { paper.img }
-                                                    idPaper = {  paper.idPaper }
-                                                    title = { paper.title }
-                                                    content = { paper.content }
-                                                    route = { paper.route }
-                                                    handleDelete = { handleDeletePaper }
-                                                    article = { paper.article }
-                                                    hasArticle = { isArticle( paper.article ) }
-                                                    buttons = { mode }
-                                                />
-                                            ))
-                                        }                                    
-                                    </Grid>
-                            </Container>
-                            <Divider sx={{ padding: '1em' }} />
-                            <Paper
-                                
-                                sx={{
-                                    position: 'relative',
-                                    backgroundImage: `url(${MaqromLogo})`,
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
-                                    minHeight: '500px', 
-                                }}
-                            >
-                               
-                                <Box
-                                    sx={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    flexDirection: 'column',
-                                    color: '#ffffff', 
-                                    padding: '1rem', 
-                                    }}
-                                >
-                                    <Typography variant="h5" align="center">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis ipsam voluptatem veritatis. Consequatur eligendi excepturi sed nesciunt, expedita officia saepe vel quae libero ad sunt tempora quia voluptatibus quas natus!
-                        
-                                    </Typography>
-                                </Box>
-                            </Paper>
-                            <Divider sx={{ padding: '1em' }} />
+          { mode && 
+              <Sidebar 
+                  sidebar = { sidebar } 
+                  toogle = { toogle }
+                  handleNewCard = { handleNewCard }
+                  handleNewPaper = { handleNewPaper }
+              />  
+          }
+      </ Box>
 
-                        { mode && 
-                            <Sidebar 
-                                sidebar = { sidebar } 
-                                toogle = { toogle }
-                                handleNewCard = { handleNewCard }
-                                handleNewPaper = { handleNewPaper }
-                            />  
-                        }
-                    </ Box>
-           
     );
 }
