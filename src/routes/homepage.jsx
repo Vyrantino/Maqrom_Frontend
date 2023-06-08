@@ -17,18 +17,17 @@ import { useSelector } from 'react-redux';
 import NewCardDto from './edit/models/newCardDto';
 import { 
     Box, 
-    Button, 
-    Container,
-    Divider,
     Grid,
     Paper,
     Typography
 } from '@mui/material';
-import { Link , useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import NewPaperDto from './edit/models/newPaperDto';
 import Sidebar from './edit/sidebar';
 import MaqromLogo from "../assets/Maqrom.svg" ;
 import AfterCarousel from '../components/page components/afterCarousel';
+import AfterCards from '../components/page components/afterCards';
+import Midiendo from '../assets/midiendo.jpg';
 
 export default function Homepage() {
   const [cards, setCards] = React.useState([]);
@@ -91,17 +90,25 @@ export default function Homepage() {
               route = { route } 
               carouselItems = { carouselItems }
           />
-          <Divider sx={{ backgroundColor: 'rgba( 255,106,0,0.83 )'   , height: '80px' }}/>
+          <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
           <AfterCarousel 
-          
+              image={ Midiendo }
+              texto={ textos.textoAfterCarousel }
           />
-          <hr />  
-          <Container>
+          <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
+          <Box
+            sx={{
+              background:
+                        'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, ' +
+                        'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+            }}
+          >
               <Grid
                       container
                       spacing ={0.5}
                       rowGap={5}
                       justifyContent={'space-around'}
+                    
               >
                 {cards.map( ( item ) =>(
             
@@ -122,43 +129,46 @@ export default function Homepage() {
                     /> 
                 ))} 
               </Grid>
-          </Container>
-              
-          <Divider sx={{ padding: '1em' }} />
-          
-              
-          <Divider sx={{ padding: '1em' }} />
-
-              <Container
-                  
+          </Box>
+          <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} /> 
+          <AfterCards
+             firstText={ textos.primerTexto }
+             secondText={ textos.segundoTexto }
+             thirdText={ textos.tercerTexto }
+             title={ textos.titulo }
+             route = {route}
+          />  
+          <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />  
+          <Box
+              sx={{
+                background:
+                          'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, ' +
+                          'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+              }}
+          >
+              <Grid
+                   container
+                   spacing ={1}
+                   rowGap={1}
+                   justifyContent={'space-between'}
               >
-                      <Grid
-                          container
-                          spacing={1}
-                          justifyContent={'space-between'}
-                          justifySelf={'center'}
-                          rowGap={1}
-                              
-                      >
-                          {
-                              papers.map( ( paper ) => (
-                                  <Papers 
-                                      key = { paper.idPaper }
-                                      img = { paper.img }
-                                      idPaper = {  paper.idPaper }
-                                      title = { paper.title }
-                                      content = { paper.content }
-                                      route = { paper.route }
-                                      handleDelete = { handleDeletePaper }
-                                      article = { paper.article }
-                                      hasArticle = { isArticle( paper.article ) }
-                                      buttons = { mode }
-                                  />
-                              ))
-                          }                                    
-                      </Grid>
-              </Container>
-              <Divider sx={{ padding: '1em' }} />
+                {papers.map( ( paper ) => (
+                  <Papers 
+                      key = { paper.idPaper }
+                      img = { paper.img }
+                      idPaper = {  paper.idPaper }
+                      title = { paper.title }
+                      content = { paper.content }
+                      route = { paper.route }
+                      handleDelete = { handleDeletePaper }
+                      article = { paper.article }
+                      hasArticle = { isArticle( paper.article ) }
+                      buttons = { mode }
+                  />
+                ))}                                    
+              </Grid>
+            </Box>
+            <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
               <Paper
                   
                   sx={{
@@ -187,12 +197,13 @@ export default function Homepage() {
                       }}
                   >
                       <Typography variant="h5" align="center">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis ipsam voluptatem veritatis. Consequatur eligendi excepturi sed nesciunt, expedita officia saepe vel quae libero ad sunt tempora quia voluptatibus quas natus!
           
                       </Typography>
                   </Box>
               </Paper>
-              <Divider sx={{ padding: '1em' }} />
+              <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
+              <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
+              <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
 
           { mode && 
               <Sidebar 
@@ -203,6 +214,14 @@ export default function Homepage() {
               />  
           }
       </ Box>
-
     );
 }
+
+
+const textos = {
+  primerTexto: "",
+  segundoTexto:"",
+  tercerTexto:"",
+  titulo:"",
+  textoAfterCarousel: "" ,
+};

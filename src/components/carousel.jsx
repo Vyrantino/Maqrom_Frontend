@@ -52,18 +52,20 @@ export default function Carousel(props) {
             <CImage
               key={`CImage ${item.idCarouselItem}`}
               onClick={() => handleClick(item)}
-              height={800}
+              
               className={clicked ? "CarouselItemSelected" : "d-block w-100"}
               src={item.img}
               alt="slide 1"
+              style={{ maxWidth: "100%", maxHeight: "100%" }}
             />
           ) : (
             <CImage
               key={item.idCarouselItem}
-              height={800}
+              
               className="d-block w-100"
               src={item.img}
               alt="slide 1"
+              style={{ maxWidth: "100%", maxHeight: "100%" }}
             />
           )}
           <CCarouselCaption

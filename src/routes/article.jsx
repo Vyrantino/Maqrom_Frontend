@@ -24,13 +24,13 @@ import {
     uploadPhoto 
 } from "../axiosMain";
 import { useDispatch, useSelector } from "react-redux";
+import { loadRoute } from "../components/redux/editForm";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Carousel from "../components/carousel";
 import ListaImagenes from "./edit/listaImagenes";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PublishIcon from "@mui/icons-material/Publish";
-import { loadArticle, loadImg } from "../components/redux/editForm";
 import NewArticleCardDto from "./edit/models/newArticleCardDto";
 import Carta from "../components/card";
 import ArticlePicker from "./edit/articlePicker";

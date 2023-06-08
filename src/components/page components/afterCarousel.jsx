@@ -1,58 +1,50 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import * as React from 'react' ; 
 import Midiendo from '../../assets/midiendo.jpg';
 export default function AfterCarousel( props ){
     return(
-        <React.Fragment>
-            <Grid
-                container
+            <Box
                 sx={ { 
-                    backgroundImage: `url(${Midiendo})`, 
-                    backgroundPositionY: '-400px',
-                    backgroundColor: 'rgba( 255,106,0,0.83 )',
-                    backgroundSize: '100%',
-                    backgroundRepeat: 'no-repeat' ,
-                    backgroundAttachment: 'scroll',
-                    backgroundClip: ''
+                    backgroundImage: `url(${props.image})`, 
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    width: '100%' ,
+                    height: { xs: '30vh', sm: '50vh', md: '70vh', lg: '600px'},
+                    position: 'relative' ,
+                    
                  } }
                  width={'100%'}
-                 height={'100%'}
+                
             >
                 <Box
-                    sx={ { 
-                        backgroundColor: 'rgba( 255,106,0,0.33 )'
-                     } }
-                     width={'100%'}
-                     height={'100%'}
+                    sx={{
+                        height: '100%',
+                        width: '100%',
+                        background:
+                        'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                        'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                        backgroundColor: 'rgba( 255,106,0,0.40 )',
+                        position: 'absolute', 
+                        bottom: '0', 
+                        right: '0', 
+                        padding: '1em',
+                    }}
                 >
-                   
-                    <Grid
-                        item
-                        xs = { 12 }
-                        sm = { 12 }
-                        md = { 12 }
-                        lg = { 12 }
-                        xl = { 12 }
-                        height={600}
-                        maxHeight={600}
-                    >
-                        <Typography
+                    <Typography
+                           align='right'
+                           alignSelf={'end'}
                            
-                            sx={{
-                                fontSize: 'calc(1em + 1vw)',
-                                lineHeight: '1em',
-                                padding: '1em',
-                                margin: '1em'
-                            }}
-                          
-                        >
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae maiores consequatur quae molestiae sint architecto ipsa obcaecati necessitatibus repellat voluptate aliquam, asperiores nihil laboriosam inventore impedit ea nam assumenda molestias!
-                        </Typography>
-                    </Grid>
+                           sx={{
+                               fontSize: { xs:'calc(.6em + .6vw)' , sm: 'calc(1em + 1vw)' , md: 'calc(1em + 1vw)' , lg: 'calc(1em + 1vw)' },
+                               margin: '1em',
+                               color: 'white' ,
+                           }}
+                       >
+                        { props.text }
+                    </Typography>
                 </Box>
-            </Grid>
-        </React.Fragment>
-
+            </Box>
     );
 
 }

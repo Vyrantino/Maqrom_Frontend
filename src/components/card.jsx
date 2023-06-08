@@ -24,12 +24,16 @@ export default function Carta(props) {
             md = { 6 }
             lg = { 3.6 }
             xl = { 3.6 }
-           
         >
             <Card 
-                raised
+                
                 sx={{ 
                     height: '100%' ,
+                    ':hover': {
+                        boxShadow: 20,
+                        backgroundColor: 'rgb(256, 177, 77, 0.42)',
+                        m: '1em',
+                    },
                 }}
             >
                 <CardMedia

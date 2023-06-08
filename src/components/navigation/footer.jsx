@@ -24,7 +24,7 @@ export default function Footer() {
         <Grid
           container
           spacing={2}
-          xs={{ display: "flex", alignItems: "center" }}
+          sx={{ display: "flex", alignItems: "center" }}
         >
           <Grid item xs={6}>
             <Box
@@ -41,12 +41,12 @@ export default function Footer() {
               >
                 <img src={MaqromLogo} width={60} height={60} />
               </IconButton>
-              <p className="footer-text">
+              <Typography sx={{ fontSize: { xs: '.5em', md: '.8em' , lg: '1em' } }} className="footer-text">
                 Fundada por dos visionarios arquitectos, nació bajo una luna
                 azul en una tierra mítica. Su pasión por construir un futuro
                 brillante unió sus destinos en una firma que transformaría
                 ciudades.
-              </p>
+              </Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
@@ -59,7 +59,7 @@ export default function Footer() {
                 textAlign: "center",
               }}
             >
-              <h3 className="footer-social">Siguenos en nuestras redes</h3>
+              <Typography variant="h4" sx={{ fontSize: { xs: '1em', md: '2em' } }} className="footer-social">Siguenos en nuestras redes</Typography>
               <IconButton
                 component={Link}
                 to="https://www.facebook.com/MaqromConstrucciones"
@@ -75,7 +75,7 @@ export default function Footer() {
         <div style={{display:'flex'}}>
           {pages.map((item) => {
             return (
-              <MenuItem component={Link} to={item.linkTo}>
+              <MenuItem key={item.page} component={Link} to={item.linkTo}>
                 <Typography textAlign="center">{item.page}</Typography>
               </MenuItem>
             );

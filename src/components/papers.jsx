@@ -3,7 +3,6 @@ import { Box,  Typography,  ButtonGroup, Button, Grid, Paper, Divider } from '@m
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadArticle } from './redux/editForm';
-import { useTheme } from '@emotion/react';
 
 export default function Papers(props) {
   const mode = useSelector((state) => state.adminMode.value);
@@ -14,17 +13,18 @@ export default function Papers(props) {
         xs = { 12 }
         sm = { 7 }
         md = { 5 }
-        lg = { 4 }
-        xl = { 4 }
-        
+        lg = { 3.3 }
+        xl = { 3.3 }
+      
     >
     
         <Paper
             sx={{
-                width: '20rem',
-                height: '20rem',
                 bgcolor: 'background.default',
-                padding: "1em 1em 0 1em", 
+                height: '100%',
+                ':hover': {
+                  boxShadow: 20,
+                },
             }}
         >   
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}  > 

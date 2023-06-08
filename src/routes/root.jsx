@@ -3,18 +3,19 @@ import { Outlet } from "react-router-dom";
 import { FloatingWhatsApp } from "react-floating-whatsapp";
 import ButtonAppBar from "../components/navigation/appbar";
 import Footer from "../components/navigation/footer";
-import { Box, Container, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import MaqromLogo from "../assets/Maqrom.svg";
 import { useSelector } from "react-redux";
 import Sidebar from "./edit/sidebar";
 
 export default function Root() {
   const [sidebar, setSidebar] = React.useState(false);
+  const route = useSelector( (state) => state.editForm.loadedRoute );
   const toogle = () => {
     setSidebar(!sidebar);
   };
 
-  const mode = useSelector((state) => state.adminMode.value);
+  const mode = useSelector( (state) => state.adminMode.value);
 
   const handleNewCard = async () => {
     const card = new NewCardDto(route);
@@ -32,23 +33,17 @@ export default function Root() {
 
   return (
     <Box sx={{ padding: 0 }}>
+      {mode && (
+          <Sidebar
+            sidebar={sidebar}
+            toogle={toogle}
+            handleNewCard={handleNewCard}
+            handleNewPaper={handleNewPaper}
+          />
+      )}
       <ButtonAppBar toogle={toogle} />
 
       <Box className="ButtonAppBar">
-        <Box className="MaqromHeader">
-          <Typography position="relative" variant="h1">
-            {" "}
-            Maqrom Constructora{" "}
-          </Typography>
-          {mode && (
-            <Sidebar
-              sidebar={sidebar}
-              toogle={toogle}
-              handleNewCard={handleNewCard}
-              handleNewPaper={handleNewPaper}
-            />
-          )}
-        </Box>
 
         <Outlet context={[sidebar, setSidebar]} />
       </Box>
