@@ -161,7 +161,7 @@ export default function Renta() {
             </Grid>
           </Box>
           <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
-          <AfterPapers afterPaperText = { textos.textoAfterPapers } />
+          <AfterPapers afterPapersText = { textos.textoAfterPapers } />
           <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
@@ -181,10 +181,10 @@ export default function Renta() {
 
 
 const textos = {
-  primerTexto: "",
-  segundoTexto:"",
-  tercerTexto:"",
-  titulo:"",
-  textoAfterCarousel: "" ,
-  textoAfterPapers: '',
+  primerTexto: "Renta",
+  segundoTexto:"Tenemos maquinaria especializada",
+  tercerTexto:"Pregunte por disponibilidad",
+  titulo:"Contactenos",
+  textoAfterCarousel: "Nuestra maquinaria incluye operador experimentado, no dude en confiar en nosotros para cualquier tipo de necesidad que tenga su proyecto" ,
+  textoAfterPapers: 'Ofrecemos servicios de renta de maquinaria confiable y de alta calidad, proporcionando las herramientas necesarias para impulsar el éxito de tus proyectos de construcción',
 };

@@ -86,7 +86,7 @@ export default function AboutUs() {
         />
         <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
         <AfterCarousel 
-            backgroundPositionY = { '-500px' }
+            backgroundPositionY = { '-350px' }
             image = { nosotrosImage }
             texto={ textos.textoAfterCarousel }
         />
@@ -164,7 +164,7 @@ export default function AboutUs() {
             </Grid>
           </Box>
           <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
-          <AfterPapers afterPaperText = { textos.textoAfterPapers } />
+          <AfterPapers afterPapersText = { textos.textoAfterPapers } />
           <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
@@ -184,10 +184,10 @@ export default function AboutUs() {
 
 
 const textos = {
-  primerTexto: "",
-  segundoTexto:"",
-  tercerTexto:"",
-  titulo:"",
-  textoAfterCarousel: "" ,
-  textoAfterPapers: '',
+  primerTexto: "Acerca de Nosotros",
+  segundoTexto:"Maqrom es su mejor opcion",
+  tercerTexto:"Tenemos muchos años de experiencia",
+  titulo:"Contactenos!",
+  textoAfterCarousel: "Nuestra misión es construir espacios que inspiren y perduren en el tiempo, mientras que nuestra visión es ser líderes en la industria de la construcción, entregando resultados excepcionales y dejando una huella positiva en cada comunidad que servimos." ,
+  textoAfterPapers: 'Aqui en Maqrom, consolidamos sus sueños y proyectos con trabajo y experiencia profesional',
 };

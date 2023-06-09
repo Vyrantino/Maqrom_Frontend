@@ -29,7 +29,7 @@ return(
                 }}
             >
                 <Typography variant="h5" align="center">
-                { props.afterPapersText }
+                    { props.afterPapersText }
                 </Typography>
             </Box>
     </Paper>

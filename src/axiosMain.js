@@ -1,8 +1,8 @@
 import axios from "axios";
 import imageCompression from 'browser-image-compression';
 
-//const apiURL = "http://147.182.177.178:80/" ; 
-const apiURL = "http://localhost:3000/" ; 
+const apiURL = "http://147.182.177.178:80/" ; 
+//const apiURL = "http://localhost:3000/" ; 
 /* Login  */
   export const login = async (username, password) => {
 
@@ -107,8 +107,8 @@ export const uploadCompressedPhoto = async ( file , alt , gallery , setImage , s
   const ext = file.name.split('.').pop();
   const fileName = Date.now();
   const imageName = fileName+'.'+ext ; 
-  //const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
-  const imageUrl = `http://localhost:3000/images/${fileName}.${ext}`;
+  const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
+  //const imageUrl = `http://localhost:3000/images/${fileName}.${ext}`;
 
   const options = {
       maxSizeMB: 1,

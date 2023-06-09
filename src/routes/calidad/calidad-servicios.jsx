@@ -119,42 +119,11 @@ export default function CalidadServicios() {
            route = {route}
         />  
         <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />  
-          <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
-            <Paper
-                
-                sx={{
-                    position: 'relative',
-                    backgroundImage: `url(${MaqromLogo})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    minHeight: '500px', 
-                }}
-            >
-                
-                <Box
-                    sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    color: '#ffffff', 
-                    padding: '1rem', 
-                    }}
-                >
-                    <Typography variant="h5" align="center">
-        
-                    </Typography>
-                </Box>
-            </Paper>
-            <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
-            <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
-            <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
+        <AfterPapers afterPapersText = { textos.textoAfterPapers } />
+        <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
+        <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
+        <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
+        <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
 
         { mode && 
             <Sidebar 
@@ -171,9 +140,10 @@ export default function CalidadServicios() {
 
 
 const textos = {
-  primerTexto: "",
-  segundoTexto:"",
-  tercerTexto:"",
-  titulo:"",
-  textoAfterCarousel: "" ,
+  primerTexto: "Servicios",
+  segundoTexto:"Nuestra gente es dedicada y profesional",
+  tercerTexto:"Estamos a sus ordenes",
+  titulo:"Contacte con nosotros!",
+  textoAfterCarousel: "Prestamos servicios especializados. Nuestro personal esta altamente capacitado para el trabajo que requiera su proyecto!" ,
+  textoAfterPapers: "Descubra nuestros servicios integrales de construcción, donde combinamos experiencia, innovación y dedicación para ofrecer soluciones personalizadas. Desde el diseño arquitectónico hasta la construcción y la gestión de proyectos",
 };

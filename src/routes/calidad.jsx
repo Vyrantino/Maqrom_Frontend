@@ -46,27 +46,24 @@ export default function Calidad() {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
           "& > *": {
             m: 1,
           },
         }}
       >
-        <ButtonGroup>
-          <Button variant="contained" color={index0} onClick={handleClick0}>
+          <Button variant="contained" color={index0} onClick={handleClick0} sx={{ flex: 1 }} >
             {" "}
             Calidad de Productos{" "}
           </Button>
-          <Button variant="contained" color={index1} onClick={handleClick1}>
+          <Button variant="contained" color={index1} onClick={handleClick1} sx={{ flex: 1 }} >
             {" "}
             Calidad de Servicios{" "}
           </Button>
-          {/* <Button variant="contained" color={index2} onClick={handleClick2}>
+          {/* <Button variant="contained" color={index2} onClick={handleClick2} sx={{ flex: 1 }} >
             {" "}
             Certificados{" "}
           </Button> */}
-        </ButtonGroup>
       </Box>
       {calidad}
     </Box>

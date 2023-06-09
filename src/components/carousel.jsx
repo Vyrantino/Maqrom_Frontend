@@ -18,17 +18,20 @@ export default function Carousel(props) {
   }, [props.route, props.carouselItems, props.article]);
 
   const handleSlid = (newIndex) => {
-    if (!props.carouselItems.length === 0) {
-      if (props.article) {
-        setClicked(false);
-        props.setCarouselItem(props.carouselItems[newIndex].idCarouselItem);
-      }
-      console.log(props.carouselItems);
-      if (props.route) {
-        setClicked(false);
-        props.setCarouselItem(props.carouselItems[newIndex].idCarouselItem);
+    if( mode ){
+      if (!props.carouselItems.length === 0) {
+        if (props.article) {
+          setClicked(false);
+          props.setCarouselItem(props.carouselItems[newIndex].idCarouselItem);
+        }
+        console.log(props.carouselItems);
+        if (props.route) {
+          setClicked(false);
+          props.setCarouselItem(props.carouselItems[newIndex].idCarouselItem);
+        }
       }
     }
+    
   };
 
   const handleClick = (item) => {
@@ -42,8 +45,8 @@ export default function Carousel(props) {
     <CCarousel
       controls
       indicators
-      interval={mode ? false : 3000}
-      onSlid={mode && handleSlid}
+      interval={mode && 3000}
+      onSlid={ handleSlid }
       activeIndex={index}
     >
       {props.carouselItems.map((item) => (

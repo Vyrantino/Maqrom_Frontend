@@ -119,39 +119,8 @@ export default function CalidadProductos() {
            route = {route}
         />  
         <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />  
-          <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
-            <Paper
-                
-                sx={{
-                    position: 'relative',
-                    backgroundImage: `url(${MaqromLogo})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    minHeight: '500px', 
-                }}
-            >
-                
-                <Box
-                    sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    color: '#ffffff', 
-                    padding: '1rem', 
-                    }}
-                >
-                    <Typography variant="h5" align="center">
-        
-                    </Typography>
-                </Box>
-            </Paper>
+            <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
+            <AfterPapers afterPapersText = { textos.textoAfterPapers } />
             <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
             <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
             <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
@@ -171,9 +140,10 @@ export default function CalidadProductos() {
 
 
 const textos = {
-  primerTexto: "",
-  segundoTexto:"",
-  tercerTexto:"",
-  titulo:"",
-  textoAfterCarousel: "" ,
+  primerTexto: "Productos",
+  segundoTexto:"De calidad Maqrom",
+  tercerTexto:"Llene nuestro formulario de contacto",
+  titulo:"Respuesta en 72horas",
+  textoAfterCarousel: "Nos destacamos por ofrecer productos de excelencia, diseñados con materiales de primera calidad y meticulosamente construidos para brindarte soluciones duraderas y funcionales." ,
+  textoAfterPapers: " Nuestro compromiso con la calidad se extiende a cada etapa del proceso, desde la selección de los materiales hasta la entrega final, para garantizar la satisfacción total de nuestros clientes"
 };

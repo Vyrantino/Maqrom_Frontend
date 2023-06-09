@@ -25,7 +25,6 @@ export default function Carta(props) {
             xl = { 3.6 }
         >
             <Card 
-                
                 sx={{ 
                     height: '100%' ,
                     ':hover': {
@@ -38,16 +37,14 @@ export default function Carta(props) {
                 <CardMedia
                     component= "img"
                     alt="green iguana"
-                    image = { props.img }  
-                    sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }} 
+                    image = { props.img } 
+                    sx={{ flexShrink: 1, padding: "1em 1em 0 1em", objectFit: "contain" }} 
                 />
                 <CardContent>
                     <Typography component = 'span' gutterBottom variant="h5" color={'primary'} >
                         { props.title   } 
                     </Typography>
-
-          <Divider />
-
+                    <Divider />
                     <Typography component = {'span'} variant="body2" color="text.secondary">
                         { props.content }
                     </Typography>
@@ -75,8 +72,7 @@ export default function Carta(props) {
                     mode  && props.buttons ?
                         <CardActions
                             sx={{  }}
-                        >
-                                                            
+                        >                               
                             <ButtonGroup>
                                 <Button 
                                     variant = 'contained'
@@ -101,9 +97,7 @@ export default function Carta(props) {
                                 > 
                                 <Typography component = {'span'} color={`#350404`}  > Borrar </Typography> 
                                 </Button>
-                                
                             </ButtonGroup>
-
                          </CardActions>
                     : //else
                         <span />

@@ -162,7 +162,7 @@ export default function ListaServicios() {
             </Grid>
           </Box>
           <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
-          <AfterPapers afterPaperText = { textos.textoAfterPapers } />
+          <AfterPapers afterPapersText = { textos.textoAfterPapers } />
           <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
@@ -182,10 +182,10 @@ export default function ListaServicios() {
 
 
 const textos = {
-  primerTexto: "",
-  segundoTexto:"",
-  tercerTexto:"",
-  titulo:"",
-  textoAfterCarousel: "" ,
-  textoAfterPapers: '',
+  primerTexto: "Servicios",
+  segundoTexto:"Somos la mayor calidad",
+  tercerTexto:"Y ponganse en contacto!",
+  titulo:"De click en el boton de whatsapp",
+  textoAfterCarousel: "En nuestra constructora, nos enorgullece ofrecer una amplia gama de servicios que incluyen diseño arquitectónico, construcción de calidad, renta de maquinaria confiable y gestión integral de proyectos" ,
+  textoAfterPapers: 'Nos enorgullece ofrecer servicios de calidad y profesionales, enfocados en transformar tus ideas en realidad, con resultados duraderos y superando tus expectativas',
 };

@@ -162,7 +162,7 @@ export default function ListaProyectos() {
             </Grid>
           </Box>
           <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
-          <AfterPapers afterPaperText = { textos.textoAfterPapers } />
+          <AfterPapers afterPapersText = { textos.textoAfterPapers } />
           <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
@@ -182,10 +182,10 @@ export default function ListaProyectos() {
 
 
 const textos = {
-  primerTexto: "",
-  segundoTexto:"",
-  tercerTexto:"",
-  titulo:"",
-  textoAfterCarousel: "" ,
-  textoAfterPapers: '',
+  primerTexto: "Proyectos",
+  segundoTexto:"Consolide sus proyectos con nosotros",
+  tercerTexto:"Somos su mejor opcion",
+  titulo:"Comuniquese por whatsapp",
+  textoAfterCarousel: "Estos son los proyectos que Maqrom Construcciones ha realizado, son prueba digna de que nuestro trabajo es de calidad" ,
+  textoAfterPapers: 'En nuestra constructora, transformamos sueños en realidad a través de la creación de proyectos excepcionales',
 };

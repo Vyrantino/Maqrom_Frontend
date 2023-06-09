@@ -164,7 +164,7 @@ export default function ListaPlanos() {
             </Grid>
           </Box>
           <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
-          <AfterPapers afterPaperText = { textos.textoAfterPapers } />
+          <AfterPapers afterPapersText = { textos.textoAfterPapers } />
           <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
           <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
@@ -184,10 +184,10 @@ export default function ListaPlanos() {
 
 
 const textos = {
-  primerTexto: "",
-  segundoTexto:"",
-  tercerTexto:"",
-  titulo:"",
-  textoAfterCarousel: "" ,
-  textoAfterPapers: '',
+  primerTexto: "Planos",
+  segundoTexto:"Nuestros planos son precisos y cuidamos hasta el mas minimo detalle",
+  tercerTexto:"Via whatsapp o correo electronico!",
+  titulo:"Contacte con nosotros",
+  textoAfterCarousel: "Nuestro equipo de expertos en diseño arquitectónico se esfuerza en crear planos excepcionales que reflejen tu visión y maximicen el potencial de cada proyecto." ,
+  textoAfterPapers: 'En Maqrom, nuestro compromiso con el perfeccionismo y la calidad se refleja en cada detalle de los planos que elaboramos. Nuestro equipo de expertos en diseño arquitectónico trabaja con pasión y precisión para brindarte planos elaborados con meticulosidad, asegurando que cada proyecto se materialice con excelencia y cumpla con tus más altas expectativas',
 };
