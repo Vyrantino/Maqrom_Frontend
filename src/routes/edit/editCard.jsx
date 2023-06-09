@@ -123,7 +123,6 @@ export default function EditCard() {
     getAllImages(setImageList);
     getArticles(setArticles);
     setSidebar(false);
-    setArticle( loadedArticle );
   }, []);
 
   React.useEffect(() => {

@@ -27,10 +27,12 @@ export default function Carta(props) {
             <Card 
                 sx={{ 
                     height: '100%' ,
+                    transition: 'width 0.3s ease, height 0.3s ease',
                     ':hover': {
                         boxShadow: 20,
                         backgroundColor: 'rgb(256, 177, 77, 0.42)',
                         m: '1em',
+                        transitionDelay: '0.3s',
                     },
                 }}
             >
