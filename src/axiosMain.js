@@ -125,6 +125,7 @@ export const uploadCompressedPhoto = async ( file , alt , gallery , setImage , s
       fileRaw: compressedFile, 
       fileName: imageName ,
   }
+  Promise.all([ uploadPhoto( fileTemp, alt , gallery ) , getPaginatedImages( setImageList , gallery , page , setPageCount ) ])
   uploadPhoto( fileTemp , alt , gallery ),  setImage( imageUrl ) ;
     
 }

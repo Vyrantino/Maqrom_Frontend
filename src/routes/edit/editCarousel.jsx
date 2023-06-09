@@ -81,7 +81,7 @@ export default function EditCarousel() {
     // ( file , alt , gallery , setImage , setImageList, page , setPageCount )
     const file = e.target.files[0];
 
-    await uploadCompressedPhoto(
+     uploadCompressedPhoto(
       file,
       alt,
       gallery,
@@ -90,7 +90,7 @@ export default function EditCarousel() {
       page,
       setPageCount
     )
-      .then( () => getPaginatedImages( setImageList , gallery , page , setPageCount )  ) ; 
+      .then( () => {} ) ; 
   };
 
   const handleCreateNewCarouselItem = async (e) => {
