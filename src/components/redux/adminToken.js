@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const saveToken = createSlice({
   name: "adminMode",
   initialState: {
-    value: true,
+    value: false,
   },
   reducers: {
     adminMode: (state) => {

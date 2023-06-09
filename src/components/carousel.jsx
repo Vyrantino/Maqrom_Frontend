@@ -63,9 +63,8 @@ export default function Carousel(props) {
             />
           ) : (
             <CImage
-              key={item.idCarouselItem}
-              
-              className="d-block w-100"
+              key={`CImage ${item.idCarouselItem}`}
+              className={clicked ? "CarouselItemSelected" : "d-block w-100"}
               src={item.img}
               alt="slide 1"
               style={{ maxWidth: "100%", maxHeight: "100%" }}
