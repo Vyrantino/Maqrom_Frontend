@@ -88,7 +88,8 @@ export default function Certificado(props) {
                                     onClick = { () =>{
                                     
                                         dispatch( loadIdCard( props.idCard ) ), 
-                                        dispatch( loadImg( props.img ) )    
+                                        dispatch( loadImg( props.img ) ),
+                                        dispatch( loadArticle( props.article ) )    
                                 
                                     } } 
                                 > 

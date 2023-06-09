@@ -352,8 +352,6 @@ export default function Article() {
               route={item.route}
               idCard={item.idCard}
               isLocked={item.isLocked}
-              CardWidth="100"
-              CardHeight="300"
               handleDelete={handleDelete}
               buttons = { mode }
             />

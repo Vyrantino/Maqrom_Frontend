@@ -148,11 +148,11 @@ export default function EditCard() {
           toogle={toogle}
         />
        <Box
-        width={'50%'}
-        height={'50%'}
-        justifyContent={'center'}
-        justifySelf={'center'}
-        alignSelf={'center'}
+          width={'50%'}
+          height={'50%'}
+          justifyContent={'center'}
+          justifySelf={'center'}
+          alignSelf={'center'}
        >
           <Carta
             key={card.idCard}
@@ -187,6 +187,13 @@ export default function EditCard() {
             onChange={handleChangeArticle}
             defaultValue=""
           >
+            {
+               card.article &&
+              <MenuItem key="blank" value={"Sin Articulo"}>
+                {" "}
+                {card.article}
+              </MenuItem>
+            }
             <MenuItem key="blank" value={"Sin Articulo"}>
               {" "}
               Sin Articulo{" "}
