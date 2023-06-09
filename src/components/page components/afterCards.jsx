@@ -15,7 +15,7 @@ export default function AfterCards( props ){
                 sx={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: 'primary.main',
+                backgroundColor:  props.bgColor ? props.bgColor : 'primary.main' ,
                 display:'flex',
             }}
                 color={'secondary'}
@@ -47,15 +47,17 @@ export default function AfterCards( props ){
                 height={ 200 } 
             />  
             
-            <Box>
+            <Box
+                sx={{ display: { xs: 'none' , sm: 'flex' , md: 'flex' } , flexDirection: 'column' , flexGrow: 1 }}
+            >
                 <Typography 
                     textAlign={'start'} 
-                    variant='h6'
+                    
                     color={'white'}
                     sx={{ 
                         p: 2,
                         zIndex: 2,
-                        fontSize: 32,
+                        fontSize:{ sm: '1.3em' , md: '2.2em' },
                         fontWeight: 600,
                         wordSpacing: 2,
                     }}
@@ -66,25 +68,27 @@ export default function AfterCards( props ){
 
                 <Typography
                     color='info.main' 
-                    sx={{m: 3 , }}
+                    sx={{ p: 2 }}
                 > 
                     {props.secondText}
                 </Typography>
                 
             </Box> 
-            <Box>
+            <Box
+                sx={{ display: { xs: 'none' , sm: 'none' , md: 'flex' } , flexDirection: 'column' , alignSelf: 'end' }}
+            >
 
                 <Typography
                     variant='h4'
                     color='info.main' 
-                    sx={{m: 3 , }}
+                    sx={{ paddingRight: 1 }}
                 > 
                     { props.title }
                 </Typography>
 
                 <Typography
                     color='info.main' 
-                    sx={{ m: 10 , }}
+                    sx={{paddingRight: 1  }}
                 > 
                     { props.thirdText }
                 </Typography>

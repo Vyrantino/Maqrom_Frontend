@@ -59,6 +59,7 @@ export default function Root() {
         statusMessage="Recibirá una respuesta a lo largo de 72hrs!"
         phoneNumber="+526183613796"
         accountName="Maqrom Construcciones"
+        chatboxHeight={'23em'}
       />
     </Box>
   );

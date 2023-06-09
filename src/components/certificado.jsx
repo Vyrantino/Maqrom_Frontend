@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loadArticle, loadIdCard, loadImg } from "./redux/editForm";
 import { Link } from "react-router-dom";
 
-export default function Carta(props) {
+export default function Certificado(props) {
 
     const mode = useSelector( ( state ) => state.adminMode.value ) ;
     const dispatch = useDispatch() ;
@@ -20,39 +20,40 @@ export default function Carta(props) {
             item
             xs = { 12 }
             sm = { 12 }
-            md = { 6 }
-            lg = { 3.6 }
-            xl = { 3.6 }
+            md = { 12 }
+            lg = { 12 }
+            xl = { 12 }
         >
             <Card 
-                
                 sx={{ 
-                    height: '100%' ,
+                    height: '15em' ,
                     ':hover': {
                         boxShadow: 20,
                         backgroundColor: 'rgb(256, 177, 77, 0.42)',
-                        m: '1em',
                     },
+                    display: 'flex' ,
                 }}
             >
                 <CardMedia
                     component= "img"
                     alt="green iguana"
                     image = { props.img }  
-                    sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }} 
+                    sx={{ alignSelf: 'flex-start',height: '100%', objectFit: "contain" , flex: '.3' , padding: 2}} 
                 />
-                <CardContent>
+                <CardContent
+                    sx={{ flexGrow: 1 }}
+                >
                     <Typography component = 'span' gutterBottom variant="h5" color={'primary'} >
                         { props.title   } 
                     </Typography>
 
-          <Divider />
+                         <Divider />
 
                     <Typography component = {'span'} variant="body2" color="text.secondary">
                         { props.content }
                     </Typography>
                 </CardContent>
-                <Container>
+                <Box >
                 {
                     props.hasArticle ? 
                     <Button 
@@ -74,10 +75,12 @@ export default function Carta(props) {
                 {
                     mode  && props.buttons ?
                         <CardActions
-                            sx={{  }}
+                            
                         >
                                                             
-                            <ButtonGroup>
+                            <ButtonGroup
+                                sx={{ display: 'flex', flexDirection: 'column' , flex: '.3'  }}
+                            >
                                 <Button 
                                     variant = 'contained'
                                     LinkComponent={ Link } 
@@ -108,8 +111,9 @@ export default function Carta(props) {
                     : //else
                         <span />
                 }
-                </Container>
+                </Box>
              </Card>
         </Grid>
     );
 }
+

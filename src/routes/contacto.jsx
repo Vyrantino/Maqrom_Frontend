@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { ContactUs } from "../components/emailjs";
 import { useDispatch, useSelector } from "react-redux";
 import { loadRoute } from "../components/redux/editForm";
@@ -22,10 +22,28 @@ export default function Contacto() {
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            
           />
         </Grid>
         <Grid item xs={12} sm={ 12 } md={12} lg={6} >
-          <ContactUs />
+          <Box
+            padding={5}
+          >
+            <Typography 
+              sx={{ 
+                fontSize: { xs: '1em' , sm: '1em' , md: '1em' , lg: '1em' } ,
+
+              }} 
+            > 
+                Por favor, llene nuestro formulario, ingrese correctamente su correo,
+                asi nosotros nos pondremos en contacto   
+                en menos de 72 horas.
+                Puede añadir su numero de telefono en su mensaje o escribirnos
+                directo a través del boton de Whatsapp. <br />
+                Estamos a sus ordenes! 
+            </Typography>
+            <ContactUs />
+          </Box>
         </Grid>
       </Grid>
     </Box>

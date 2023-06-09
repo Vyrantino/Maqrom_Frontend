@@ -84,10 +84,9 @@ export const ContactUs = () => {
           onChange={handleMensaje}
         />
         <Button
-          // type='submit'
-          // value='Send'
+          variant="contained"
           onClick={handleEnviar}
-          sx={{color: 'black', fontWeight: 'bold'}}
+          sx={{color: 'white', fontWeight: 'bold'}}
         >
           Enviar
         </Button>

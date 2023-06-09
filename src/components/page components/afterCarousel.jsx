@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import * as React from 'react' ; 
-import Midiendo from '../../assets/midiendo.jpg';
 export default function AfterCarousel( props ){
     return(
             <Box
@@ -10,9 +9,9 @@ export default function AfterCarousel( props ){
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                     width: '100%' ,
-                    height: { xs: '30vh', sm: '50vh', md: '70vh', lg: '600px'},
+                    height: { xs: '30vh', sm: '50vh', md: '60vh', lg: '600px'},
                     position: 'relative' ,
-                    
+                    backgroundPositionY: props.backgroundPositionY ,
                  } }
                  width={'100%'}
                 
@@ -41,7 +40,7 @@ export default function AfterCarousel( props ){
                                color: 'white' ,
                            }}
                        >
-                        { props.text }
+                        { props.texto }
                     </Typography>
                 </Box>
             </Box>

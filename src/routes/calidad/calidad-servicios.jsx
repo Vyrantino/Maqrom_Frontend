@@ -22,6 +22,8 @@ import Sidebar from "../edit/sidebar";
 import AfterCarousel from "../../components/page components/afterCarousel";
 import AfterCards from "../../components/page components/afterCards";
 import MaqromLogo from '../../assets/MaqromLogo.png' ; 
+import AfterPapers from "../../components/page components/afterPapers";
+import calidadServiciosImage from '../../assets/calidadServicios.jpg'
 export default function CalidadServicios() {
   const [cards, setCards] = React.useState([]);
   const [papers, setPapers] = React.useState([]);
@@ -77,49 +79,37 @@ export default function CalidadServicios() {
   };
   return(
     <Box > 
-        <Carousel 
-            route = { route } 
-            carouselItems = { carouselItems }
-        />
-        <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
         <AfterCarousel 
-            texto={ textos.textoAfterCarousel }
+          image = { calidadServiciosImage }
+          texto = { textos.textoAfterCarousel }
         />
-        <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
-        <Box
-          sx={{
-            background:
-                      'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, ' +
-                      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-          }}
+        <Grid
+                container
+                spacing ={0.5}
+                rowGap={5}
+                justifyContent={'space-around'}
+                display={'flex'}
+                flexDirection={'row'}
         >
-            <Grid
-                    container
-                    spacing ={0.5}
-                    rowGap={5}
-                    justifyContent={'space-around'}
-                  
-            >
-              {cards.map( ( item ) =>(
-          
-                  <Carta 
-                      key = { item.idCard }
-                      img = { item.img }
-                      title = { item.title }
-                      content = { item.content }
-                      route = { item.route }
-                      idCard = { item.idCard }
-                      isLocked = { item.isLocked }
-                      CardWidth = '100'
-                      CardHeight = '300'
-                      handleDelete = { handleDelete }
-                      article = { item.article }
-                      hasArticle = { isArticle( item.article ) }
-                      buttons = { mode }
-                  /> 
-              ))} 
-            </Grid>
-        </Box>
+          {cards.map( ( item ) =>(
+      
+              <Certificado 
+                  key = { item.idCard }
+                  img = { item.img }
+                  title = { item.title }
+                  content = { item.content }
+                  route = { item.route }
+                  idCard = { item.idCard }
+                  isLocked = { item.isLocked }
+                  CardWidth = '100'
+                  CardHeight = '300'
+                  handleDelete = { handleDelete }
+                  article = { item.article }
+                  hasArticle = { isArticle( item.article ) }
+                  buttons = { mode }
+              /> 
+          ))} 
+        </Grid>
         <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} /> 
         <AfterCards
            firstText={ textos.primerTexto }
@@ -129,35 +119,6 @@ export default function CalidadServicios() {
            route = {route}
         />  
         <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />  
-        <Box
-            sx={{
-              background:
-                        'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, ' +
-                        'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-            }}
-        >
-            <Grid
-                 container
-                 spacing ={1}
-                 rowGap={1}
-                 justifyContent={'space-between'}
-            >
-              {papers.map( ( paper ) => (
-                <Papers 
-                    key = { paper.idPaper }
-                    img = { paper.img }
-                    idPaper = {  paper.idPaper }
-                    title = { paper.title }
-                    content = { paper.content }
-                    route = { paper.route }
-                    handleDelete = { handleDeletePaper }
-                    article = { paper.article }
-                    hasArticle = { isArticle( paper.article ) }
-                    buttons = { mode }
-                />
-              ))}                                    
-            </Grid>
-          </Box>
           <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
             <Paper
                 
@@ -210,9 +171,9 @@ export default function CalidadServicios() {
 
 
 const textos = {
-primerTexto: "",
-segundoTexto:"",
-tercerTexto:"",
-titulo:"",
-textoAfterCarousel: "" ,
+  primerTexto: "",
+  segundoTexto:"",
+  tercerTexto:"",
+  titulo:"",
+  textoAfterCarousel: "" ,
 };

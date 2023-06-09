@@ -62,10 +62,10 @@ export default function Calidad() {
             {" "}
             Calidad de Servicios{" "}
           </Button>
-          <Button variant="contained" color={index2} onClick={handleClick2}>
+          {/* <Button variant="contained" color={index2} onClick={handleClick2}>
             {" "}
             Certificados{" "}
-          </Button>
+          </Button> */}
         </ButtonGroup>
       </Box>
       {calidad}

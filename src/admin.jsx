@@ -9,9 +9,7 @@ import { adminMode } from "./components/redux/adminToken";
 export default function Admin() {
   const navigate = useNavigate();
   const mode = useSelector((state) => state.adminMode.value);
-
   const dispatch = useDispatch();
-
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,22 +17,23 @@ export default function Admin() {
   const handleUsernameChange = (e) => setUsername(e.target.value.toLowerCase());
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const func = login;
-    const result = func(username, password);
-    if (!result) {
-      alert("Contraseña no reconocida");
-    } else {
-      alert("Se han activado los derechos de Administrador");
-      dispatch(adminMode(mode));
-      navigate("/");
-    }
+     await login(username, password)
+      .then( ( result )=>{
+          if (!result) {
+            alert("Contraseña no reconocida");
+          } else {
+            alert("Se han activado los derechos de Administrador");
+            dispatch(adminMode(mode));
+            navigate("/");
+          }
+      } )
   };
 
-  const handleRegister = () => {
-    register(email, username, password);
-  };
+  // const handleRegister = () => {
+  //   register(email, username, password);
+  // };
 
   return (
     <Box
@@ -64,9 +63,9 @@ export default function Admin() {
         <Button type="submit" variant="contained">
           Entrar como Administrador
         </Button>
-        <Button onClick={handleRegister} variant="contained">
+        {/* <Button onClick={handleRegister} variant="contained">
           Registrar un usuario
-        </Button>
+        </Button> */}
       </Form>
     </Box>
   );

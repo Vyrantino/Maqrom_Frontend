@@ -22,6 +22,8 @@ import Sidebar from "../edit/sidebar";
 import AfterCarousel from "../../components/page components/afterCarousel";
 import AfterCards from "../../components/page components/afterCards";
 import MaqromLogo from '../../assets/MaqromLogo.png' ; 
+import AfterPapers from "../../components/page components/afterPapers";
+import planosImage from '../../assets/planos.jpg'
 export default function ListaPlanos() {
   const [cards, setCards] = React.useState([]);
   const [papers, setPapers] = React.useState([]);
@@ -78,12 +80,14 @@ export default function ListaPlanos() {
 
   return(
     <Box > 
+
         <Carousel 
             route = { route } 
             carouselItems = { carouselItems }
         />
         <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
         <AfterCarousel 
+            image={ planosImage }
             texto={ textos.textoAfterCarousel }
         />
         <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
@@ -160,41 +164,10 @@ export default function ListaPlanos() {
             </Grid>
           </Box>
           <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
-            <Paper
-                
-                sx={{
-                    position: 'relative',
-                    backgroundImage: `url(${MaqromLogo})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    minHeight: '500px', 
-                }}
-            >
-                
-                <Box
-                    sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    color: '#ffffff', 
-                    padding: '1rem', 
-                    }}
-                >
-                    <Typography variant="h5" align="center">
-        
-                    </Typography>
-                </Box>
-            </Paper>
-            <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
-            <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
-            <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
+          <AfterPapers afterPaperText = { textos.textoAfterPapers } />
+          <Box  sx={{ backgroundColor: '#E66825' , padding: '1em' }} />
+          <Box  sx={{ backgroundColor: '#F57A2E' , padding: '1em' }} />
+          <Box  sx={{ backgroundColor: '#1F0318' , padding: '1em' }} />
 
         { mode && 
             <Sidebar 
@@ -211,9 +184,10 @@ export default function ListaPlanos() {
 
 
 const textos = {
-primerTexto: "",
-segundoTexto:"",
-tercerTexto:"",
-titulo:"",
-textoAfterCarousel: "" ,
+  primerTexto: "",
+  segundoTexto:"",
+  tercerTexto:"",
+  titulo:"",
+  textoAfterCarousel: "" ,
+  textoAfterPapers: '',
 };

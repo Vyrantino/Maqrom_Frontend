@@ -24,7 +24,6 @@ import EditCard from "./routes/edit/editCard";
 import EditCarousel from "./routes/edit/editCarousel";
 import Article from "./routes/article";
 import EditPaper from "./routes/edit/editPaper";
-import Sidebar from "./routes/edit/sidebar";
 
 const theme = createTheme({
   palette: {
