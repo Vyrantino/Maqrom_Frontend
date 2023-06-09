@@ -30,7 +30,7 @@ export default function Papers(props) {
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}  > 
                 <img src={ props.img } width={'50%'} height={'50%'} />
             </Box>
-            <Typography sx={ { fontSize: { xs: '.4em' , sm: '.5em' , md: '1em'  } } } align='center' > { props.title } </Typography>
+            <Typography sx={ { fontSize: { xs: '1em' , sm: '1em' , md: '2em'  } } } align='center' > { props.title } </Typography>
             <Typography align='center' > { props.content } </Typography>
             { mode && props.buttons ?
               <ButtonGroup
