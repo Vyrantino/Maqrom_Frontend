@@ -185,15 +185,8 @@ export default function EditCard() {
             id="demo-simple-select-filled"
             value={article}
             onChange={handleChangeArticle}
-            defaultValue=""
+            defaultValue={ card.article ? card.article : "" }
           >
-            {
-               card.article &&
-              <MenuItem key="blank" value={"Sin Articulo"}>
-                {" "}
-                {card.article}
-              </MenuItem>
-            }
             <MenuItem key="blank" value={"Sin Articulo"}>
               {" "}
               Sin Articulo{" "}
