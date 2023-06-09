@@ -191,6 +191,10 @@ export default function EditCard() {
               {" "}
               Sin Articulo{" "}
             </MenuItem>
+            <MenuItem key="defaultValue" value={ card.article }>
+              {" "}
+              { card.article }
+            </MenuItem>
             {articles.map((item) => (
               <MenuItem key={item.idArticle} value={item.articleName}>
                 {" "}{item.articleName}{" "}
