@@ -50,6 +50,7 @@ export default function EditCard() {
   const mode = useSelector((state) => state.adminMode.value);
   const [card, setCard] = useState([]);
   const loadedCard = useSelector((state) => state.editForm.idCard);
+  const loadedArticle = useSelector((state) => state.editForm.loadedArticle);
   const [titulo, setTitulo] = useState();
   const [contenido, setContenido] = useState();
   const [alt, setAlt] = useState();
@@ -122,6 +123,7 @@ export default function EditCard() {
     getAllImages(setImageList);
     getArticles(setArticles);
     setSidebar(false);
+    setArticle( loadedArticle );
   }, []);
 
   React.useEffect(() => {
@@ -161,8 +163,7 @@ export default function EditCard() {
             content={card.content}
             route={card.route}
             idCard={card.idCard}
-            CardWidth="100"
-            CardHeight="300"
+            
             buttons = { false }
           />
        </Box>
