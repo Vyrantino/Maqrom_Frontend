@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
@@ -44,6 +44,7 @@ export default function Admin() {
       }}
     >
       <Form className="FormLogin" onSubmit={handleSubmit}>
+        <Typography variant="h2" > Ingrese sus credenciales </Typography>
         <TextField
           key={`txtFieldUsername`}
           id="filled-basic"
