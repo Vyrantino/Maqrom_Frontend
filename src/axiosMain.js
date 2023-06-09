@@ -108,6 +108,7 @@ export const uploadCompressedPhoto = async ( file , alt , gallery , setImage , s
   const ext = file.name.split('.').pop();
   const fileName = Date.now();
   const imageName = fileName+'.'+ext ; 
+  const galeria = gallery === 'Todas las imagenes' ? "" : gallery ; 
 
   const imageUrl = `http://147.182.177.178:80/images/${fileName}.${ext}`;
   //const imageUrl = `http://localhost:3000/images/${fileName}.${ext}`;
@@ -127,11 +128,13 @@ export const uploadCompressedPhoto = async ( file , alt , gallery , setImage , s
       fileRaw: compressedFile, 
       fileName: imageName ,
   }
-  Promise.all([ uploadPhoto( fileTemp, alt , gallery ) , getPaginatedImages( setImageList , gallery , page , setPageCount ) ])
+  Promise.all([ uploadPhoto( fileTemp, alt , galeria ) , getPaginatedImages( setImageList , galeria , page , setPageCount ) ])
+    .then( () => setImage( imageUrl ) ) ; 
 
 }
 
 export const uploadPhoto = async ( selectedFile , alt , gallery ) =>{
+  
     const fd = new FormData() ; 
     fd.append( 'image', selectedFile.fileRaw, selectedFile.fileName  ) ; 
     fd.append( 'alt' , alt  ) ;
@@ -153,8 +156,8 @@ export const getAllImages = async ( setImages , gallery ) =>{
 }
 
 export const getPaginatedImages = async ( setImages , gallery , page , setPageCount ) =>{
-  const pagesUrl = gallery ? 
-    `${apiURL}images/gallery/${gallery}` : `${apiURL}images/`
+  const pagesUrl =  !gallery  ? 
+    `${apiURL}images/` : `${apiURL}images/gallery/${gallery}` ;
   await axios.get( pagesUrl )
     .then( ( response ) => {
       let responseLength = response.data.length ; 
