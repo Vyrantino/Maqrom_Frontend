@@ -25,14 +25,14 @@ const pages = [
   { page: "Renta de Maquinaria", linkTo: "/renta" },
   { page: "Calidad", linkTo: "/calidad" },
   { page: "Contacto", linkTo: "/contacto" },
-  {
-    page: "Facebook",
-    linkTo: "https://www.facebook.com/oscar.valleshdez",
-    isIconButton: true,
-    img: fbLogo,
-    target: "_blank",
-    alt: "facebookLogo",
-  },
+  // {
+  //   page: "Facebook",
+  //   linkTo: "https://www.facebook.com/oscar.valleshdez",
+  //   isIconButton: true,
+  //   img: fbLogo,
+  //   target: "_blank",
+  //   alt: "facebookLogo",
+  // },
 ];
 
 
