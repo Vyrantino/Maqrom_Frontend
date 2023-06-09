@@ -26,12 +26,13 @@ export default function Certificado(props) {
         >
             <Card 
                 sx={{ 
+                    display: 'flex' ,
                     height: '15em' ,
+                    flexDirection: { xs: 'column' , sm: 'column' , md: 'row' },
                     ':hover': {
                         boxShadow: 20,
                         backgroundColor: 'rgb(256, 177, 77, 0.42)',
                     },
-                    display: 'flex' ,
                 }}
             >
                 <CardMedia
@@ -41,7 +42,7 @@ export default function Certificado(props) {
                     sx={{ alignSelf: 'flex-start',height: '100%', objectFit: "contain" , flex: '.3' , padding: 2}} 
                 />
                 <CardContent
-                    sx={{ flexGrow: 1 , flexDirection: { xs: 'column' , sm: 'column' , md: 'row' } }}
+                    sx={{ flexGrow: 1 ,  }}
                 >
                     <Typography component = 'span' gutterBottom variant="h5" color={'primary'} >
                         { props.title   } 
