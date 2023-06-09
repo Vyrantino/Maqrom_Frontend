@@ -41,13 +41,13 @@ export default function Certificado(props) {
                     sx={{ alignSelf: 'flex-start',height: '100%', objectFit: "contain" , flex: '.3' , padding: 2}} 
                 />
                 <CardContent
-                    sx={{ flexGrow: 1 }}
+                    sx={{ flexGrow: 1 , flexDirection: { xs: 'column' , sm: 'column' , md: 'row' } }}
                 >
                     <Typography component = 'span' gutterBottom variant="h5" color={'primary'} >
                         { props.title   } 
                     </Typography>
 
-                         <Divider />
+                    <Divider />
 
                     <Typography component = {'span'} variant="body2" color="text.secondary">
                         { props.content }
