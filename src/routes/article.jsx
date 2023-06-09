@@ -37,6 +37,7 @@ import ArticlePicker from "./edit/articlePicker";
 import MaqromLogo from "../assets/MaqromLogoPlantilla.png";
 import Sidebar from "./edit/sidebar";
 import imageCompression from "browser-image-compression";
+import Certificado from "../components/certificado";
 
 export default function Article() {
   /*  */
@@ -343,7 +344,7 @@ export default function Article() {
           item.route != "articulo" ? (
             <span key={item.idCard} />
           ) : (
-            <Carta
+           <Certificado  
               key={item.idCard}
               img={item.img}
               title={item.title}
@@ -354,6 +355,7 @@ export default function Article() {
               CardWidth="100"
               CardHeight="300"
               handleDelete={handleDelete}
+              buttons = { mode }
             />
           )
         )}

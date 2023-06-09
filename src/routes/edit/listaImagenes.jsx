@@ -52,6 +52,7 @@ export default function ListaImagenes( props ){
                     loading="lazy"
                     onClick={  () =>{ 
                       props.setImage( apiUrl+item.name ) ;
+                      
                     } }
                     
                   />
