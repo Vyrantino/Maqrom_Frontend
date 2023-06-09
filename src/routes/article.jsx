@@ -36,7 +36,6 @@ import Carta from "../components/card";
 import ArticlePicker from "./edit/articlePicker";
 import MaqromLogo from "../assets/MaqromLogoPlantilla.png";
 import Sidebar from "./edit/sidebar";
-import imageCompression from "browser-image-compression";
 import Certificado from "../components/certificado";
 
 export default function Article() {
@@ -58,7 +57,7 @@ export default function Article() {
   const [articleCards, setArticleCards] = React.useState([]);
   const [articles, setArticles] = React.useState([]);
   const [article, setArticle] = React.useState("");
-
+  const loadedArticle = useSelector( ( state ) => state.editForm.loadedArticle ) ;
   /* CarouselItems */
   const [articleCarouselItems, setArticleCarouselItems] = React.useState([]);
   const [articleCarouselItem, setArticleCarouselItem] = React.useState();
@@ -159,6 +158,7 @@ export default function Article() {
   React.useEffect(() => {
     //getArticles( setArticles ) ;
     setSidebar(false);
+    setArticle( loadedArticle ) ;
   }, []);
 
   React.useEffect(() => {

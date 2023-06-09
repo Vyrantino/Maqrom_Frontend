@@ -96,7 +96,7 @@ export default function Homepage() {
               image={ Midiendo }
               texto={ textos.textoAfterCarousel }
           />
-          <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' }} />
+          <Box  sx={{ backgroundColor: '#F3F3F3' , padding: '1em' , }} />
           <Box
             sx={{
               background:
