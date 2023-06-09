@@ -31,7 +31,8 @@ export default function Carta(props) {
                     ':hover': {
                         boxShadow: 20,
                         backgroundColor: 'rgb(256, 177, 77, 0.42)',
-                        m: '1em',
+                        width: '103%',
+                        height: '103%',
                         transitionDelay: '0.3s',
                     },
                 }}
